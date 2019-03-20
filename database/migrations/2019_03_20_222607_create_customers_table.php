@@ -17,7 +17,7 @@ class CreateCustomersTable extends Migration
             $table->date('date_of_birth');
             $table->enum('gender',['M','F']);
             $table->integer('remaining_sessions');
-            $table->bigIncrements('user_id');
+            $table->bigInteger('user_id')->unsigned();
             $table->foreign('user_id')
                 ->references('id')
                 ->on('users')

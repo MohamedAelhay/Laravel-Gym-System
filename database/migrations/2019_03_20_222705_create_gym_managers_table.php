@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateCustomerTable extends Migration
+class CreateGymManagersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,8 @@ class CreateCustomerTable extends Migration
      */
     public function up()
     {
-        Schema::create('customer', function (Blueprint $table) {
-            $table->date('date_of_birth');
-            $table->enum('gender',['M','F']);
-            $table->integer('remaining_sessions');
+        Schema::create('gym_managers', function (Blueprint $table) {
+            $table->string('national_id');
             $table->bigIncrements('user_id');
             $table->foreign('user_id')
                 ->references('id')
@@ -25,4 +23,13 @@ class CreateCustomerTable extends Migration
         });
     }
 
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        Schema::dropIfExists('gym_managers');
+    }
 }

@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateCityManagerTable extends Migration
+class CreateCustomersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,10 @@ class CreateCityManagerTable extends Migration
      */
     public function up()
     {
-        Schema::create('city_manager', function (Blueprint $table) {
-          $table->string('national_id');
+        Schema::create('customers', function (Blueprint $table) {
+            $table->date('date_of_birth');
+            $table->enum('gender',['M','F']);
+            $table->integer('remaining_sessions');
             $table->bigIncrements('user_id');
             $table->foreign('user_id')
                 ->references('id')
@@ -30,6 +32,6 @@ class CreateCityManagerTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('city_manager');
+        Schema::dropIfExists('customers');
     }
 }

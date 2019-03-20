@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateSessionsTable extends Migration
+class CreateGymPackagesPurchaseHistoryTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,17 @@ class CreateSessionsTable extends Migration
      */
     public function up()
     {
-        Schema::create('sessions', function (Blueprint $table) {
+        Schema::create('gym_packages_purchase_history', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('name');
-            $table->time('starts_at')->nullable();
-            $table->time('finishes_at')->nullable();
-            $table->bigInteger('coach_id')->unsigned();
+            $table->string('package_name');
+            $table->integer('package_price');
+            $table->date('purchase_date');
+            $table->bigInteger('user_id')->unsigned();
             $table->bigInteger('gym_id')->unsigned();
+            $table->foreign('user_id')
+                ->references('id')
+                ->on('users')
+                ->onDelete('cascade');
             $table->foreign('gym_id')
                 ->references('id')
                 ->on('gyms')
@@ -34,6 +38,6 @@ class CreateSessionsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('sessions');
+        Schema::dropIfExists('gym_packages_purchase_history');
     }
 }

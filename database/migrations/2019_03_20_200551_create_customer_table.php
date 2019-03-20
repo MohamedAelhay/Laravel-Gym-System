@@ -17,6 +17,7 @@ class CreateCustomerTable extends Migration
             $table->date('date_of_birth');
             $table->enum('gender',['M','F']);
             $table->integer('remaining_sessions');
+            $table->bigIncrements('user_id');
             $table->foreign('user_id')
                 ->references('id')
                 ->on('users')
@@ -24,13 +25,4 @@ class CreateCustomerTable extends Migration
         });
     }
 
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
-    public function down()
-    {
-        Schema::dropIfExists('customer');
-    }
 }

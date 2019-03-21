@@ -174,7 +174,10 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
+
+        /*Downloaded Packages*/
         Yajra\DataTables\DataTablesServiceProvider::class,
+        Cog\Laravel\Ban\Providers\BanServiceProvider::class,
 
 
         'Webpatser\Countries\CountriesServiceProvider',

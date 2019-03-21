@@ -36,16 +36,5 @@ class SetupCountriesTable extends Migration {
 		    $table->primary('id');
 		});
 	}
-
-	/**
-	 * Reverse the migrations.
-	 *
-	 * @return  void
-	 */
-	public function down()
-	{
-		Schema::drop(\Config::get('countries.table_name'));
-	}
-
 }
 

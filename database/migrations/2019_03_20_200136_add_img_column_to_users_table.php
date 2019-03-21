@@ -17,16 +17,4 @@ class AddImgColumnToUsersTable extends Migration
             $table->string('img');
         });
     }
-
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
-    public function down()
-    {
-        Schema::table('users', function (Blueprint $table) {
-            //
-        });
-    }
 }

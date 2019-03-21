@@ -30,14 +30,4 @@ class CreateGymPackagesPurchaseHistoryTable extends Migration
                 ->onDelete('cascade');
         });
     }
-
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
-    public function down()
-    {
-        Schema::dropIfExists('gym_packages_purchase_history');
-    }
 }

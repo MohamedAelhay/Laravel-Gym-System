@@ -17,17 +17,4 @@ class AddBannedAtColumnToGymManagersTable extends Migration
             $table->timestamp('banned_at')->nullable();
         });
     }
-
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
-    public function down()
-    {
-        Schema::table('gym_managers', function (Blueprint $table) {
-            $table->dropColumn('banned_at');
-
-        });
-    }
 }

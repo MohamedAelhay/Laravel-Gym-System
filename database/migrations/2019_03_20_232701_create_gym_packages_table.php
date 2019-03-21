@@ -20,14 +20,4 @@ class CreateGymPackagesTable extends Migration
             $table->integer('number_of_sessions');
         });
     }
-
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
-    public function down()
-    {
-        Schema::dropIfExists('gym_packages');
-    }
 }

@@ -22,14 +22,4 @@ class CreateGymManagersTable extends Migration
                 ->onDelete('cascade');
         });
     }
-
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
-    public function down()
-    {
-        Schema::dropIfExists('gym_managers');
-    }
 }

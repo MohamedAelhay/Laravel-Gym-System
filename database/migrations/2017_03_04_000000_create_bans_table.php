@@ -36,14 +36,4 @@ class CreateBansTable extends Migration
             $table->index('expired_at');
         });
     }
-
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
-    public function down(): void
-    {
-        Schema::dropIfExists('bans');
-    }
 }

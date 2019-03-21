@@ -29,14 +29,4 @@ class CreateCustomerSessionsAttendanceTable extends Migration
                 ->onDelete('cascade');
         });
     }
-
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
-    public function down()
-    {
-        Schema::dropIfExists('customer_sessions_attendance');
-    }
 }

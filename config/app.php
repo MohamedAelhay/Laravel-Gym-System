@@ -174,7 +174,13 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
+
+        /*Downloaded Packages*/
         Yajra\DataTables\DataTablesServiceProvider::class,
+        Cog\Laravel\Ban\Providers\BanServiceProvider::class,
+
+
+        'Webpatser\Countries\CountriesServiceProvider',
 
     ],
 
@@ -226,6 +232,9 @@ return [
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
+
+
+        'Countries' => 'Webpatser\Countries\CountriesFacade',
 
     ],
 

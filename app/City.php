@@ -6,5 +6,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class City extends Model
 {
-    protected $fillable = ['title', 'description', 'user_id', 'img'];
+    protected $fillable = ['name', 'city_manager_id', 'country_id'];
+    protected $table = 'cities';
 }

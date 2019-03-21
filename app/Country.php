@@ -13,4 +13,7 @@ class Country extends Model
         'sub_region_code', 'eea', 'calling_code', 'flag'];
 
     protected $table = 'countries';
+
+    public $timestamps = false;
+
 }

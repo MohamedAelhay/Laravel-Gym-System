@@ -15,5 +15,7 @@ class DatabaseSeeder extends Seeder
         $this->call('CountriesSeeder');
         $this->command->info('Seeded the countries!');
         $this->call(RolesAndPermissionsSeeder::class);
+        $this->call(UsersSeeder::class);
+        $this->call(CitiesSeeder::class);
     }
 }

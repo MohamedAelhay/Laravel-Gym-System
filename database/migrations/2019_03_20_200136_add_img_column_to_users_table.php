@@ -14,7 +14,7 @@ class AddImgColumnToUsersTable extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->string('img');
+            $table->string('img')->nullable();
         });
     }
 }

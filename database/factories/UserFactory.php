@@ -1,6 +1,7 @@
 <?php
 
 use App\User;
+use App\Coach;
 use Illuminate\Support\Str;
 use Faker\Generator as Faker;
 
@@ -24,3 +25,14 @@ $factory->define(User::class, function (Faker $faker) {
         'remember_token' => Str::random(10),
     ];
 });
+
+
+
+// $factory->define(Coach::class, function (Faker $faker) {
+//     return [
+//         //  'id' => $faker->id;
+//         'name' => $faker->name,
+//         'gym_id' => $faker->create(App\Gym::class)->id
+       
+//     ];
+// });

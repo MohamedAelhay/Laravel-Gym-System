@@ -237,7 +237,6 @@ return [
         'Stripe' => Cartalyst\Stripe\Laravel\Facades\Stripe::class,
 
 
-
         'Countries' => 'Webpatser\Countries\CountriesFacade',
 
     ],

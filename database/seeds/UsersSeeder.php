@@ -19,6 +19,20 @@ class UsersSeeder extends Seeder
         $cityManager->password = bcrypt('city');
         $cityManager->save();
         $cityManager->assignRole('city-manager');
+
+        $cityManager = new User();
+        $cityManager->name = 'Mansy';
+        $cityManager->email = 'city1@iti.com';
+        $cityManager->password = bcrypt('city');
+        $cityManager->save();
+        $cityManager->assignRole('city-manager');
+
+        $cityManager = new User();
+        $cityManager->name = 'Ziad';
+        $cityManager->email = 'city2@iti.com';
+        $cityManager->password = bcrypt('city');
+        $cityManager->save();
+        $cityManager->assignRole('city-manager');
 //        $cityManager->ban();
 //        $cityManager->ban([
 //            'comment' => 'Enjoy your ban!',

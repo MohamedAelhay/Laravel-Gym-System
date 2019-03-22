@@ -44,10 +44,10 @@ class User extends Authenticatable implements BannableContract
 
     protected $guard_name = 'web';
 
-    public function roles()
-    {
-        return $this->belongsToMany(Role::class);
-    }
+//    public function roles()
+//    {
+//        return $this->belongsToMany(Role::class);
+//    }
 
 //    public function customer(){
 //

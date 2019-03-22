@@ -18,7 +18,7 @@ class GymController extends Controller
     {
         $gyms = Gym::all();
         $cities = City::all();
-        return view('gyms/index',[
+        return view('gyms.index',[
             'gyms'=>$gyms,
             'cities'=>$cities
         ]);
@@ -32,6 +32,11 @@ class GymController extends Controller
     public function create()
     {
         //
+        $cities = City::all();
+        return view('gyms.create',[
+            'cities'=>$cities
+        ]);
+
     }
 
     /**

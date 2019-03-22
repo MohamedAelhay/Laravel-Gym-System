@@ -48,4 +48,24 @@ class User extends Authenticatable implements BannableContract
     {
         return $this->belongsToMany(Role::class);
     }
+
+//    public function customer(){
+//
+//        return $this->hasOne(Customer::class);
+//
+//    }
+//
+//    public function gymManager(){
+//
+//        return $this->hasOne(GymManager::class);
+//
+//    }
+//
+//    public function cityManager(){
+//
+//        return $this->hasOne(CityManager::class);
+//
+//    }
+
+
 }

@@ -12,4 +12,22 @@ class Session extends Model
 
     public $timestamps = false;
 
+    public function gym(){
+
+        return $this->belongsTo(Gym::class);
+
+    }
+
+
+    public function users(){
+
+        return $this->belongsToMany(User::class)
+            ->using(CustomerSessionAttendane::class)
+            ->withPivot([
+                'attendance_time', 'attendance_date',
+                'user_id', 'session_id'
+            ]);
+
+    }
+
 }

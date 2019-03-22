@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
-
+use App\Gym;
 class GymsTableSeeder extends Seeder
 {
     /**
@@ -13,11 +13,11 @@ class GymsTableSeeder extends Seeder
     {
         $gym = new Gym();
         $gym->name = 'Golden Gym';
-        $gym->created_at = '25/7/1994';
-        $gym->img = nullValue();
+        $gym->created_at = '2009-10-14 19:00:00';
+        $gym->img = 'img';
         $gym->creator_name = 'hesham';
-        $gym->city_id =
+        $gym->city_id = 2;
         $gym->save();
-        $gym->assignRole('city-manager');
+    
     }
 }

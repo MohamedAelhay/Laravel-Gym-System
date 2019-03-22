@@ -37,7 +37,7 @@
             <li><a href="#"><i class="fa fa-link"></i> <span>City Managers</span></a></li>
             <li><a href="#"><i class="fa fa-link"></i> <span>Users</span></a></li>
             <li><a href="#"><i class="fa fa-link"></i> <span>Cities</span></a></li>
-            <li><a href="#"><i class="fa fa-link"></i> <span>Gyms</span></a></li>
+            <li><a href="{{route('gyms.index')}}"><i class="fa fa-link"></i> <span>Gyms</span></a></li>
             <li><a href="#"><i class="fa fa-link"></i> <span>Training Packages</span></a></li>
             <li><a href="#"><i class="fa fa-link"></i> <span>Coaches</span></a></li>
             <li><a href="#"><i class="fa fa-link"></i> <span>Attendance</span></a></li>

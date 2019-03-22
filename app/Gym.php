@@ -12,12 +12,32 @@ class Gym extends Model
 
     public $timestamps = false;
 
-    public function package(){
+    public function city(){
+
+        return $this->belongsTo(City::class);
+    }
+
+    public function packages(){
 
         return $this->hasMany(GymPackage::class);
     }
 
-    public function city(){
-        return $this->belongsTo(City::class);
+    public function coaches(){
+
+        return $this->hasMany(Coach::class);
+
     }
+
+    public function sessions(){
+
+        return $this->hasMany(Session::class);
+
+    }
+
+    public function customers(){
+
+        return $this->hasMany(Customer::class);
+
+    }
+
 }

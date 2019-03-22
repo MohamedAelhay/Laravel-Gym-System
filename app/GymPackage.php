@@ -18,4 +18,15 @@ class GymPackage extends Model
 
     }
 
+    public function users(){
+
+        return $this->belongsToMany(User::class)
+            ->using(GymPackagePurchaseHistory::class)
+            ->withPivot([
+                'package_name', 'package_price','purchase_date'
+                ,'user_id', 'gym_id'
+            ]);
+
+    }
+
 }

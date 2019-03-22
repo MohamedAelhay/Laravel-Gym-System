@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use App\Coach;
 
 class CoachesTableSeeder extends Seeder
 {
@@ -11,11 +12,11 @@ class CoachesTableSeeder extends Seeder
      */
     public function run()
     {
-        // $coach = new Coach();
-        // $coach->id = 1;
-        // $coach->name = 'asmaa';
-        // $coach->gym_id = 1;
-        // $coach->save();
+        $coach = new Coach();
+     
+        $coach->name = 'asmaa';
+        $coach->gym_id = 1;
+        $coach->save();
         
     }
 }

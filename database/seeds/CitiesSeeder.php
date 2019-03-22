@@ -14,7 +14,16 @@ class CitiesSeeder extends Seeder
     public function run()
     {
         //
-        CityManager::create(['national_id'=>'12345678','user_id'=>1]);
-        City::create(['city_manager_id'=>'1','country_id'=>'4','name'=>'Alex']);
+
+        CityManager::create(['national_id'=>'687426582','user_id'=>1]);
+        City::create(['city_manager_id'=>'1','country_id'=>'51','name'=>'Alex']);
+
+
+        CityManager::create(['national_id'=>'687426582','user_id'=>2]);
+        City::create(['city_manager_id'=>'2','country_id'=>'48','name'=>'Cairo']);
+
+
+        CityManager::create(['national_id'=>'9854210','user_id'=>3]);
+        City::create(['city_manager_id'=>'3','country_id'=>'10','name'=>'London']);
     }
 }

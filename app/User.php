@@ -44,8 +44,8 @@ class User extends Authenticatable implements BannableContract
 
     protected $guard_name = 'web';
 
-    public function roles(): MorphToMany
+    public function roles()
     {
-        return $this->hasMany(Role::class);
+        return $this->belongsToMany(Role::class);
     }
 }

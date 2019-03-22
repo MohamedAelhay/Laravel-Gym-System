@@ -21,19 +21,27 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
-Route::get('/admin', function () {
-    return view('admin');
+
+
+Route::group(['middleware'=>['auth','forbid-banned-user'],
+    ], function(){
+    Route::get('/admin', function () {
+        return view('admin');
+    });
+    Route::get('/gyms', 'GymController@index')->name('gyms.index');
+    Route::get('/gyms/create', 'GymController@create')->name('gyms.create');
+    Route::post('/gyms', 'GymController@store')->name('gyms.store');
+    Route::get('/gyms/{gym}', 'GymController@show')->name('gyms.show');
+    Route::get('/gyms/{gym}/edit', 'GymController@edit')->name('gyms.edit');
+    Route::put('/gyms/{gym}', 'GymController@update')->name('gyms.update');
+    Route::delete('/gyms/{gym}', 'GymController@destroy')->name('gyms.destroy');
+
 });
+Auth::routes();
 
 
 
-Route::get('/gyms', 'GymController@index')->name('gyms.index');
-Route::get('/gyms/create', 'GymController@create')->name('gyms.create');
-Route::post('/gyms', 'GymController@store')->name('gyms.store');
-Route::get('/gyms/{gym}', 'GymController@show')->name('gyms.show');
-Route::get('/gyms/{gym}/edit', 'GymController@edit')->name('gyms.edit');
-Route::put('/gyms/{gym}', 'GymController@update')->name('gyms.update');
-Route::delete('/gyms/{gym}', 'GymController@destroy')->name('gyms.destroy');
+
 
 
 
@@ -44,3 +52,7 @@ Route::get('/cityManagers/{mgr}', 'CityManagerController@show')->name('CityManag
 Route::get('/cityManagers/{mgr}/edit', 'CityManagerController@edit')->name('CityManagers.edit');
 Route::put('/cityManagers/{mgr}', 'CityManagerController@update')->name('CityManagers.update');
 Route::delete('/cityManagers/{mgr}', 'CityManagerController@destroy')->name('CityManagers.destroy');
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');

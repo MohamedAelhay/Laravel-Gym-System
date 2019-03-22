@@ -10,7 +10,7 @@ class Gym extends Model
 
     protected $table = 'gyms';
 
-    public $timestamps = false;
+//    public $timestamps = false;
 
     public function city(){
 

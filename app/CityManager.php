@@ -1,7 +1,7 @@
 <?php
 
 namespace App;
-
+use App\User;
 use Illuminate\Database\Eloquent\Model;
 
 class CityManager extends Model
@@ -16,6 +16,11 @@ class CityManager extends Model
 
         return $this->belongsTo(City::class);
 
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 
 

@@ -6,7 +6,14 @@
         <thead class="thead-dark">
         <tr>
             <th scope="col">National_ID</th>
-            <th scope="col">User_ID</th>
+            <th scope="col">name</th>
+            <th scope="col">email</th>
+            <th scope="col">password</th>
+            <th scope="col">image</th>
+
+            
+
+            
            
         </tr>
         </thead>
@@ -15,8 +22,10 @@
             <tr>
                
                 <td>{{$Mgr->national_id}}</td>
-                <td>{{$Mgr->user_id}}</td>
-
+                <td>{{$Mgr->user->name}}</td>
+                <td>{{$Mgr->user->email}}</td>
+                <td>{{$Mgr->user->password}}</td>
+                <td>{{$Mgr->user->image}}</td>
                 <td>
                     <a href="{{route('CityManagers.show',$Mgr->national_id)}}"><i class="fas fa-eye"></i></a> |
                     <a href="{{route('CityManagers.edit',$Mgr->national_id)}}" ><i class="fas fa-pen"></i></a>  |

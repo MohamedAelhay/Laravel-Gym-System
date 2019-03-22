@@ -4,9 +4,11 @@ namespace App;
 
 use Cog\Contracts\Ban\Bannable as BannableContract;
 use Cog\Laravel\Ban\Traits\Bannable;
+use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Spatie\Permission\Models\Role;
 use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable implements BannableContract
@@ -41,4 +43,9 @@ class User extends Authenticatable implements BannableContract
     ];
 
     protected $guard_name = 'web';
+
+    public function roles(): MorphToMany
+    {
+        return $this->hasMany(Role::class);
+    }
 }

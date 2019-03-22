@@ -16,4 +16,8 @@ class Country extends Model
 
     public $timestamps = false;
 
+    public function city(){
+        return $this->hasMany(City::class);
+    }
+
 }

@@ -12,4 +12,16 @@ class City extends Model
 
     public $timestamps = false;
 
+    public function cityManager(){
+        return $this->hasMany(CityManager::class);
+    }
+
+    public function gym(){
+        return $this->hasMany(Gym::class);
+    }
+
+    public function country(){
+        return $this->belongsTo(Country::class);
+    }
+
 }

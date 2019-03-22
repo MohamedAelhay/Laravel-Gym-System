@@ -12,4 +12,10 @@ class GymPackage extends Model
 
     public $timestamps = false;
 
+    public function gym(){
+
+        return $this->belongsTo(Gym::class);
+
+    }
+
 }

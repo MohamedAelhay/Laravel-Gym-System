@@ -11,4 +11,6 @@ class CityManager extends Model
     protected $table = 'city_managers';
 
     public $timestamps = false;
+
+
 }

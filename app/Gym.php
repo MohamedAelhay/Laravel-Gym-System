@@ -12,4 +12,12 @@ class Gym extends Model
 
     public $timestamps = false;
 
+    public function package(){
+
+        return $this->hasMany(GymPackage::class);
+    }
+
+    public function city(){
+        return $this->belongsTo(City::class);
+    }
 }

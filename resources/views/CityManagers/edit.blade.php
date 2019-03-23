@@ -10,23 +10,23 @@
     @method('put')
 
     <div class="form-group">
-        <label for="exampleInputId">National_ID</label>
-        <input name="id" value="{{$Mgr->national_id}}" type="text" class="form-control" id="exampleInputId" aria-describedby="emailHelp" placeholder="Enter Title">
+        <label for="national_id">National_ID</label>
+        <input name="national_id" value="{{$Mgr->national_id}}" type="text" class="form-control" id="national_id" aria-describedby="emailHelp" placeholder="Enter Title">
     </div>
     <div class="form-group">
-        <label for="exampleInputPassword1">name</label>
-        <textarea name="name" class="form-control">{{$Mgr->user->name}}</textarea>
+        <label for="name">name</label>
+        <input name="name" class="form-control" value="{{$Mgr->user->name}}">
     </div>
     
     <div class="form-group">
-         <label for="exampleInputPassword1">email</label>
-         <textarea name="email" class="form-control">{{$Mgr->user->email}}</textarea>
+         <label for="email">email</label>
+         <input name="email" class="form-control" value="{{$Mgr->user->email}}">
      </div>
 
       
     <div class="form-group">
-     <label for="exampleInputPassword1">password</label>
-     <textarea name="password" class="form-control">{{$Mgr->user->password}}</textarea>
+     <label for="password">password</label>
+     <input name="password" class="form-control" value="{{$Mgr->user->password}}">
  </div>
 
  <div class="form-group">

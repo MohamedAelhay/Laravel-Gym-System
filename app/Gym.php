@@ -10,14 +10,14 @@ class Gym extends Model
 
     protected $table = 'gyms';
 
-//    public $timestamps = false;
+   public $timestamps = false;
 
     public function city(){
 
         return $this->belongsTo(City::class);
     }
 
-    public function packages(){
+    public function packages(){ 
 
         return $this->hasMany(GymPackage::class);
     }

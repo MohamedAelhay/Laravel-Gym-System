@@ -1,5 +1,10 @@
 @extends('admin')
-
+@section('PageHeader')
+<h1>
+    Gyms
+    <small>Optional description</small>
+</h1>
+@endsection
 
 @section('content')
     <table class="table">

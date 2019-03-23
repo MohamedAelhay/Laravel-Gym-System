@@ -29,7 +29,7 @@ class CityManagerController extends Controller
      */
     public function create()
     {
-        $users = User::all();
+        $cityManagers = CityManager::all();
         return view('CityManagers.create',[
             'users' => $users
         ]);
@@ -56,7 +56,8 @@ class CityManagerController extends Controller
      */
     public function show($cityManagerId)
     {
-          $cityManager = CityManager::findOrFail($cityManagerId);
+    
+        $cityManager = User::findOrFail($cityManagerId);
         return view('CityManagers.show', [
             'cityManager' => $cityManager,
            
@@ -71,7 +72,7 @@ class CityManagerController extends Controller
      */
     public function edit($cityManagerId)
     {
-        $cityManager = CityManager::findOrFail($cityManagerId);        
+        $cityManager = User::findOrFail($cityManagerId);
         return view('CityManagers.edit', [
             'cityManager' => $cityManager,
         ]);
@@ -84,9 +85,11 @@ class CityManagerController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, CityManager $cityManager)
+    public function update(Request $request,$cityManagerId)
     {
-        $Mgr->update($request->all());
+        $cityManager = User::findOrFail($cityManagerId);
+        $cityManager->update($request->all());
+        $cityManager->role->update($request->all());
         return redirect()->route('CityManagers.index'); 
     }
 

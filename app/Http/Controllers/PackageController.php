@@ -109,7 +109,9 @@ class PackageController extends Controller
 
     {
 
-        return Datatables::of(GymPackage::query())->make(true);
+        // return Datatables::of(GymPackage::query())->make(true);
+        return datatables()->of(GymPackage::with('gym'))->toJson();
+
 
     }
     

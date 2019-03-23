@@ -6,61 +6,50 @@
 
     <head>
 
-        <meta charset="utf-8">
+<script src="//cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.12/js/dataTables.bootstrap.min.js"></script>
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.12/css/dataTables.bootstrap.min.css">
 
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-
-        <title>Laravel DataTables Tutorial Example</title>
-
-        <link href="//netdna.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
-
-        <link rel="stylesheet" href="//cdn.datatables.net/1.10.7/css/jquery.dataTables.min.css">
 
     </head>
 
     <body>
 
-        <div class="container">
+            <table class="table table-bordered" id="table">
 
-            <br/>
-
-            <h1 class="text-center">HDTuto - Laravel DataTables Tutorial Example</h1>
-
-            <br/>
-
-            <table class="table table-bordered" id="users-table">
-
-                <thead>
-
-                    <tr>
-
-                        <th>Id</th>
-
-                        <th>Name</th>
-
-                        <th>Price</th>
-
-                    </tr>
-
-                </thead>
-
-            </table>
+            <thead>
+        <tr>
+            <th class="text-center">#</th>
+            <th class="text-center">Name</th>
+            <th class="text-center">Gym</th>
+            <th class="text-center">No of Sessions</th>
+            <th class="text-center">Price ($)</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+           
+        </tr>
+    </tbody>
+</table>
 
         </div>
 
         <script src="//code.jquery.com/jquery.js"></script>
-
         <script src="//cdn.datatables.net/1.10.7/js/jquery.dataTables.min.js"></script>
-
         <script src="//netdna.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
 
         <script>
 
-        $(function() {
+$(function() {
 
-            $('#users-table').DataTable({
+            $('#table').DataTable({
 
                 processing: true,
 
@@ -71,9 +60,9 @@
                 columns: [
 
                     { data: 'id', name: 'id' },
-
                     { data: 'name', name: 'name' },
-
+                    { data: 'gym.name', name: 'gym.name' },
+                    { data: 'number_of_sessions', name: 'number_of_sessions' },
                     { data: 'price', name: 'price' }
 
                 ]

@@ -27,9 +27,9 @@
               </div>
               <div class="row">
                 <div class="col-md-6">
-                  <span class="text-muted">National Id: {{$Mgr->national_id}}</span><br>
-                  <span class="text-muted">Name:</span> {{$Mgr->user->name}}<br>
-                  <span class="text-muted">Email:</span> {{$Mgr->user->email}}<br><br>
+                  <span class="text-muted">National Id: {{$cityManager->national_id}}</span><br>
+                  <span class="text-muted">Name:</span> {{$cityManager->user[0]->name}}<br>
+                  <span class="text-muted">Email:</span> {{$cityManager->user[0]->email}}<br><br>
                   <small class="text-muted">Created: 01.01.2015</small>
                 </div>
                

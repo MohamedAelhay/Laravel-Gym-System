@@ -7,8 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class CityManager extends Model
 {
     protected $fillable = ['national_id', 'user_id'];
-    protected $primaryKey = 'national_id';
-    protected $table = 'city_managers';
+        protected $table = 'city_managers';
  
     public $timestamps = false;
 
@@ -20,7 +19,7 @@ class CityManager extends Model
 
     public function user()
     {
-        return $this->belongsTo(User::class);
+        return $this->morphMany(User::class,'role');
     }
 
 

@@ -35,7 +35,7 @@
                 
                     {{-- <a href="{{route('CityManagers.show',$Mgr->national_id)}}"><i class="fas fa-eye"></i></a> |
                     <a href="{{route('CityManagers.edit',$Mgr->national_id)}}" ><i class="fas fa-pen"></i></a>  | --}}
-                    <td><a href="{{route('CityManagers.edit',$Mgr->national_id)}} " class="btn btn-primary btn-lg col-4">show </a></td>
+                    <td><a href="{{route('CityManagers.show',$Mgr->national_id)}} " class="btn btn-primary btn-lg col-4">show </a></td>
                     <td><a href="{{route('CityManagers.edit',$Mgr->national_id)}} " class="btn btn-success">Edit </a></td>
 
                     <td><form action="{{route('CityManagers.destroy',$Mgr->national_id)}}" method="POST">

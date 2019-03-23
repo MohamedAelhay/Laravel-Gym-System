@@ -16,12 +16,9 @@ class CityManagerController extends Controller
      */
     public function index()
     {
-        
-        $cityMgrs = CityManager::all();
-        $users = User::all();
+        $cityManagers = CityManager::all();
         return view('CityManagers.index',[
-            'cityMgrs'=>$cityMgrs,
-            'users'=>$users
+            'cityManagers'=> $cityManagers
         ]);
     }
 
@@ -89,7 +86,7 @@ class CityManagerController extends Controller
     public function update(Request $request, CityManager $Mgr)
     {
         $Mgr->update($request->all());
-        return redirect()->route('CityManagers.index');
+        return redirect()->route('CityManagers.index'); 
     }
 
     /**

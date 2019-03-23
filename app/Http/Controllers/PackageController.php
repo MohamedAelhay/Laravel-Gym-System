@@ -83,9 +83,14 @@ class PackageController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(GymPackage $package)
     {
         //
+        $gyms = Gym::all();
+        return view('Package.edit',[
+            'package'=>$package,
+            'gyms'=>$gyms
+        ]);
     }
 
     /**
@@ -95,9 +100,13 @@ class PackageController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, GymPackage $package)
     {
         //
+        GymPackage::find($package->id)->update($request->all());
+        // $package->update($request->all());
+        return view('Package.index');
+
     }
 
     /**
@@ -110,7 +119,7 @@ class PackageController extends Controller
     {
         //
         GymPackage::find($id)->delete();
-        return response()->json(array('user'=>$id));
+        return view('Package.index');
     }
 
     public function getData()

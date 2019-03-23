@@ -12,12 +12,7 @@
 
     <head>
 
-<script src="//cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
-<script src="https://cdn.datatables.net/1.10.12/js/dataTables.bootstrap.min.js"></script>
-<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
-<link rel="stylesheet" href="https://cdn.datatables.net/1.10.12/css/dataTables.bootstrap.min.css">
-
-
+    <link rel="stylesheet" href="//cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
     </head>
 
     <body>
@@ -49,6 +44,29 @@
             </div>
         </div>
     </div>
+
+    <div class="modal fade" id="DeleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Are you to delete this item</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-footer">
+                            <div>
+                                <div id="csrf_value"  hidden >@csrf</div>
+                                {{--@method('DELETE')--}}
+                                <button type="button" row_delete="" id="delete_item"  class="btn btn-primary" data-dismiss="modal">Yes</button>
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">NO</button>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
 </section>
 
         <script src="//code.jquery.com/jquery.js"></script>
@@ -65,11 +83,12 @@ $(function() {
 
                 serverSide: true,
                 'paging'      : true,
-            'lengthChange': true,
-            'searching'   : true,
-            'ordering'    : true,
-            'info'        : true,
-            'autoWidth'   : true,
+                'searching'   : true,
+                'ordering'    : true,
+                'info'        : true,
+                'autoWidth'   : true,
+                "bLengthChange": false,
+
 
                 ajax: '{!! route('get.data') !!}',
 
@@ -87,16 +106,27 @@ $(function() {
                 },
                 /* EDIT */ {
                     mRender: function (data, type, row) {
-                        return '<center><a href="/package/edit/'+row.id+'" class="table-edit btn btn-warning" data-id="' + row.id + '">EDIT</a></center>'
+                        return '<center><a href="/package/'+row.id+'/edit" class="table-edit btn btn-warning" data-id="' + row.id + '">Edit</a></center>'
                     }
                 },
+
                 /* DELETE */ {
                     mRender: function (data, type, row) {
-                        return '<center><a href="#" class="table-delete btn btn-danger" row_id="' + row.id + '" data-toggle="modal" data-target="#DeleteModal" id="delete_toggle">DELETE</a></center>'
-                    }
-                }
+                        return '<a href="" class="btn btn-danger" row_id="' + row.id + '" data-toggle="modal" data-target="#DeleteModal" id="delete_toggle">Delete</a>'                    }
+                },
+            
             ],
         });
+        $(document).on('click','#delete_toggle',function () {
+            var delete_id = $(this).attr('row_id');
+            $('#delete_item').attr('row_delete',delete_id);
+        });
+
+        $(document).on('click','#delete_item',function () {
+            var package_id = $(this).attr('row_delete');
+         
+            });
+            
         });
 
         </script>

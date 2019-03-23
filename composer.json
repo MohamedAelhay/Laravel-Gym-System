@@ -17,7 +17,7 @@
         "spatie/laravel-permission": "^2.36",
         "stripe/stripe-php": "^6.31",
         "yajra/laravel-datatables": "^1.0",
-        "tymon/jwt-auth": "0.5.12"
+        "tymon/jwt-auth": "dev-develop"
     },
     "require-dev": {
         "beyondcode/laravel-dump-server": "^1.0",

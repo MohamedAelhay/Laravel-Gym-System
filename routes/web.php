@@ -22,12 +22,12 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
+Route::get('/admin', function () {
+    return view('admin');
+});
 
-Route::group(['middleware'=>['auth','forbid-banned-user'],
+Route::group(['middleware'=>['role:super-admin|city-manager','auth','forbid-banned-user'],
     ], function(){
-    Route::get('/admin', function () {
-        return view('admin');
-    });
     Route::get('/gyms', 'GymController@index')->name('gyms.index');
     Route::get('/gyms/create', 'GymController@create')->name('gyms.create');
     Route::post('/gyms', 'GymController@store')->name('gyms.store');
@@ -37,8 +37,6 @@ Route::group(['middleware'=>['auth','forbid-banned-user'],
     Route::delete('/gyms/{gym}', 'GymController@destroy')->name('gyms.destroy');
 
 });
-Auth::routes();
-
 
 Auth::routes();
 

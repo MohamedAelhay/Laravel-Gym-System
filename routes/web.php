@@ -36,10 +36,6 @@ Route::group(['middleware'=>['role:super-admin|city-manager','auth','forbid-bann
     Route::put('/gyms/{gym}', 'GymController@update')->name('gyms.update');
     Route::delete('/gyms/{gym}', 'GymController@destroy')->name('gyms.destroy');
 
-    // Route::get('/package', 'PackageController@index')->name('Package.index');
-    // Route::get('/package/create', 'PackageController@create')->name('Package.create');
-    // Route::post('/package', 'PackageController@store')->name('Package.store');
-    // Route::get('/package/{package}', 'PackageController@show')->name('Package.show');
 
     Route::get('/package', 'PackageController@index')->name('Package.index');
     Route::get('package', 'PackageController@index');
@@ -47,6 +43,10 @@ Route::group(['middleware'=>['role:super-admin|city-manager','auth','forbid-bann
     Route::get('/package/create', 'PackageController@create')->name('Package.create');
     Route::post('/package', 'PackageController@store')->name('Package.store');
     Route::get('/package/{package}', 'PackageController@show')->name('Package.show');
+    Route::get('/package/{package}', 'PackageController@destroy')->name('Package.destroy');
+    Route::get('/package/{package}/edit', 'PackageController@edit')->name('Package.edit');
+    Route::put('/package/{package}','PackageController@update')->name('Package.update');
+
 
 });
 Auth::routes();

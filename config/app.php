@@ -178,7 +178,7 @@ return [
         /*Downloaded Packages*/
         Yajra\DataTables\DataTablesServiceProvider::class,
         Cog\Laravel\Ban\Providers\BanServiceProvider::class,
-        'Tymon\JWTAuth\Providers\JWTAuthServiceProvider',
+        Tymon\JWTAuth\Providers\LaravelServiceProvider::class,
 
         'Webpatser\Countries\CountriesServiceProvider',
         Cartalyst\Stripe\Laravel\StripeServiceProvider::class,

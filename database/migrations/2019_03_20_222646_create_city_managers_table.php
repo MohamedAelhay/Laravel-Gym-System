@@ -14,7 +14,7 @@ class CreateCityManagersTable extends Migration
     public function up()
     {
         Schema::create('city_managers', function (Blueprint $table) {
-            $table->string('national_id');
+            $table->string('national_id')->default('none');
             $table->bigInteger('user_id')->unsigned();
             $table->foreign('user_id')
                 ->references('id')

@@ -41,8 +41,12 @@ Route::group(['middleware'=>['auth','forbid-banned-user'],
     // Route::post('/package', 'PackageController@store')->name('Package.store');
     // Route::get('/package/{package}', 'PackageController@show')->name('Package.show');
 
+    Route::get('/package', 'PackageController@index')->name('Package.index');
     Route::get('package', 'PackageController@index');
     Route::get('get-data-my-datatables', ['as'=>'get.data','uses'=>'PackageController@getData']);
+    Route::get('/package/create', 'PackageController@create')->name('Package.create');
+    Route::post('/package', 'PackageController@store')->name('Package.store');
+    Route::get('/package/{package}', 'PackageController@show')->name('Package.show');
 
 });
 Auth::routes();

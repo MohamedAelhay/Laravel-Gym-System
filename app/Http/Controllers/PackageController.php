@@ -40,8 +40,10 @@ class PackageController extends Controller
     public function create()
     {
 
-        return view('Package.index');
-
+        $gyms = Gym::all();
+        return view('Package.create',[
+            'gyms'=>$gyms
+        ]);
     }
 
     /**
@@ -54,7 +56,7 @@ class PackageController extends Controller
     {
         //
         GymPackage::create($request->all());
-        return redirect()->route('Package.index');
+        return view('Package.index');
     }
 
     /**
@@ -63,12 +65,16 @@ class PackageController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Package $package)
+    public function show(GymPackage $package)
     {
         //
+        // dd($package);
+        $gym = Gym::find($package->gym_id);
         return view('Package.show', [
-            "package"=>$package
-        ]);
+
+            "package"=>$package,
+            'gym'=>$gym
+                    ]);
     }
 
     /**
@@ -103,6 +109,8 @@ class PackageController extends Controller
     public function destroy($id)
     {
         //
+        GymPackage::find($id)->delete();
+        return response()->json(array('user'=>$id));
     }
 
     public function getData()

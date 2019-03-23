@@ -53,10 +53,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
         <div class="content-wrapper" style="min-height: 803px;">
             <!-- Content Header (Page header) -->
             <section class="content-header">
-                <h1>
-                    Page Header
-                    <small>Optional description</small>
-                </h1>
+               @yield('PageHeader')
                 <ol class="breadcrumb">
                     <li><a href="#"><i class="fa fa-dashboard"></i> Level</a></li>
                     <li class="active">Here</li>

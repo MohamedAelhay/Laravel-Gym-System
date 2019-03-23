@@ -63,9 +63,11 @@ class CityManagerController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(CityManager $Mgr)
     {
-        //
+        return view('CityManagers.edit', [
+            'Mgr' => $Mgr,
+        ]);
     }
 
     /**
@@ -75,9 +77,10 @@ class CityManagerController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, CityManager $Mgr)
     {
-        //
+        $Mgr->update($request->all());
+        return redirect()->route('CityManagers.index');
     }
 
     /**

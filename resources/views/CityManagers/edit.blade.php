@@ -2,29 +2,43 @@
 
 
 @section('content')
-    <table class="table">
-        <thead class="thead-dark">
-        <tr>
-            <th scope="col">National_ID</th>
-            <th scope="col">name</th>
-            <th scope="col">email</th>
-        </tr>
-        </thead>
-        <tbody>
-        @foreach($cityMgrs as $Mgr)
-            <tr>
-               
-                <td>{{$Mgr->national_id}}</td>
-                <td>{{$Mgr->user_id->name}}</td>
-                <td>{{$Mgr->user_id->email}}</td>
 
-                {{-- <td>
-                    <a href="{{route('CityManagers.show',$Mgr->national_id)}}"><i class="fas fa-eye"></i></a> |
-                    <a href="{{route('CityManagers.edit',$Mgr->national_id)}}" ><i class="fas fa-pen"></i></a>  |
-                    <a href="{{route('CityManagers.destroy',$Mgr->national_id)}}" data-toggle="modal" data-target="#myModal"><i class="fas fa-trash-alt"></i></a>
-                </td> --}}
-        @endforeach
-        </tbody>
-    </table>
-    <a class="btn btn-primary btn-lg col-4" href="{{route('CityManagers.create')}}" style="margin-bottom: 20px; margin-left: 30%;">Create CityManager</a>
+<a href="{{route('CityManagers.index')}}" class="btn btn-danger">Back</a>
+
+ <form action="{{route('CityManagers.update',$Mgr->national_id)}}" method="POST">
+    @csrf
+    @method('put')
+
+    <div class="form-group">
+        <label for="exampleInputId">National_ID</label>
+        <input name="id" value="{{$Mgr->national_id}}" type="text" class="form-control" id="exampleInputId" aria-describedby="emailHelp" placeholder="Enter Title">
+    </div>
+    <div class="form-group">
+        <label for="exampleInputPassword1">name</label>
+        <textarea name="name" class="form-control">{{$Mgr->user->name}}</textarea>
+    </div>
+    
+    <div class="form-group">
+         <label for="exampleInputPassword1">email</label>
+         <textarea name="email" class="form-control">{{$Mgr->user->email}}</textarea>
+     </div>
+
+      
+    <div class="form-group">
+     <label for="exampleInputPassword1">password</label>
+     <textarea name="password" class="form-control">{{$Mgr->user->password}}</textarea>
+ </div>
+
+ <div class="form-group">
+     <label for="exampleInputPassword1">image</label>
+     <img src="{{$Mgr->user->image}}">
+ </div>
+<button type="submit" class="btn btn-primary">Update</button>
+</form>
+    
 @endsection
+
+
+
+
+

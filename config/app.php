@@ -235,6 +235,7 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
         'Stripe' => Cartalyst\Stripe\Laravel\Facades\Stripe::class,
+        'Datatables' => Yajra\Datatables\Facades\Datatables::class,
 
 
         'Countries' => 'Webpatser\Countries\CountriesFacade',

@@ -36,6 +36,14 @@ Route::group(['middleware'=>['auth','forbid-banned-user'],
     Route::put('/gyms/{gym}', 'GymController@update')->name('gyms.update');
     Route::delete('/gyms/{gym}', 'GymController@destroy')->name('gyms.destroy');
 
+    // Route::get('/package', 'PackageController@index')->name('Package.index');
+    // Route::get('/package/create', 'PackageController@create')->name('Package.create');
+    // Route::post('/package', 'PackageController@store')->name('Package.store');
+    // Route::get('/package/{package}', 'PackageController@show')->name('Package.show');
+
+    Route::get('package', 'PackageController@index');
+    Route::get('get-data-my-datatables', ['as'=>'get.data','uses'=>'PackageController@getData']);
+
 });
 Auth::routes();
 

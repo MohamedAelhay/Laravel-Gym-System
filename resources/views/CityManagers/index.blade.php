@@ -24,21 +24,21 @@
         </tr>
         </thead>
         <tbody>
-        @foreach($cityMgrs as $Mgr)
+        @foreach($cityManagers as $cityManager)
             <tr>
                
-                <td>{{$Mgr->national_id}}</td>
-                <td>{{$Mgr->user->name}}</td>
-                <td>{{$Mgr->user->email}}</td>
-                <td>{{$Mgr->user->password}}</td>
-                <td>{{$Mgr->user->image}}</td>
+                <td>{{$cityManager->national_id}}</td>
+                <td>{{$cityManager->user[0]->name}}</td>
+                <td>{{$cityManager->user[0]->email}}</td>
+                <td>{{$cityManager->user[0]->password}}</td>
+                <td>{{$cityManager->user[0]->image}}</td>
                 
                     {{-- <a href="{{route('CityManagers.show',$Mgr->national_id)}}"><i class="fas fa-eye"></i></a> |
                     <a href="{{route('CityManagers.edit',$Mgr->national_id)}}" ><i class="fas fa-pen"></i></a>  | --}}
-                    <td><a href="{{route('CityManagers.show',$Mgr->national_id)}} " class="btn btn-primary btn-lg col-4">show </a></td>
-                    <td><a href="{{route('CityManagers.edit',$Mgr->national_id)}} " class="btn btn-success">Edit </a></td>
+                    <td><a href="{{route('CityManagers.show',$cityManager->national_id)}} " class="btn btn-primary btn-lg col-4">show </a></td>
+                    <td><a href="{{route('CityManagers.edit',$cityManager->national_id)}} " class="btn btn-success">Edit </a></td>
 
-                    <td><form action="{{route('CityManagers.destroy',$Mgr->national_id)}}" method="POST">
+                    <td><form action="{{route('CityManagers.destroy',$cityManager->national_id)}}" method="POST">
                             @csrf
                             @method('delete')
                           

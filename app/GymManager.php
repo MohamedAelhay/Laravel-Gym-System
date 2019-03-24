@@ -12,11 +12,11 @@ class GymManager extends Model
     protected $table = 'gym_managers';
 
     public $timestamps = false;
-
-    public function user(){
-
-        return $this->belongsTo(User::class);
-
+    
+    public function user()
+    {
+        return $this->morphOne(User::class,'role');
     }
+
 
 }

@@ -61,7 +61,7 @@ class SessionController extends Controller
         return view('Session.show', [
             "session"=>$session,
             'gym'=>$gym
-                    ]);
+                ]);
     }
 
     /**

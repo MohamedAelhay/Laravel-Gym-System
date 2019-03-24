@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Gyms\StoreGymsRequest;
 use http\Env\Response;
 use Illuminate\Http\Request;
 use App\Gym;
@@ -37,7 +38,7 @@ class GymController extends Controller
     }
 
 
-    public function store(Request $request)
+    public function store(StoreGymsRequest $request)
     {
 
         $user = auth()->user();

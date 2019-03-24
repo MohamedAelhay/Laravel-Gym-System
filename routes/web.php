@@ -47,6 +47,15 @@ Route::group(['middleware'=>['role:super-admin|city-manager','auth','forbid-bann
     Route::get('/package/{package}/edit', 'PackageController@edit')->name('Package.edit');
     Route::put('/package/{package}','PackageController@update')->name('Package.update');
 
+    Route::get('session', 'SessionController@index');
+    Route::get('get-session-my-datatables', ['as'=>'get.session','uses'=>'SessionController@getSession']);
+    Route::get('/session/create', 'SessionController@create')->name('Session.create');
+    Route::post('/session', 'SessionController@store')->name('Session.store');
+    Route::get('/session/{session}', 'SessionController@show')->name('Session.show');
+    Route::delete('/session/{session}', 'SessionController@destroy')->name('Session.destroy');
+    Route::get('/session/{session}/edit', 'SessionController@edit')->name('Session.edit');
+    Route::put('/session/{session}','SessionController@update')->name('Session.update');
+
 
 });
 

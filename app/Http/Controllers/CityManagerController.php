@@ -29,10 +29,10 @@ class CityManagerController extends Controller
      */
     public function create()
     {
-        $cityManagers = CityManager::all();
+        $cityManagers = User::all();
         return view('CityManagers.create',[
 
-            'cityManagers' => $cityManagers
+            'cityManager' => $cityManagers
         ]);
     }
 

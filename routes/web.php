@@ -71,6 +71,15 @@ Route::get('/cityManagers/{mgr}/edit', 'CityManagerController@edit')->name('City
 Route::put('/cityManagers/{mgr}', 'CityManagerController@update')->name('CityManagers.update');
 Route::delete('/cityManagers/{mgr}', 'CityManagerController@destroy')->name('CityManagers.destroy');
 
+
+
+Route::get('/cities', 'CityController@index')->name('Cities.index');
+
+
+
+
+
+
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');

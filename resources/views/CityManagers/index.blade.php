@@ -33,7 +33,7 @@
                     <td><a href="{{route('CityManagers.show',$cityManager->user[0]->id)}} " class="btn btn-primary btn-lg col-4">show </a></td>
                     <td><a href="{{route('CityManagers.edit',$cityManager->user[0]->id)}} " class="btn btn-success">Edit </a></td>
 
-                    <td><form action="{{route('CityManagers.destroy',$cityManager->national_id)}}" method="POST">
+                    <td><form action="{{route('CityManagers.destroy',$cityManager->id)}}" method="POST">
                             @csrf
                             @method('delete')
                           
@@ -52,5 +52,5 @@
         @endforeach
         </tbody>
     </table>
-    <a class="btn btn-primary btn-lg col-4" href="{{route('CityManagers.create')}}" style="margin-bottom: 20px; margin-left: 30%;">Create CityManager</a>
+    <a class="btn btn-primary btn-lg col-4" href="{{route('CityManagers.create',$cityManager->user[0]->id)}}" style="margin-bottom: 20px; margin-left: 30%;">Create CityManager</a>
 @endsection

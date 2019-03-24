@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use http\Env\Response;
 use Illuminate\Http\Request;
 use App\Gym;
 use App\User;
@@ -53,12 +54,22 @@ class GymController extends Controller
 
     public function show($gymId)
     {
+        $user = auth()->user();
         $gym = Gym::findOrFail($gymId);
         $city = City::findOrFail($gym->city_id);
         return view('gyms.show',[
             'gym'=>$gym,
-            'city'=>$city
+            'city'=>$city,
+            'user'=>$user
         ]);
+    }
+
+
+    public function getGymImage($fileName){
+
+        $file = Storage::disk('public')->get($fileName);
+        return response($file,200);
+
     }
 
     /**

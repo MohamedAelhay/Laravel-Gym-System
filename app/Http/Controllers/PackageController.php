@@ -21,18 +21,7 @@ class PackageController extends Controller
      */
     public function index()
     {
-        
-        // $packages = GymPackage::all();
-        // $gyms = Gym::all();
-        // return view('Package.index',[
-        //     'packages'=>$packages,
-        //     'gyms'=>$gyms,
-        // ]);
-
     	return view('Package.index');
-
-
-
 
     }
 
@@ -71,11 +60,8 @@ class PackageController extends Controller
      */
     public function show(GymPackage $package)
     {
-        //
-        // dd($package);
         $gym = Gym::find($package->gym_id);
         return view('Package.show', [
-
             "package"=>$package,
             'gym'=>$gym
                     ]);
@@ -121,19 +107,15 @@ class PackageController extends Controller
     public function destroy($id)
     {
         //
-        $package = new GymPackage;        // Totally useless line
-        $package = GymPackage::find($id); // Can chain this line with the next one
+        $package = new GymPackage;      
+        $package = GymPackage::find($id);
         $package->delete($id);
     }
 
     public function getData()
 
     {
-
-        // return Datatables::of(GymPackage::query())->make(true);
         return datatables()->of(GymPackage::with('gym'))->toJson();
-
-
     }
     
 }

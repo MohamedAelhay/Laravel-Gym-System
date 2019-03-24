@@ -26,10 +26,6 @@ class ApiController extends Controller
 
         $user = User::where('email', $request->email)->first();
 
-        $customer->update([
-            'user_id' => $user['id']
-        ]);
-
         $user->sendEmailVerificationNotification();
 
         return response()->json([

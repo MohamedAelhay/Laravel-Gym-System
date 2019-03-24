@@ -7,6 +7,8 @@ use App\Gym;
 use App\GymPackage;
 use Yajra\Datatables\Datatables;
 use App\Http\Requests\Package\StorePackageRequest;
+use App\Http\Requests\Package\UpdatePackageRequest;
+
 
 
 
@@ -102,7 +104,7 @@ class PackageController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, GymPackage $package)
+    public function update(UpdatePackageRequest $request, GymPackage $package)
     {
         //
         GymPackage::find($package->id)->update($request->all());

@@ -14,15 +14,38 @@
             <label for="name">Package Name</label>
             <input name="name" type="text" class="form-control" id="name"  value={{$package->name}}>
         </div>
+        @if ($errors->has('name'))
+    <div class="alert alert-danger" style="margin: 4px;">
+        <ul style="list-style: none;">
+                <li>{{ $errors->first('name')}}</li>
+        </ul>
+    </div>
+    <br>
+    @endif
         <div class="form-group">
             <label for="number_of_sessions">No. Of sessions</label>
             <input type="number" name="number_of_sessions" value="{{$package->number_of_sessions}}" class="form-control"></input>
         </div>
+        @if ($errors->has('number_of_sessions'))
+    <div class="alert alert-danger" style="margin: 4px;">
+        <ul style="list-style: none;">
+                <li>{{ $errors->first('number_of_sessions')}}</li>
+        </ul>
+    </div>
+    <br>
+    @endif
         <div class="form-group">
             <label for="package_price">Price $ </label>
             <input type="number" name="price" value="{{$package->price}}" id="package_price"></input>
-
         </div>
+        @if ($errors->has('price'))
+    <div class="alert alert-danger" style="margin: 4px;">
+        <ul style="list-style: none;">
+                <li>{{ $errors->first('price')}}</li>
+        </ul>
+    </div>
+    <br>
+    @endif
 
          <div class="form-group">
             <label for="gym_id">Gym</label>
@@ -36,6 +59,14 @@
                 @endforeach
             </select>
         </div>
+        @if ($errors->has('gym_id'))
+    <div class="alert alert-danger" style="margin: 4px;">
+        <ul style="list-style: none;">
+                <li>{{ $errors->first('gym_id')}}</li>
+        </ul>
+    </div>
+    <br>
+    @endif
 
     <button type="submit" class="btn btn-primary">Submit</button>
     </form>

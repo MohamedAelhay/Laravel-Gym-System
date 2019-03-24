@@ -55,6 +55,11 @@ Route::group(['middleware'=>['role:super-admin|city-manager','auth','forbid-bann
     Route::get('/session/{session}/edit', 'SessionController@edit')->name('Session.edit');
     Route::put('/session/{session}','SessionController@update')->name('Session.update');
 
+    Route::get('/assign', 'AssignCoachController@index');
+    Route::get('/assign/create', 'AssignCoachController@create')->name('AssignCoach.create');
+    Route::post('/assign', 'AssignCoachController@store')->name('AssignCoach.store');
+
+
 
 });
 

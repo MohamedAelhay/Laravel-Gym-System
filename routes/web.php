@@ -80,9 +80,12 @@ Route::delete('/cityManagers/{mgr}', 'CityManagerController@destroy')->name('Cit
 
 
 Route::get('/cities', 'CityController@index')->name('Cities.index');
+Route::get('/cities/create', 'CityController@create')->name('Cities.create');
+Route::post('/cities', 'CityController@store')->name('Cities.store');
 Route::get('/cities/{city}', 'CityController@show')->name('Cities.show');
-
-
+Route::get('/cities/{city}/edit', 'CityController@edit')->name('Cities.edit');
+Route::put('/cities/{city}', 'CityController@update')->name('Cities.update');
+Route::delete('/cities/{city}', 'CityController@destroy')->name('Cities.destroy');
 
 
 

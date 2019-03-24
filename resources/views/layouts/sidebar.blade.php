@@ -33,7 +33,7 @@
         <ul class="sidebar-menu" data-widget="tree">
             <li class="header">HEADER</li>
             <!-- Optionally, you can add icons to the links -->
-            <li><a href="#"><i class="fa fa-link"></i> <span>Gym Managers</span></a></li>
+            <li><a href="{{route('GymManagers.index')}}"><i class="fa fa-link"></i> <span>Gym Managers</span></a></li>
             <li><a href="{{route('CityManagers.index')}}"><i class="fa fa-link"></i> <span>City Managers</span></a></li>
             <li><a href="#"><i class="fa fa-link"></i> <span>Users</span></a></li>
             <li><a href="{{route('Cities.index')}}"><i class="fa fa-link"></i> <span>Cities</span></a></li>

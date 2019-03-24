@@ -10,8 +10,9 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Traits\HasRoles;
+use Tymon\JWTAuth\Contracts\JWTSubject;
 
-class User extends Authenticatable implements BannableContract
+class User extends Authenticatable implements BannableContract, JWTSubject
 {
     use Notifiable,Bannable,HasRoles;
 
@@ -56,6 +57,15 @@ class User extends Authenticatable implements BannableContract
         
     }
 
+    public function getJWTIdentifier()
+    {
+        return $this->getKey();
+    }
+
+    public function getJWTCustomClaims()
+    {
+        return [];
+    }
 
 
 }

@@ -45,7 +45,11 @@
         </div>
     </div>
 
+<<<<<<< HEAD
     <div class="modal fade" id="deletepopup" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+=======
+    <div class="modal fade" id="DeleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+>>>>>>> 863c7bcf98ec19ff6c59bf85ff5f162ec22f01ca
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">

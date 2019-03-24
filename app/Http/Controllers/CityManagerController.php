@@ -22,7 +22,11 @@ class CityManagerController extends Controller
         ]);
     }
 
-  
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function create()
     {
         $cityManagers = User::all();
@@ -31,14 +35,24 @@ class CityManagerController extends Controller
         ]);
     }
 
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
     public function store(Request $request)
     {
-       
         CityManager::create($request->all());
         return redirect()->route('CityManagers.index');
     }
 
-
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
     public function show($cityManagerId)
     {
     
@@ -49,6 +63,12 @@ class CityManagerController extends Controller
         ]);
     }
 
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
     public function edit($cityManagerId)
     {
         $cityManager = User::findOrFail($cityManagerId);
@@ -57,7 +77,13 @@ class CityManagerController extends Controller
         ]);
     }
 
-   
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
     public function update(Request $request,$cityManagerId)
     {
 
@@ -67,7 +93,12 @@ class CityManagerController extends Controller
         return redirect()->route('CityManagers.index');
     }
 
- 
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
     public function destroy($cityManagerId)
     {
         $cityManager=User::findOrFail($cityManagerId);  

@@ -89,6 +89,17 @@ Route::delete('/cities/{city}', 'CityController@destroy')->name('Cities.destroy'
 
 
 
+Route::get('/coaches', 'CoachesController@index')->name('Coaches.index');
+Route::get('/coaches/create', 'CoachesController@create')->name('Coaches.create');
+Route::post('/coaches', 'CoachesController@store')->name('Coaches.store');
+Route::get('/coaches/{coach}', 'CoachesController@show')->name('Coaches.show');
+Route::get('/coaches/{coach}/edit', 'CoachesController@edit')->name('Coaches.edit');
+Route::put('/coaches/{coach}', 'CoachesController@update')->name('Coaches.update');
+Route::delete('/coaches/{coach}', 'CoachesController@destroy')->name('Coaches.destroy');
+
+
+
+
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');

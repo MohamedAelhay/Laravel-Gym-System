@@ -1,7 +1,7 @@
 @extends('admin')
 @section('PageHeader')
 <h1>
-    Packages
+    Sessions
     <small>Optional description</small>
 </h1>
 @endsection
@@ -22,18 +22,19 @@
         <div class="col-xs-12">
             <div class="box box-primary">
                 <div class="box-header">
-                   <center> <a href='/package/create' style="margin-top: 10px;" class="btn btn-success">Create Package</a></center>
+                   <center> <a href='/session/create' style="margin-top: 10px;" class="btn btn-success">Create Session</a></center>
                 </div>
                 <!-- /.box-header -->
                 <div class="box-body">
-                    <table id="table" class="table text-center">
+                    <table id="session_table"  class="table text-center">
                         <thead>
                             <tr>
                                 <th class="text-center">#</th>
                                 <th class="text-center">Name</th>
                                 <th class="text-center">Gym</th>
-                                <th class="text-center">No of Sessions</th>
-                                <th class="text-center">Price ($)</th>
+                                <th class="text-center">starts at</th>
+                                <th class="text-center">Ends at</th>
+                                <th class="text-center">Date</th>
                                 <th class="text-center">Show</th>
                                 <th class="text-center">Edit</th>
                                 <th class="text-center">Delete</th>
@@ -76,7 +77,7 @@
 
 $(function() {
 
-            $('#table').DataTable({
+            $('#session_table').DataTable({
 
                 processing: true,
 
@@ -90,23 +91,26 @@ $(function() {
                 'autoWidth'   : true,
 
 
-                ajax: '{!! route('get.data') !!}',
+                ajax: '{!! route('get.session') !!}',
 
                 columns: [
 
                     { data: 'id', name: 'id' },
                     { data: 'name', name: 'name' },
                     { data: 'gym.name', name: 'gym.name' },
-                    { data: 'number_of_sessions', name: 'number_of_sessions' },
-                    { data: 'price', name: 'price' },
+                    { data: 'starts_at', name: 'starts_at' },
+                    { data: 'finishes_at', name: 'finishes_at' },
+                    { data: 'session_date', name: 'session_date' },
+                    
+
 /* Show */ {
     mRender: function (data, type, row) {
-                        return '<center><a href="/package/'+row.id+'" class="table-delete btn btn-info" data-id="' + row.id + '">Show</a></center>'
+                        return '<center><a href="/session/'+row.id+'" class="table-delete btn btn-info" data-id="' + row.id + '">Show</a></center>'
                     }
                 },
                 /* EDIT */ {
                     mRender: function (data, type, row) {
-                        return '<center><a href="/package/'+row.id+'/edit" class="table-edit btn btn-warning" data-id="' + row.id + '">Edit</a></center>'
+                        return '<center><a href="/session/'+row.id+'/edit" class="table-edit btn btn-warning" data-id="' + row.id + '">Edit</a></center>'
                     }
                 },
 
@@ -125,17 +129,17 @@ $(function() {
         });
         
         $(document).on('click','#delete_item',function () {
-            var package_id = $(this).attr('row_delete');
+            var session_id = $(this).attr('row_delete');
             $.ajax({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 },
-                url: '/package/'+package_id,
+                url: '/session/'+session_id,
                 type: 'DELETE',
                 success: function (data) {
                     console.log('success');
                     console.log(data);
-                    var table = $('#table').DataTable();
+                    var table = $('#session_table').DataTable();
                     table.ajax.reload();
                 },
                 error: function (response) {

@@ -80,7 +80,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
         <!-- REQUIRED JS SCRIPTS -->
 
         <!-- REQUIRED JS SCRIPTS -->
-
         <!-- Bootstrap 3.3.7 -->
         <script src="{{ asset('bower_components/bootstrap/dist/js/bootstrap.min.js')}}"></script>
         <!-- AdminLTE App -->

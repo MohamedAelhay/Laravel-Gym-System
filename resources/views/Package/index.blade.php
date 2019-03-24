@@ -11,7 +11,7 @@
 <html lang="en">
 
     <head>
-
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="stylesheet" href="//cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
     </head>
 
@@ -20,7 +20,7 @@
     <section class="content">
     <div class="row">
         <div class="col-xs-12">
-            <div class="box">
+            <div class="box box-primary">
                 <div class="box-header">
                    <center> <a href='/package/create' style="margin-top: 10px;" class="btn btn-success">Create Package</a></center>
                 </div>
@@ -46,32 +46,31 @@
     </div>
 
     <div class="modal fade" id="DeleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">Are you to delete this item</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-footer">
-                            <div>
-                                <div id="csrf_value"  hidden >@csrf</div>
-                                {{--@method('DELETE')--}}
-                                <button type="button" row_delete="" id="delete_item"  class="btn btn-primary" data-dismiss="modal">Yes</button>
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">NO</button>
-                            </div>
-
-                        </div>
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="modal-title" id="exampleModalLabel">Are you sure you want to delete this Package</h3>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-footer">
+                    <div>
+                        <div id="csrf_value"  hidden >@csrf</div>
+                        {{--@method('DELETE')--}}
+                        <button type="button" row_delete="" id="delete_item"  class="btn btn-danger" data-dismiss="modal">Yes</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">NO</button>
                     </div>
+
                 </div>
             </div>
+        </div>
+    </div>
 
 </section>
 
         <script src="//code.jquery.com/jquery.js"></script>
         <script src="//cdn.datatables.net/1.10.7/js/jquery.dataTables.min.js"></script>
-        <script src="//netdna.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
 
         <script>
 
@@ -87,7 +86,8 @@ $(function() {
                 'ordering'    : true,
                 'info'        : true,
                 'autoWidth'   : true,
-                "bLengthChange": false,
+                "bLengthChange": true,
+                'autoWidth'   : true,
 
 
                 ajax: '{!! route('get.data') !!}',
@@ -112,22 +112,41 @@ $(function() {
 
                 /* DELETE */ {
                     mRender: function (data, type, row) {
-                        return '<a href="" class="btn btn-danger" row_id="' + row.id + '" data-toggle="modal" data-target="#DeleteModal" id="delete_toggle">Delete</a>'                    }
+                        return '<center><a href="#" class="table-delete btn btn-danger" row_id="' + row.id + '" data-toggle="modal" data-target="#DeleteModal" id="delete_toggle">DELETE</a></center>'
+                    }
                 },
             
             ],
         });
+
         $(document).on('click','#delete_toggle',function () {
             var delete_id = $(this).attr('row_id');
             $('#delete_item').attr('row_delete',delete_id);
         });
-
+        
         $(document).on('click','#delete_item',function () {
             var package_id = $(this).attr('row_delete');
-         
+            $.ajax({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                url: '/package/'+package_id,
+                type: 'DELETE',
+                success: function (data) {
+                    console.log('success');
+                    console.log(data);
+                    var table = $('#table').DataTable();
+                    table.ajax.reload();
+                },
+                error: function (response) {
+                    alert(' error');
+                    console.log(response);
+                }
             });
-            
+
         });
+       
+    });
 
         </script>
 

@@ -104,7 +104,6 @@ class PackageController extends Controller
     {
         //
         GymPackage::find($package->id)->update($request->all());
-        // $package->update($request->all());
         return view('Package.index');
 
     }
@@ -118,8 +117,9 @@ class PackageController extends Controller
     public function destroy($id)
     {
         //
-        GymPackage::find($id)->delete();
-        return view('Package.index');
+        $package = new GymPackage;        // Totally useless line
+        $package = GymPackage::find($id); // Can chain this line with the next one
+        $package->delete($id);
     }
 
     public function getData()

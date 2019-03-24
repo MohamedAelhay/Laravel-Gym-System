@@ -12,11 +12,6 @@ use Illuminate\Support\Facades\File;
 
 class GymController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
         $gyms = Gym::all();
@@ -27,11 +22,7 @@ class GymController extends Controller
         ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function create()
     {
         //
@@ -44,12 +35,7 @@ class GymController extends Controller
 
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
+
     public function store(Request $request)
     {
 
@@ -60,20 +46,19 @@ class GymController extends Controller
             Storage::disk('public')->put($fileName,File::get($file));
         }
         $request['img']=$fileName;
-//        dd($request);
         Gym::create($request->all());
         return redirect()->route('gyms.index');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
+
+    public function show($gymId)
     {
-        //
+        $gym = Gym::findOrFail($gymId);
+        $city = City::findOrFail($gym->city_id);
+        return view('gyms.show',[
+            'gym'=>$gym,
+            'city'=>$city
+        ]);
     }
 
     /**

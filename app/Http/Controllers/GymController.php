@@ -6,14 +6,12 @@ use Illuminate\Http\Request;
 use App\Gym;
 use App\User;
 use App\City;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\File;
 
 class GymController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
         $gyms = Gym::all();
@@ -24,41 +22,43 @@ class GymController extends Controller
         ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function create()
     {
         //
         $cities = City::all();
+        $userName = auth()->user()->name;
         return view('gyms.create',[
+            'userName'=>$userName,
             'cities'=>$cities
         ]);
 
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
+
     public function store(Request $request)
     {
-        //
+
+        $user = auth()->user();
+        $file = $request->file('img');
+        $fileName = $request['name'].'-'.$user->name.'.jpg';
+        if ($file){
+            Storage::disk('public')->put($fileName,File::get($file));
+        }
+        $request['img']=$fileName;
+        Gym::create($request->all());
+        return redirect()->route('gyms.index');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
+
+    public function show($gymId)
     {
-        //
+        $gym = Gym::findOrFail($gymId);
+        $city = City::findOrFail($gym->city_id);
+        return view('gyms.show',[
+            'gym'=>$gym,
+            'city'=>$city
+        ]);
     }
 
     /**

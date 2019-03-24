@@ -14,8 +14,20 @@ class AddMorphsColumnToUsersTable extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->morphs('role');
+        $table->morphs('role');
         });
+
     }
 
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        Schema::table('users', function (Blueprint $table) {
+            //
+        });
+    }
 }

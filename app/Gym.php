@@ -39,4 +39,10 @@ class Gym extends Model
 
     }
 
+    public function gymManager(){
+
+        return $this->hasMany(GymManager::class);
+
+    }
+
 }

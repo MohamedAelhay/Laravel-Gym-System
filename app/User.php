@@ -33,6 +33,12 @@ class User extends Authenticatable implements BannableContract
         'password', 'remember_token',
     ];
 
+    protected $attributes = [
+        'role_id' => 0,
+        'role_type' => '',
+        'img' => '',
+    ];
+
     /**
      * The attributes that should be cast to native types.
      *

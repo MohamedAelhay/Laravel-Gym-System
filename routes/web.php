@@ -43,7 +43,7 @@ Route::group(['middleware'=>['role:super-admin|city-manager','auth','forbid-bann
     Route::get('/package/create', 'PackageController@create')->name('Package.create');
     Route::post('/package', 'PackageController@store')->name('Package.store');
     Route::get('/package/{package}', 'PackageController@show')->name('Package.show');
-    Route::get('/package/{package}', 'PackageController@destroy')->name('Package.destroy');
+    Route::delete('/package/{package}', 'PackageController@destroy')->name('Package.destroy');
     Route::get('/package/{package}/edit', 'PackageController@edit')->name('Package.edit');
     Route::put('/package/{package}','PackageController@update')->name('Package.update');
 

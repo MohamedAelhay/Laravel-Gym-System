@@ -12,9 +12,12 @@ class Coach extends Model
 
     public $timestamps = false;
 
+    public function session(){
+        
+        return $this->belongsToMany('App\Session');
+    }
     public function gym(){
-
-        return $this->belongsTo(Gym::class);
+        return $this->belongsTo('App\Gym');
     }
 
 }

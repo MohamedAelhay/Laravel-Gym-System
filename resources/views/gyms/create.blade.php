@@ -10,12 +10,16 @@
             <input type="text" name="name" class="form-control col-3" placeholder="Gym Name">
         </div>
         <div class="form-group row">
+            <label for="creator_name" class="col-sm-2 col-form-label" >Creator Name</label>
+            <input type="text" name="creator_name"  class="form-control col-3" value="{{$userName}}">
+        </div>
+        <div class="form-group row">
             <label for="img" class="col-sm-2 col-form-label" >Img</label>
             <input type="file" name="img" class="form-control col-3">
         </div>
         <div class="form-group row">
             <label for="exampleFormControlSelect1" class="col-sm-2 col-form-label">City</label>
-            <select class="form-control col-4" name="user_id">
+            <select class="form-control col-4"  name="city_id">
                 @foreach($cities as $city)
                     <option value="{{$city->id}}" >{{$city->name}}</option>
                 @endforeach

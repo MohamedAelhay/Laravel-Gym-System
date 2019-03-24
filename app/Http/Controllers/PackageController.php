@@ -6,6 +6,10 @@ use Illuminate\Http\Request;
 use App\Gym;
 use App\GymPackage;
 use Yajra\Datatables\Datatables;
+use App\Http\Requests\Package\StorePackageRequest;
+use App\Http\Requests\Package\UpdatePackageRequest;
+
+
 
 
 class PackageController extends Controller
@@ -17,18 +21,7 @@ class PackageController extends Controller
      */
     public function index()
     {
-        
-        // $packages = GymPackage::all();
-        // $gyms = Gym::all();
-        // return view('Package.index',[
-        //     'packages'=>$packages,
-        //     'gyms'=>$gyms,
-        // ]);
-
     	return view('Package.index');
-
-
-
 
     }
 
@@ -52,7 +45,7 @@ class PackageController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StorePackageRequest $request)
     {
         //
         GymPackage::create($request->all());
@@ -67,11 +60,8 @@ class PackageController extends Controller
      */
     public function show(GymPackage $package)
     {
-        //
-        // dd($package);
         $gym = Gym::find($package->gym_id);
         return view('Package.show', [
-
             "package"=>$package,
             'gym'=>$gym
                     ]);
@@ -100,11 +90,10 @@ class PackageController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, GymPackage $package)
+    public function update(UpdatePackageRequest $request, GymPackage $package)
     {
         //
         GymPackage::find($package->id)->update($request->all());
-        // $package->update($request->all());
         return view('Package.index');
 
     }
@@ -118,18 +107,15 @@ class PackageController extends Controller
     public function destroy($id)
     {
         //
-        GymPackage::find($id)->delete();
-        return view('Package.index');
+        $package = new GymPackage;      
+        $package = GymPackage::find($id);
+        $package->delete($id);
     }
 
     public function getData()
 
     {
-
-        // return Datatables::of(GymPackage::query())->make(true);
         return datatables()->of(GymPackage::with('gym'))->toJson();
-
-
     }
     
 }

@@ -6,6 +6,9 @@ use Illuminate\Http\Request;
 use App\Gym;
 use App\User;
 use App\City;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\File;
 
 class GymController extends Controller
 {
@@ -33,7 +36,9 @@ class GymController extends Controller
     {
         //
         $cities = City::all();
+        $userName = auth()->user()->name;
         return view('gyms.create',[
+            'userName'=>$userName,
             'cities'=>$cities
         ]);
 
@@ -47,7 +52,17 @@ class GymController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
+        $user = auth()->user();
+        $file = $request->file('img');
+        $fileName = $request['name'].'-'.$user->name.'.jpg';
+        if ($file){
+            Storage::disk('public')->put($fileName,File::get($file));
+        }
+        $request['img']=$fileName;
+//        dd($request);
+        Gym::create($request->all());
+        return redirect()->route('gyms.index');
     }
 
     /**

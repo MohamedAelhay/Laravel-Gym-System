@@ -10,7 +10,14 @@ class Gym extends Model
 
     protected $table = 'gyms';
 
-    public $timestamps = false;
+//    public $timestamps = false;
+
+    public function setUpdatedAtAttribute($value)
+    {
+        // to Disable updated_at
+    }
+
+
     public function city(){
 
         return $this->belongsTo(City::class);

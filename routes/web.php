@@ -55,6 +55,12 @@ Route::group(['middleware'=>['role:super-admin|city-manager','auth','forbid-bann
     Route::get('/session/{session}/edit', 'SessionController@edit')->name('Session.edit');
     Route::put('/session/{session}','SessionController@update')->name('Session.update');
 
+    Route::get('/assign', 'AssignCoachController@index');
+    Route::get('get-assigned-my-datatables', ['as'=>'get.assigned','uses'=>'AssignCoachController@getAssigned']);
+    Route::get('/assign/create', 'AssignCoachController@create')->name('AssignCoach.create');
+    Route::post('/assign', 'AssignCoachController@store')->name('AssignCoach.store');
+
+
 
 });
 
@@ -74,9 +80,12 @@ Route::delete('/cityManagers/{mgr}', 'CityManagerController@destroy')->name('Cit
 
 
 Route::get('/cities', 'CityController@index')->name('Cities.index');
+Route::get('/cities/create', 'CityController@create')->name('Cities.create');
+Route::post('/cities', 'CityController@store')->name('Cities.store');
 Route::get('/cities/{city}', 'CityController@show')->name('Cities.show');
-
-
+Route::get('/cities/{city}/edit', 'CityController@edit')->name('Cities.edit');
+Route::put('/cities/{city}', 'CityController@update')->name('Cities.update');
+Route::delete('/cities/{city}', 'CityController@destroy')->name('Cities.destroy');
 
 
 

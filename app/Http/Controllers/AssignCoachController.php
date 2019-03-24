@@ -3,11 +3,13 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Coach;
 use App\Session;
-use App\Gym;
+use App\AssignCoach;
 
 
-class SessionController extends Controller
+
+class AssignCoachController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -17,8 +19,7 @@ class SessionController extends Controller
     public function index()
     {
         //
-    	return view('Session.index');
-
+        return view('AssignCoach.index');
     }
 
     /**
@@ -29,9 +30,11 @@ class SessionController extends Controller
     public function create()
     {
         //
-        $gyms = Gym::all();
-        return view('Session.create',[
-            'gyms'=>$gyms
+        $coach = Coach::all();
+        $session = Session::all();
+        return view('AssignCoach.create',[
+            'session'=>$session,
+            'coach'=>$coach
         ]);
     }
 
@@ -44,8 +47,8 @@ class SessionController extends Controller
     public function store(Request $request)
     {
         //
-        Session::create($request->all());
-        return view('Session.index');
+        AssignCoach::create($request->all());
+        return view('AssignCoach.index');
     }
 
     /**
@@ -54,14 +57,9 @@ class SessionController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Session $session)
+    public function show($id)
     {
         //
-        $gym = Gym::find($session->gym_id);
-        return view('Session.show', [
-            "session"=>$session,
-            'gym'=>$gym
-                ]);
     }
 
     /**
@@ -70,11 +68,9 @@ class SessionController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Session $session, Request $request)
+    public function edit($id)
     {
         //
-        Session::find($package->id)->update($request->all());
-        return view('Session.index');
     }
 
     /**
@@ -98,13 +94,11 @@ class SessionController extends Controller
     public function destroy($id)
     {
         //
-        $session = new Session;      
-        $session = Session::find($id);
-        $session->delete($id);
     }
-    public function getSession()
+
+    public function getAssigned()
 
     {
-        return datatables()->of(Session::with('gym'))->toJson();
+        return datatables()->of(AssignCoach::with('coach','session'))->toJson();
     }
 }

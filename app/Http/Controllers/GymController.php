@@ -41,22 +41,27 @@ class GymController extends Controller
     {
 
         $user = auth()->user();
-        $file = $request->file('img');
-        $fileName = $request['name'].'-'.$user->name.'.jpg';
-        if ($file){
-            Storage::disk('public')->put($fileName,File::get($file));
-        }
-        $request['img']=$fileName;
+        $request['img']= $this->storeImage($request,$user);
         Gym::create($request->all());
         return redirect()->route('gyms.index');
     }
 
 
-    public function show($gymId)
+    public function storeImage($request, $user){
+
+        $file = $request->file('img');
+        $fileName = $request['name'].'-'.$user->name.'.jpg';
+        if ($file){
+            Storage::disk('public')->put($fileName,File::get($file));
+        }
+        return  $fileName;
+    }
+
+
+    public function show(Gym $gym)
     {
         $user = auth()->user();
-        $gym = Gym::findOrFail($gymId);
-        $city = City::findOrFail($gym->city_id);
+        $city = City::all();
         return view('gyms.show',[
             'gym'=>$gym,
             'city'=>$city,
@@ -65,42 +70,27 @@ class GymController extends Controller
     }
 
 
-    public function getGymImage($fileName){
-
-        $file = Storage::disk('public')->get($fileName);
-        return response($file,200);
-
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
+    public function edit(Gym $gym)
     {
-        //
+        $user = auth()->user();
+        $cities = City::all();
+        return view('gyms.edit',[
+            'gym'=>$gym,
+            'cities'=>$cities,
+            'user'=>$user
+        ]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
+
+    public function update(Request $request, $gymId)
     {
-        //
+        $user = auth()->user();
+        $gym = Gym::findOrFail($gymId);
+        $request['img']= $this->storeImage($request,$user);
+        $gym->update($request->all());
+        return redirect()->route('gyms.index');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function destroy($id)
     {
         //

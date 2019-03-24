@@ -8,7 +8,7 @@
             </div>
             <div class="col">
                 @if(Storage::disk('public')->has($gym->name.'-'.$user->name.'.jpg'))
-                    <img src="{{asset('storage/'.$gym->name.'-'.$user->name.'.jpg')}}" class="img-fluid" alt="Responsive image">
+                    <img src="{{asset('storage/'.$gym->name.'-'.$user->name.'.jpg')}}" style="width: 200px; height: 200px;" class="img-fluid" alt="Responsive image">
                 @endif
             </div>
         </div>

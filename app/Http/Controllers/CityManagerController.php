@@ -33,6 +33,7 @@ class CityManagerController extends Controller
 
     public function store(Request $request)
     {
+       
         CityManager::create($request->all());
         return redirect()->route('CityManagers.index');
     }

@@ -4,12 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\Gyms\StoreGymsRequest;
 use App\Http\Requests\Gyms\UpdateGymsRequest;
-use http\Env\Response;
-use Illuminate\Http\Request;
 use App\Gym;
-use App\User;
 use App\City;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\File;
 

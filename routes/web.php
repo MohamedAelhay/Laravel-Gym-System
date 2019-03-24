@@ -83,3 +83,13 @@ Route::get('/cities/{city}', 'CityController@show')->name('Cities.show');
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+
+
+Route::get('/GymManagers', 'GymManagerController@index')->name('GymManagers.index');
+Route::get('/GymManagers/create', 'GymManagerController@create')->name('GymManagers.create');
+Route::post('/GymManagers', 'GymManagerController@store')->name('GymManagers.store');
+Route::get('/GymManagers/{gym}', 'GymManagerController@show')->name('GymManagers.show');
+Route::get('/GymManagers/{gym}/edit', 'GymManagerController@edit')->name('GymManagers.edit');
+Route::put('/GymManagers/{gym}', 'GymManagerController@update')->name('GymManagers.update');
+Route::delete('/GymManagers/{gym}', 'GymManagerController@destroy')->name('GymManagers.destroy');

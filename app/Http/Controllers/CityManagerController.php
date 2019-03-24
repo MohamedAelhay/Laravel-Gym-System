@@ -31,7 +31,6 @@ class CityManagerController extends Controller
     {
         $cityManagers = User::all();
         return view('CityManagers.create',[
-
             'cityManager' => $cityManagers
         ]);
     }

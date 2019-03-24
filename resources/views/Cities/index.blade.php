@@ -29,8 +29,8 @@
              
                 
                    
-                    {{-- <td><a href="{{route('Cities.show')}} " class="btn btn-primary btn-lg col-4">show </a></td>
-                    <td><a href="{{route('Cities.edit')}} " class="btn btn-success">Edit </a></td> --}}
+                    <td><a href="{{route('Cities.show',$city->id)}} " class="btn btn-primary btn-lg col-4">show </a></td>
+                    {{-- <td><a href="{{route('Cities.edit')}} " class="btn btn-success">Edit </a></td> --}} 
 
                     {{-- <td><form action="{{route('Cities.destroy')}}" method="POST">
                             @csrf

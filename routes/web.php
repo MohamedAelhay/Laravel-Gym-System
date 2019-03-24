@@ -74,7 +74,7 @@ Route::delete('/cityManagers/{mgr}', 'CityManagerController@destroy')->name('Cit
 
 
 Route::get('/cities', 'CityController@index')->name('Cities.index');
-
+Route::get('/cities/{city}', 'CityController@show')->name('Cities.show');
 
 
 

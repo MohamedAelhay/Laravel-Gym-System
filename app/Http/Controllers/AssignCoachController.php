@@ -95,4 +95,10 @@ class AssignCoachController extends Controller
     {
         //
     }
+
+    public function getAssigned()
+
+    {
+        return datatables()->of(AssignCoach::with('coach','session'))->toJson();
+    }
 }

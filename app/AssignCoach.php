@@ -11,6 +11,16 @@ class AssignCoach extends Model
     protected $table = 'sessions_coaches_history';
     public $timestamps = false;
 
+    public function coach(){
 
+        return $this->belongsTo(Coach::class);
+
+    }
+
+    public function session(){
+
+        return $this->belongsTo(Session::class);
+
+    }
 
 }

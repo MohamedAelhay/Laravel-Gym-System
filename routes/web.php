@@ -56,6 +56,7 @@ Route::group(['middleware'=>['role:super-admin|city-manager','auth','forbid-bann
     Route::put('/session/{session}','SessionController@update')->name('Session.update');
 
     Route::get('/assign', 'AssignCoachController@index');
+    Route::get('get-assigned-my-datatables', ['as'=>'get.assigned','uses'=>'AssignCoachController@getAssigned']);
     Route::get('/assign/create', 'AssignCoachController@create')->name('AssignCoach.create');
     Route::post('/assign', 'AssignCoachController@store')->name('AssignCoach.store');
 

@@ -28,6 +28,6 @@
        
 
     <button type="submit" class="btn btn-primary">Submit</button>
-    <a href="/package" class="table-edit btn btn-warning">Back</a>
+    <a href="/assign" class="table-edit btn btn-warning">Back</a>
     </form>
 @endsection

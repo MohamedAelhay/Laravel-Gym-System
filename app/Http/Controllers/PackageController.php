@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Gym;
 use App\GymPackage;
 use Yajra\Datatables\Datatables;
+use App\Http\Requests\Package\StorePackageRequest;
+
 
 
 class PackageController extends Controller
@@ -52,7 +54,7 @@ class PackageController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StorePackageRequest $request)
     {
         //
         GymPackage::create($request->all());

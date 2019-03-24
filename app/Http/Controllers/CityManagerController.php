@@ -31,7 +31,8 @@ class CityManagerController extends Controller
     {
         $cityManagers = CityManager::all();
         return view('CityManagers.create',[
-            'cityManager' => $cityManagers
+
+            'cityManagers' => $cityManagers
         ]);
     }
 
@@ -43,7 +44,6 @@ class CityManagerController extends Controller
      */
     public function store(Request $request)
     {
-        
         CityManager::create($request->all());
         return redirect()->route('CityManagers.index');
     }
@@ -100,10 +100,10 @@ class CityManagerController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(CityManager $Mgr)
+    public function destroy($cityManagerId)
     {
-          
-        $Mgr->delete();
+        $cityManager=User::findOrFail($cityManagerId);  
+        $cityManager->delete();
 
         return redirect()->route('CityManagers.index');
         

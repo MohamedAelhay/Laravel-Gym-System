@@ -35,7 +35,7 @@ Route::group(['middleware'=>['role:super-admin|city-manager','auth','forbid-bann
     Route::get('/gyms/{gym}/edit', 'GymController@edit')->name('gyms.edit');
     Route::put('/gyms/{gym}', 'GymController@update')->name('gyms.update');
     Route::delete('/gyms/{gym}', 'GymController@destroy')->name('gyms.destroy');
-
+    Route::get('/gymsImage/{fileName}','GymController@getGymImage')->name('gyms.image');
 
     Route::get('/package', 'PackageController@index')->name('Package.index');
     Route::get('package', 'PackageController@index');
@@ -75,7 +75,7 @@ Route::delete('/cityManagers/{mgr}', 'CityManagerController@destroy')->name('Cit
 
 
 Route::get('/cities', 'CityController@index')->name('Cities.index');
-
+Route::get('/cities/{city}', 'CityController@show')->name('Cities.show');
 
 
 

@@ -4,7 +4,12 @@
     <div class="container">
         <div class="row">
             <div class="col">
-                <h1>{{$gym->Name}}</h1>
+                <h1>{{$gym->name}}</h1>
+            </div>
+            <div class="col">
+                @if(Storage::disk('public')->has($gym->name.'-'.$user->name.'.jpg'))
+                    <img src="{{asset('storage/'.$gym->name.'-'.$user->name.'.jpg')}}" class="img-fluid" alt="Responsive image">
+                @endif
             </div>
         </div>
     </div>

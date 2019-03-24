@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Session extends Model
 {
-    protected $fillable = ['name', 'start_at', 'finishes_at', 'gym_id', 'seassion_date'];
+    protected $fillable = ['name', 'starts_at', 'finishes_at', 'gym_id', 'session_date'];
 
     protected $table = 'sessions';
 

@@ -10,7 +10,6 @@ class Gym extends Model
 
     protected $table = 'gyms';
 
-   public $timestamps = false;
 
     public function city(){
 
@@ -37,6 +36,12 @@ class Gym extends Model
     public function customers(){
 
         return $this->hasMany(Customer::class);
+
+    }
+
+    public function gymManager(){
+
+        return $this->hasMany(GymManager::class);
 
     }
 

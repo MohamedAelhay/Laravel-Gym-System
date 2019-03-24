@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddMorphsColumnToUsersTable extends Migration
+class DropUserIdColumnFromCustomersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,11 @@ class AddMorphsColumnToUsersTable extends Migration
      */
     public function up()
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->morphs('role');
+        Schema::table('customers', function (Blueprint $table) {
+
+            $table->dropForeign(['user_id']);
+            $table->dropColumn('user_id');
+
         });
     }
 

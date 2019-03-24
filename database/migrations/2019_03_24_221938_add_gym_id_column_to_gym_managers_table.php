@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateCityManagersTable extends Migration
+class AddGymIdColumnToGymManagersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,15 +13,12 @@ class CreateCityManagersTable extends Migration
      */
     public function up()
     {
-        Schema::create('city_managers', function (Blueprint $table) {
-            $table->string('national_id')->default('none');
-            $table->bigInteger('user_id')->unsigned();
-            $table->foreign('user_id')
+        Schema::table('gym_managers', function (Blueprint $table) {
+            $table->bigInteger('gym_id')->unsigned();
+            $table->foreign('gym_id')
                 ->references('id')
-                ->on('users')
+                ->on('gyms')
                 ->onDelete('cascade');
-
-                
         });
     }
 }

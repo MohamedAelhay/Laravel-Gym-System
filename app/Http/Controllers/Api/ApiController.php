@@ -10,8 +10,6 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
 use Tymon\JWTAuth\Facades\JWTAuth;
 
-//use Tymon\JWTAuth\JWTAuth;
-
 class ApiController extends Controller
 {
     // public $loginAfterSignUp = true;
@@ -20,15 +18,19 @@ class ApiController extends Controller
     {
         $password = bcrypt($request->password);
 
-        User::create(
-            $request->only(['name', 'email']) + ["password" => $password]
+        $customer = Customer::create(
+            $request->only(['date_of_birth', 'gender'])
         );
 
-        $user = DB::table('users')->where('email', $request->email)->first();
+        $customer->user()->save(User::create($request->only(['name', 'email']) + ["password" => $password]));
 
-        Customer::create(
-            $request->only(['date_of_birth', 'gender']) + ["user_id" => $user->id]
-        );
+        $user = User::where('email', $request->email)->first();
+
+        $customer->update([
+            'user_id' => $user['id']
+        ]);
+
+        $user->sendEmailVerificationNotification();
 
         return response()->json([
             'success' => true,

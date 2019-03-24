@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Http\Request;
+//use Illuminate\Support\Facades\Auth;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,13 +18,11 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+Auth::routes(['verify' => true]);
 
-Route::post('login', 'Api\ApiController@login');
 Route::post('register', 'Api\ApiController@register');
+Route::post('login', 'Api\ApiController@login');
 
 Route::group(['middleware' => 'auth.jwt'], function () {
    Route::get('logout', 'Api\ApiController@logout');
-
-   Route::get('user', 'Api\ApiController@getAuthUser');
-
 });

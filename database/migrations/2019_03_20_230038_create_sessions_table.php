@@ -18,7 +18,6 @@ class CreateSessionsTable extends Migration
             $table->string('name');
             $table->time('starts_at')->nullable();
             $table->time('finishes_at')->nullable();
-            $table->bigInteger('coach_id')->unsigned();
             $table->bigInteger('gym_id')->unsigned();
             $table->foreign('gym_id')
                 ->references('id')

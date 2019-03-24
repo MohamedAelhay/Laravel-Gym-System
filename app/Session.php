@@ -6,16 +6,18 @@ use Illuminate\Database\Eloquent\Model;
 
 class Session extends Model
 {
-    protected $fillable = ['name', 'start_at', 'finishes_at', 'coach_id', 'gym_id', 'seassion_date'];
+    protected $fillable = ['name', 'start_at', 'finishes_at', 'gym_id', 'seassion_date'];
 
     protected $table = 'sessions';
 
     public $timestamps = false;
 
+    public function coach(){
+        
+        return $this->belongsToMany('App\Coach','sessions_coaches_history', 'session_id','coach_id');
+    }
     public function gym(){
-
-        return $this->belongsTo(Gym::class);
-
+        return $this->belongsTo('App\Gym');
     }
 
 

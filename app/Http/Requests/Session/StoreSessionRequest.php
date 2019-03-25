@@ -29,7 +29,7 @@ class StoreSessionRequest extends FormRequest
             'gym_id' => 'required|exists:gyms,id',
             'coach_id'=>'required|exists:coaches,id',
             'starts_at' => 'required|',
-            'finishes_at' => 'required|after:starts_at',
+            'finishes_at' => 'required|different:starts_at|after:starts_at',
             'session_date' => 'required|',
         ];
     }

@@ -87,7 +87,15 @@ class SessionController extends Controller
     public function edit(Session $session, Request $request)
     {
         //
-       
+        if (!CustomerSessionAttendane::where('session_id', '=', $session->id)->exists()) {
+            return view('Session.edit', [
+                'session'=> $session,
+                'coaches'=>$session->coach,
+                'gym'=>$session->gym,
+            ]);
+        } else {
+            return view('Session.index');
+        };
     }
 
     /**
@@ -100,7 +108,14 @@ class SessionController extends Controller
     public function update(Request $request, $id)
     {
         //
-     
+        Session::find($id)->update([
+            'starts_at'=>$request->starts_at,
+            'finishes_at'=>$request->finishes_at,
+            'session_date'=>$request->session_date,
+        ]);
+
+        return view('Session.index');
+    }
 
     /**
      * Remove the specified resource from storage.

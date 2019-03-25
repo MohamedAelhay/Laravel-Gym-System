@@ -114,7 +114,7 @@
         })
         //Timepicker
         $('.timepicker').timepicker({
-            format: 'g:ia',
+            showMeridian: false,   
             showInputs: false
         })
     })

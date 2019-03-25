@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Session;
 use App\Gym;
 use App\Coach;
+use App\CustomerSessionAttendane;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 
@@ -55,6 +56,8 @@ class SessionController extends Controller
     public function store(Request $request)
     {
         //
+        $request['starts_at'] = date("H:i:s", strtotime($request->starts_at));
+        $request['finishes_at'] = date("H:i:s", strtotime($request->finishes_at));
         $session = Session::create($request->all());
         $session->coach()->attach($request->coach_id);
         return view('Session.index');
@@ -84,8 +87,7 @@ class SessionController extends Controller
     public function edit(Session $session, Request $request)
     {
         //
-        Session::find($package->id)->update($request->all());
-        return view('Session.index');
+       
     }
 
     /**
@@ -98,7 +100,7 @@ class SessionController extends Controller
     public function update(Request $request, $id)
     {
         //
-    }
+     
 
     /**
      * Remove the specified resource from storage.

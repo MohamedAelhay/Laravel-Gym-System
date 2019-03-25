@@ -30,9 +30,38 @@ class CoachesController extends Controller
 
     public function update(Request $request,$coachId)
     {
-
         $coachId = Coach::findOrFail($coachId);
         $coachId->update($request->all());
         return redirect()->route('Coaches.index');
+    }
+
+
+    public function create()
+    {
+        
+        $coaches = Coach::all();
+        $gyms = Gym::all();
+        return view('Coaches.create',[
+            'coaches'=>$coaches,
+            'gyms'=>$gyms,
+        ]);
+
+    }
+
+
+    public function store(Request $request)
+    {
+        Gym::create($request->all());
+        return view('Coaches.index');
+    }
+
+    public function show($coachId)
+    {
+        $gym=Gym::all();
+        $coach = Coach::find($coachId);
+        return view('Coaches.show', [
+            "coach"=>$coach,
+            "gym"=>$gym
+            ]);
     }
 }

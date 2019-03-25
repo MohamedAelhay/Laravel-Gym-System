@@ -4,6 +4,7 @@ use App\User;
 use Illuminate\Database\Seeder;
 use App\City;
 use App\CityManager;
+use App\GymManager;
 
 class FullUserSeed extends Seeder
 {
@@ -14,16 +15,18 @@ class FullUserSeed extends Seeder
      */
     public function run()
     {
-        $cityManager = new User();
-        $cityManager->name = 'Amira';
-        $cityManager->email = 'city4@iti.com';
-        $cityManager->password = bcrypt('city');
-        $cityManager->assignRole('city-manager');
-        $cityManager->role_type = 'App\CityManager';
-        $cityManager->role_id = 4;
-        $cityManager->save();
+        GymManager::create(['national_id'=>'865742','gym_id'=>'9']);
 
-        CityManager::create(['national_id'=>'5984643','user_id'=>6]);
+        $gymManager = new User();
+        $gymManager->name = 'Nagato';
+        $gymManager->email = 'gym3@iti.com';
+        $gymManager->password = bcrypt('gym');
+        $gymManager->assignRole('gym-manager');
+        $gymManager->role_type = 'App\GymManager';
+        $gymManager->role_id = 3;
+        $gymManager->save();
+
+
 
         
     }

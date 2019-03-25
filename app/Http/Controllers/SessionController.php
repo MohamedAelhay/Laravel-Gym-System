@@ -123,7 +123,20 @@ class SessionController extends Controller
         $sessionFilter = $session->filter(function ($session) use ($gym_id) {
             return $session->gym_id == $gym_id;
         });
-        return datatables()->of($sessionFilter)->with('gym','coach')->toJson();
-    }
+        return datatables()->of($sessionFilter)->with('gym','coach')->editColumn('starts_at', function ($sessionFilter) 
+        {
+            return date("h:i a", strtotime($sessionFilter->starts_at));
+        })
+        ->editColumn('finishes_at', function ($sessionFilter) 
+        {
+            //change over here
+            return date("h:i a", strtotime($sessionFilter->finishes_at));
+        })
 
+        ->editColumn('session_date', function ($sessionFilter) 
+        {
+            //change over here
+            return date("d-M-Y", strtotime($sessionFilter->session_date));
+        })->toJson();
+    }
 }

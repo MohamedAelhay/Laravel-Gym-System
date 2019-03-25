@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 use App\Coach;
+use App\Gym;
 use Illuminate\Http\Request;
 
 class CoachesController extends Controller
@@ -17,9 +18,21 @@ class CoachesController extends Controller
 
     public function edit($coachId)
     {
-        $coach = User::findOrFail($coachId);
-        return view('CityManagers.edit', [
-            'cityManager' => $coach,
+        $coach = Coach::findOrFail($coachId);
+        $gyms=Gym::all();
+        // dd($coach);
+        return view('Coaches.edit', [
+            'coach' => $coach,
+            'gyms' => $gyms,
         ]);
+    }
+
+
+    public function update(Request $request,$coachId)
+    {
+
+        $coachId = Coach::findOrFail($coachId);
+        $coachId->update($request->all());
+        return redirect()->route('Coaches.index');
     }
 }

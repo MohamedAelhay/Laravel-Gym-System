@@ -41,10 +41,10 @@ class GymManagerController extends Controller
     }
 
 
-    public function show($gymManager)
+    public function show($gymManagerId)
     {
         $authUser = auth()->user();
-        $gymManager = User::findOrFail($gymManager);
+        $gymManager = User::findOrFail($gymManagerId);
         return view('GymManagers.show',[
             'gymManager' => $gymManager,
             'authUser' => $authUser
@@ -52,15 +52,27 @@ class GymManagerController extends Controller
     }
 
 
-    public function edit($id)
+    public function edit($gymManagerId)
     {
-
+        $authUser = auth()->user();
+        $gyms = Gym::all();
+        $gymManager = User::findOrFail($gymManagerId);
+        return view('GymManagers.edit',[
+            'gyms' => $gyms,
+            'gymManager' => $gymManager,
+            'authUser' => $authUser
+        ]);
     }
 
 
-    public function update(Request $request, $id)
+    public function update(Request $request, $gymManagerId)
     {
-        //
+        $user = auth()->user();
+        $gymManager = User::findOrFail($gymManagerId);
+        $request['img']= $this->storeImage($request,$user);
+        $gymManager->update($request->all());
+        GymManager::findOrFail($gymManager->role->id)->update($request->all());
+        return redirect()->route('GymManagers.index');
     }
 
 
@@ -97,6 +109,8 @@ class GymManagerController extends Controller
 
         User::create($request->only(['name','email','password','img','role_type']));
 
-        User::where('name',$request['name'])->update(['role_id' => GymManager::all()->last()->id]);
+        User::where('name',$request['name'])
+            ->update(['role_id' => GymManager::all()->last()->id])
+            ->assignRole('gym-manager');
     }
 }

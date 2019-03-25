@@ -40,6 +40,35 @@ class GymManagerController extends Controller
         return redirect()->route('GymManagers.index');
     }
 
+
+    public function show($gymManager)
+    {
+        $authUser = auth()->user();
+        $gymManager = User::findOrFail($gymManager);
+        return view('GymManagers.show',[
+            'gymManager' => $gymManager,
+            'authUser' => $authUser
+        ]);
+    }
+
+
+    public function edit($id)
+    {
+
+    }
+
+
+    public function update(Request $request, $id)
+    {
+        //
+    }
+
+
+    public function destroy($id)
+    {
+        //
+    }
+
     public function storeImage($request,$user){
 
         $file = $request->file('img');
@@ -60,36 +89,14 @@ class GymManagerController extends Controller
 
 
     public function storeGymManagerData($request){
+
         GymManager::create($request->only(['national_id', 'gym_id']));
     }
 
     public function storeGymManagerUserData($request){
+
         User::create($request->only(['name','email','password','img','role_type']));
-        $role_id = GymManager::all()->last()->id;
-        User::where('name',$request['name'])->update(['role_id' => $role_id]);
-    }
 
-
-    public function show($id)
-    {
-        //
-    }
-
-
-    public function edit($id)
-    {
-        //
-    }
-
-
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-
-    public function destroy($id)
-    {
-        //
+        User::where('name',$request['name'])->update(['role_id' => GymManager::all()->last()->id]);
     }
 }

@@ -15,12 +15,12 @@
         </div>
         <div class="form-group row">
             <label for="password" class="col-sm-2 col-form-label" >Password</label>
-            <input type="password" name="email"  class="form-control col-3">
+            <input type="password" name="password"  class="form-control col-3">
         </div>
         <div class="form-group row">
             <label for="national_id" class="col-sm-2 col-form-label" >National ID</label>
             <input type="text" name="national_id"  class="form-control col-3">
-            <input type="hidden" name="role_type" disabled class="form-control col-3" value="App\GymManager">
+            <input type="hidden" name="role_type"  class="form-control col-3" value="App\GymManager">
         </div>
         <div class="form-group row">
             <label for="img" class="col-sm-2 col-form-label" >Img</label>

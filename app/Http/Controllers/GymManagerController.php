@@ -6,6 +6,8 @@ use App\Gym;
 use App\GymManager;
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\File;
 
 class GymManagerController extends Controller
 {
@@ -30,19 +32,41 @@ class GymManagerController extends Controller
 
     public function store(Request $request)
     {
-        //
+        $user = auth()->user();
+        $request = $this->hashPassword($request);
+        $request['img'] = $this->storeImage($request,$user);
+        $this->storeGymManagerData($request);
+        $this->storeGymManagerUserData($request);
+        return redirect()->route('GymManagers.index');
     }
 
-    public function storeImage($request, $user){
+    public function storeImage($request,$user){
 
-        $user = auth()->user();
         $file = $request->file('img');
         $fileName = $request['name'].'-'.$user->name.'.jpg';
         if ($file){
             Storage::disk('public')->put($fileName,File::get($file));
         }
-        $request['img']= $this->storeImage($request,$user);
-        return  $request;
+        return  $fileName;
+    }
+
+
+    public function hashPassword($request){
+
+        $request['password'] = bcrypt($request['password']);
+
+        return $request;
+    }
+
+
+    public function storeGymManagerData($request){
+        GymManager::create($request->only(['national_id', 'gym_id']));
+    }
+
+    public function storeGymManagerUserData($request){
+        User::create($request->only(['name','email','password','img','role_type']));
+        $role_id = GymManager::all()->last()->id;
+        User::where('name',$request['name'])->update(['role_id' => $role_id]);
     }
 
 

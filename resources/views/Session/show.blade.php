@@ -6,6 +6,14 @@
         <div class="col-xs-12">
             <div class="box">
                 <div class="box-header">
+                    <br>
+                    <center>
+                    <label>Coaches</label>
+                    @foreach($coaches as $coach)
+                    <dd>{{$coach->name}}</dd>
+                    @endforeach
+                    </center>
+                    <br>
                     <table class="table table-hover">
                         <thead>
                             <tr>

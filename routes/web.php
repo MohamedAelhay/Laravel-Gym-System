@@ -37,6 +37,16 @@ Route::group(['middleware'=>['role:super-admin|city-manager','auth','forbid-bann
     Route::put('/gyms/{gym}', 'GymController@update')->name('gyms.update');
     Route::delete('/gyms/{gym}', 'GymController@destroy')->name('gyms.destroy');
 
+
+    Route::get('/GymManagers', 'GymManagerController@index')->name('GymManagers.index');
+    Route::get('/GymManagers/create', 'GymManagerController@create')->name('GymManagers.create');
+    Route::post('/GymManagers', 'GymManagerController@store')->name('GymManagers.store');
+    Route::get('/GymManagers/{gymManager}', 'GymManagerController@show')->name('GymManagers.show');
+    Route::get('/GymManagers/{gymManager}/edit', 'GymManagerController@edit')->name('GymManagers.edit');
+    Route::put('/GymManagers/{gymManager}', 'GymManagerController@update')->name('GymManagers.update');
+    Route::delete('/GymManagers/{gymManager}', 'GymManagerController@destroy')->name('GymManagers.destroy');
+
+
     Route::get('/package', 'PackageController@index')->name('Package.index');
     Route::get('package', 'PackageController@index');
     Route::get('get-data-my-datatables', ['as'=>'get.data','uses'=>'PackageController@getData']);
@@ -106,11 +116,3 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 
 
-
-Route::get('/GymManagers', 'GymManagerController@index')->name('GymManagers.index');
-Route::get('/GymManagers/create', 'GymManagerController@create')->name('GymManagers.create');
-Route::post('/GymManagers', 'GymManagerController@store')->name('GymManagers.store');
-Route::get('/GymManagers/{gymManager}', 'GymManagerController@show')->name('GymManagers.show');
-Route::get('/GymManagers/{gymManager}/edit', 'GymManagerController@edit')->name('GymManagers.edit');
-Route::put('/GymManagers/{gymManager}', 'GymManagerController@update')->name('GymManagers.update');
-Route::delete('/GymManagers/{gymManager}', 'GymManagerController@destroy')->name('GymManagers.destroy');

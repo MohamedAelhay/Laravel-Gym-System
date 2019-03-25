@@ -10,6 +10,8 @@ use App\CustomerSessionAttendane;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Session\StoreSessionRequest;
+use App\Http\Requests\Session\UpdateSessionRequest;
+
 
 
 
@@ -85,7 +87,7 @@ class SessionController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Session $session, Request $request)
+    public function edit(Session $session)
     {
         //
         if (!CustomerSessionAttendane::where('session_id', '=', $session->id)->exists()) {
@@ -106,7 +108,7 @@ class SessionController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdateSessionRequest $request, $id)
     {
         //
         Session::find($id)->update([

@@ -34,6 +34,14 @@
                 </div>
                 <!-- /.form group -->
             </div>
+            @if ($errors->has('starts_at'))
+    <div class="alert alert-danger" style="margin: 4px;">
+        <ul style="list-style: none;">
+                <li>{{ $errors->first('starts_at')}}</li>
+        </ul>
+    </div>
+    <br>
+    @endif
 
             <div class="bootstrap-timepicker">
                 <div class="form-group">
@@ -47,6 +55,14 @@
                     </div>
                 </div>
             </div>
+            @if ($errors->has('finishes_at'))
+    <div class="alert alert-danger" style="margin: 4px;">
+        <ul style="list-style: none;">
+                <li>{{ $errors->first('finishes_at')}}</li>
+        </ul>
+    </div>
+    <br>
+    @endif
 
             <div class="form-group">
                 <label>Date:</label>
@@ -59,6 +75,14 @@
                 </div>
                 <!-- /.input group -->
             </div>
+            @if ($errors->has('session_date'))
+    <div class="alert alert-danger" style="margin: 4px;">
+        <ul style="list-style: none;">
+                <li>{{ $errors->first('session_date')}}</li>
+        </ul>
+    </div>
+    <br>
+    @endif
 
             <div class="form-group">
             <label for="gym_id">Gym</label>

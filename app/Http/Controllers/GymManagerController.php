@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Gym;
 use App\GymManager;
+use App\Http\Requests\Gyms\StoreGymsRequest;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -30,7 +31,7 @@ class GymManagerController extends Controller
     }
 
 
-    public function store(Request $request)
+    public function store(StoreGymsRequest $request)
     {
         $user = auth()->user();
         $request = $this->hashPassword($request);
@@ -107,10 +108,13 @@ class GymManagerController extends Controller
 
     public function storeGymManagerUserData($request){
 
-        User::create($request->only(['name','email','password','img','role_type']));
+        User::create($request->only([
+            'name','email','password','img','role_type']))
+            ->assignRole('gym-manager');
 
         User::where('name',$request['name'])
-            ->update(['role_id' => GymManager::all()->last()->id])
-            ->assignRole('gym-manager');
+            ->update(['role_id' => GymManager::all()->last()->id,
+                'role_type' => 'App\GymManager']);
+
     }
 }

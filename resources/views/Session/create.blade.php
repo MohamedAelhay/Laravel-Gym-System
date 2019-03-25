@@ -1,9 +1,8 @@
 @extends('admin')
 @section('style')
-<!-- Bootstrap time Picker -->
 <link rel="stylesheet" href="{{ asset('plugins/timepicker/bootstrap-timepicker.min.css')}}">
-<!-- bootstrap datepicker -->
 <link rel="stylesheet" href="{{ asset('bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css')}}">
+<link rel="stylesheet" href="../../bower_components/select2/dist/css/select2.min.css">
 @endsection
 @section('content')
 <br>
@@ -65,12 +64,22 @@
 
             <div class="form-group">
             <label for="gym_id">Gym</label>
-            <select class="form-control" name="gym_id">
-                @foreach($gyms as $gym)
+            <select class="form-control" name="gym_id" readonly>
                     <option value="{{$gym->id}}">{{$gym->name}}</option>
-                @endforeach
             </select>
         </div>
+
+        <div class="form-group">
+                <div class="form-group">
+                    <label>Coaches</label>
+                    <select id="coaches" class="form-control select2" name="coach_id[]" multiple="multiple"
+                        data-placeholder="Select a coach" style="width: 100%;">
+                        @foreach($coaches as $coach)
+                        <option value="{{$coach->id}}">{{$coach->name}}</option>
+                        @endforeach
+                    </select>
+                </div>
+            </div>
 
 
             </div>
@@ -87,15 +96,17 @@
 
     @section('plugins')
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-<!-- bootstrap time picker -->
 <script src="{{ asset('plugins/timepicker/bootstrap-timepicker.min.js')}}"></script>
-<!-- bootstrap datepicker -->
 <script src="{{ asset('bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js')}}"></script>
+<script src="../../bower_components/select2/dist/js/select2.full.min.js"></script>
 @endsection
 
 @section('script')
 <script>
     $(function () {
+        //Initialize Select2 Elements
+        $('.select2').select2()
+
         //Date picker
         $('#datepicker').datepicker({
             format: "yy-mm-dd",

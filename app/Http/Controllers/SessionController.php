@@ -5,6 +5,10 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Session;
 use App\Gym;
+use App\Coach;
+use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\Controller;
+
 
 
 class SessionController extends Controller
@@ -29,9 +33,16 @@ class SessionController extends Controller
     public function create()
     {
         //
-        $gyms = Gym::all();
+        $gym = Gym::find(Auth::User()->role->gym_id);
+        $gym_id = Auth::User()->role->gym_id;
+        $coaches = Coach::all();
+        $coachFilter = $coaches->filter(function ($coach) use ($gym_id) {
+            return $coach->gym_id == $gym_id;
+        });
         return view('Session.create',[
-            'gyms'=>$gyms
+            'gym'=>$gym,
+            'coaches'=>$coachFilter->all(),
+
         ]);
     }
 
@@ -44,7 +55,8 @@ class SessionController extends Controller
     public function store(Request $request)
     {
         //
-        Session::create($request->all());
+        $session = Session::create($request->all());
+        $session->coach()->attach($request->coach_id);
         return view('Session.index');
     }
 
@@ -56,11 +68,10 @@ class SessionController extends Controller
      */
     public function show(Session $session)
     {
-        //
-        $gym = Gym::find($session->gym_id);
         return view('Session.show', [
             "session"=>$session,
-            'gym'=>$gym
+            'gym'=>$session->gym,
+            'coaches'=>$session->coach,
                 ]);
     }
 
@@ -105,6 +116,9 @@ class SessionController extends Controller
     public function getSession()
 
     {
+        
         return datatables()->of(Session::with('gym'))->toJson();
+
     }
+
 }

@@ -24,7 +24,7 @@
                     <label>Starts at:</label>
 
                     <div class="input-group">
-                    <input type="text" class="form-control timepicker" name="starts_at" value="{{$session->starts_at}}">
+                    <input type="text" class="form-control timepicker" name="starts_at" value="{{date('H:i', strtotime($session->starts_at))}}">
 
                         <div class="input-group-addon">
                             <i class="fa fa-clock-o"></i>
@@ -40,7 +40,7 @@
                     <label>Ends at:</label>
 
                     <div class="input-group">
-                    <input type="text" class="form-control timepicker" name="finishes_at" value="{{date('g:i:A', strtotime($session->finishes_at))}}">
+                    <input type="text" class="form-control timepicker" name="finishes_at" value="{{date('H:i', strtotime($session->finishes_at))}}">
                         <div class="input-group-addon">
                             <i class="fa fa-clock-o"></i>
                         </div>

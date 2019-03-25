@@ -32,6 +32,7 @@
                                 <th class="text-center">#</th>
                                 <th class="text-center">Name</th>
                                 <th class="text-center">Gym</th>
+                                <th class="text-center">Coach</th>
                                 <th class="text-center">starts at</th>
                                 <th class="text-center">Ends at</th>
                                 <th class="text-center">Date</th>
@@ -98,6 +99,7 @@ $(function() {
                     { data: 'id', name: 'id' },
                     { data: 'name', name: 'name' },
                     { data: 'gym.name', name: 'gym.name' },
+                    { data: 'coach[].name', name: 'coach[].name' },
                     { data: 'starts_at', name: 'starts_at' },
                     { data: 'finishes_at', name: 'finishes_at' },
                     { data: 'session_date', name: 'session_date' },

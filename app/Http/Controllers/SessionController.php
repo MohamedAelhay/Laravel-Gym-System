@@ -116,9 +116,12 @@ class SessionController extends Controller
     public function getSession()
 
     {
-        
-        return datatables()->of(Session::with('gym'))->toJson();
-
+        $gym_id = Auth::User()->role->gym_id;
+        $session = Session::with(['gym', 'coach'])->get();
+        $sessionFilter = $session->filter(function ($session) use ($gym_id) {
+            return $session->gym_id == $gym_id;
+        });
+        return datatables()->of($sessionFilter)->with('gym','coach')->toJson();
     }
 
 }

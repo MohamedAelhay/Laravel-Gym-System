@@ -14,4 +14,12 @@ class CoachesController extends Controller
             'coaches' => $coaches
         ]);
     }
+
+    public function edit($coachId)
+    {
+        $coach = User::findOrFail($coachId);
+        return view('CityManagers.edit', [
+            'cityManager' => $coach,
+        ]);
+    }
 }

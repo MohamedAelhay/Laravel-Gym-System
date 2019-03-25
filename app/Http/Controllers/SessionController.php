@@ -9,6 +9,7 @@ use App\Coach;
 use App\CustomerSessionAttendane;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Session\StoreSessionRequest;
 
 
 
@@ -53,7 +54,7 @@ class SessionController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreSessionRequest $request)
     {
         //
         $request['starts_at'] = date("H:i:s", strtotime($request->starts_at));

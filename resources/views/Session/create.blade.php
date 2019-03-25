@@ -17,6 +17,14 @@
                 <label>Name</label>
                 <input type="text" class="form-control" placeholder="Session Name" name="name">
             </div>
+            @if ($errors->has('name'))
+    <div class="alert alert-danger" style="margin: 4px;">
+        <ul style="list-style: none;">
+                <li>{{ $errors->first('name')}}</li>
+        </ul>
+    </div>
+    <br>
+    @endif
 
             <div class="bootstrap-timepicker">
                 <div class="form-group">
@@ -33,7 +41,14 @@
                 </div>
                 <!-- /.form group -->
             </div>
-
+            @if ($errors->has('starts_at'))
+    <div class="alert alert-danger" style="margin: 4px;">
+        <ul style="list-style: none;">
+                <li>{{ $errors->first('starts_at')}}</li>
+        </ul>
+    </div>
+    <br>
+    @endif
             <div class="bootstrap-timepicker">
                 <div class="form-group">
                     <label>Ends at:</label>
@@ -49,6 +64,14 @@
                 </div>
                 <!-- /.form group -->
             </div>
+            @if ($errors->has('finishes_at'))
+    <div class="alert alert-danger" style="margin: 4px;">
+        <ul style="list-style: none;">
+                <li>{{ $errors->first('finishes_at')}}</li>
+        </ul>
+    </div>
+    <br>
+    @endif
 
             <div class="form-group">
                 <label>Date:</label>
@@ -61,6 +84,14 @@
                 </div>
                 <!-- /.input group -->
             </div>
+            @if ($errors->has('session_date'))
+    <div class="alert alert-danger" style="margin: 4px;">
+        <ul style="list-style: none;">
+                <li>{{ $errors->first('session_date')}}</li>
+        </ul>
+    </div>
+    <br>
+    @endif
 
             <div class="form-group">
             <label for="gym_id">Gym</label>
@@ -68,6 +99,14 @@
                     <option value="{{$gym->id}}">{{$gym->name}}</option>
             </select>
         </div>
+        @if ($errors->has('gym_id'))
+    <div class="alert alert-danger" style="margin: 4px;">
+        <ul style="list-style: none;">
+                <li>{{ $errors->first('gym_id')}}</li>
+        </ul>
+    </div>
+    <br>
+    @endif
 
         <div class="form-group">
                 <div class="form-group">
@@ -80,6 +119,15 @@
                     </select>
                 </div>
             </div>
+
+            @if ($errors->has('coach_id'))
+    <div class="alert alert-danger" style="margin: 4px;">
+        <ul style="list-style: none;">
+                <li>{{ $errors->first('coach_id')}}</li>
+        </ul>
+    </div>
+    <br>
+    @endif
 
 
             </div>

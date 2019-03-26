@@ -9,19 +9,16 @@
 | routes are loaded by the RouteServiceProvider within a group which
 | contains the "web" middleware group. Now create something great!
 |
-*/
+ */
 
 Route::get('/', function () {
     return view('welcome');
 });
 
-
-
-
 Auth::routes(['verify' => true]);
 
-Route::group(['middleware'=>['auth','forbid-banned-user'],
-], function(){
+Route::group(['middleware' => ['auth', 'forbid-banned-user'],
+], function () {
 
     Route::get('/home', 'HomeController@index')->name('home');
 
@@ -33,13 +30,11 @@ Route::group(['middleware'=>['auth','forbid-banned-user'],
 
 Route::get('/banned', 'HomeController@banView')->name('banned');
 
-Route::group(['middleware'=>['role:super-admin|city-manager','auth','forbid-banned-user','logs-out-banned-user'],
-    ], function(){
+Route::group(['middleware' => ['role:super-admin|city-manager', 'auth', 'forbid-banned-user', 'logs-out-banned-user'],
+], function () {
 
     Route::get('/home/{userId}/ban', 'HomeController@ban')->name('user.ban');
     Route::get('/home/{userId}/unban', 'HomeController@ban')->name('user.unban');
-
-
 
     Route::get('/gyms', 'GymController@index')->name('gyms.index');
     Route::get('get-gyms-data-my-datatables', 'GymController@getData')->name('gyms.data');
@@ -50,7 +45,6 @@ Route::group(['middleware'=>['role:super-admin|city-manager','auth','forbid-bann
     Route::put('/gyms/{gym}', 'GymController@update')->name('gyms.update');
     Route::delete('/gyms/{gym}', 'GymController@destroy')->name('gyms.destroy');
 
-
     Route::get('/GymManagers', 'GymManagerController@index')->name('GymManagers.index');
     Route::get('get-GymManagers-data-my-datatables', 'GymManagerController@getData')->name('GymManagers.data');
     Route::get('/GymManagers/create', 'GymManagerController@create')->name('GymManagers.create');
@@ -60,48 +54,34 @@ Route::group(['middleware'=>['role:super-admin|city-manager','auth','forbid-bann
     Route::put('/GymManagers/{gymManager}', 'GymManagerController@update')->name('GymManagers.update');
     Route::delete('/GymManagers/{gymManager}', 'GymManagerController@destroy')->name('GymManagers.destroy');
 
-
-
-
     Route::get('/package', 'PackageController@index')->name('Package.index');
     Route::get('package', 'PackageController@index');
-    Route::get('get-data-my-datatables', ['as'=>'get.data','uses'=>'PackageController@getData']);
+    Route::get('get-data-my-datatables', ['as' => 'get.data', 'uses' => 'PackageController@getData']);
     Route::get('/package/create', 'PackageController@create')->name('Package.create');
     Route::post('/package', 'PackageController@store')->name('Package.store');
     Route::get('/package/{package}', 'PackageController@show')->name('Package.show');
     Route::delete('/package/{package}', 'PackageController@destroy')->name('Package.destroy');
     Route::get('/package/{package}/edit', 'PackageController@edit')->name('Package.edit');
-    Route::put('/package/{package}','PackageController@update')->name('Package.update');
+    Route::put('/package/{package}', 'PackageController@update')->name('Package.update');
 
     Route::get('session', 'SessionController@index');
-    Route::get('get-session-my-datatables', ['as'=>'get.session','uses'=>'SessionController@getSession']);
+    Route::get('get-session-my-datatables', ['as' => 'get.session', 'uses' => 'SessionController@getSession']);
     Route::get('/session/create', 'SessionController@create')->name('Session.create');
     Route::post('/session', 'SessionController@store')->name('Session.store');
     Route::get('/session/{session}', 'SessionController@show')->name('Session.show');
     Route::delete('/session/{session}', 'SessionController@destroy')->name('Session.destroy');
     Route::get('/session/{session}/edit', 'SessionController@edit')->name('Session.edit');
-    Route::put('/session/{session}','SessionController@update')->name('Session.update');
-
-  
-
-
+    Route::put('/session/{session}', 'SessionController@update')->name('Session.update');
 });
 
-
-
-
-
-
 Route::get('/cityManagers', 'CityManagerController@index')->name('CityManagers.index');
-Route::get('get-cityManagers-my-datatables', ['as'=>'get.cityManagers','uses'=>'CityManagerController@getCityManagers']);
+Route::get('get-cityManagers-my-datatables', ['as' => 'get.cityManagers', 'uses' => 'CityManagerController@getCityManagers']);
 Route::get('/cityManagers/create', 'CityManagerController@create')->name('CityManagers.create');
 Route::post('/cityManagers', 'CityManagerController@store')->name('CityManagers.store');
 Route::get('/cityManagers/{mgr}', 'CityManagerController@show')->name('CityManagers.show');
 Route::get('/cityManagers/{mgr}/edit', 'CityManagerController@edit')->name('CityManagers.edit');
 Route::put('/cityManagers/{mgr}', 'CityManagerController@update')->name('CityManagers.update');
 Route::delete('/cityManagers/{mgr}', 'CityManagerController@destroy')->name('CityManagers.destroy');
-
-
 
 Route::get('/cities', 'CityController@index')->name('Cities.index');
 Route::get('/cities/create', 'CityController@create')->name('Cities.create');
@@ -111,10 +91,8 @@ Route::get('/cities/{city}/edit', 'CityController@edit')->name('Cities.edit');
 Route::put('/cities/{city}', 'CityController@update')->name('Cities.update');
 Route::delete('/cities/{city}', 'CityController@destroy')->name('Cities.destroy');
 
-
-
 Route::get('/coaches', 'CoachesController@index')->name('Coaches.index');
-Route::get('get-coaches-my-datatables', ['as'=>'get.coaches','uses'=>'CoachesController@getcoaches']);
+Route::get('get-coaches-my-datatables', ['as' => 'get.coaches', 'uses' => 'CoachesController@getcoaches']);
 Route::get('/coaches/create', 'CoachesController@create')->name('Coaches.create');
 Route::post('/coaches', 'CoachesController@store')->name('Coaches.store');
 Route::get('/coaches/{coach}', 'CoachesController@show')->name('Coaches.show');
@@ -122,10 +100,7 @@ Route::get('/coaches/{coach}/edit', 'CoachesController@edit')->name('Coaches.edi
 Route::put('/coaches/{coach}', 'CoachesController@update')->name('Coaches.update');
 Route::delete('/coaches/{coach}', 'CoachesController@destroy')->name('Coaches.destroy');
 
-
-
+Route::get('/payment/create', 'PurchaseController@create')->name('Payment.create');
+Route::post('/payment', 'PurchaseController@store')->name('Payment.store');
 
 Auth::routes();
-
-
-

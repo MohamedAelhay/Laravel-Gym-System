@@ -77,6 +77,7 @@ Route::group(['middleware'=>['role:super-admin|city-manager','auth','forbid-bann
 
 
 Route::get('/cityManagers', 'CityManagerController@index')->name('CityManagers.index');
+Route::get('get-cityManagers-my-datatables', ['as'=>'get.cityManagers','uses'=>'CityManagerController@getCityManagers']);
 Route::get('/cityManagers/create', 'CityManagerController@create')->name('CityManagers.create');
 Route::post('/cityManagers', 'CityManagerController@store')->name('CityManagers.store');
 Route::get('/cityManagers/{mgr}', 'CityManagerController@show')->name('CityManagers.show');

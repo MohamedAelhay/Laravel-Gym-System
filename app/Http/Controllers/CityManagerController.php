@@ -17,7 +17,7 @@ class CityManagerController extends Controller
      */
     public function index()
     {
-        $cityManagers = CityManager::all();
+        // $cityManagers = CityManager::all();
         // $users=User::$cityManagers;
         // dd($users);
       
@@ -29,9 +29,7 @@ class CityManagerController extends Controller
 
         // dd($cityManagers);
         // dd($cityManagers);
-        return view('CityManagers.index',[
-            'cityManagers'=> $cityManagers,
-        ]);
+        return view('CityManagers.index');
     }
 
     /**
@@ -125,5 +123,13 @@ class CityManagerController extends Controller
 
         return redirect()->route('CityManagers.index');
         
+    }
+
+
+    public function getCityManagers()
+
+    {
+        $manager = CityManager::all();
+        return datatables()->of($manager)->with('user')->toJson();
     }
 }

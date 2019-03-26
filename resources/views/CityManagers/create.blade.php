@@ -7,7 +7,7 @@
         @csrf
         <div class="form-group row">
                 <label for="National_ID" class="col-sm-2 col-form-label" >National_ID</label>
-                <input type="text" name="National_ID" class="form-control col-3" placeholder="National_ID">
+                <input type="text" name="national_id" class="form-control col-3" placeholder="National_ID">
             </div>
 
             <div class="form-group row">

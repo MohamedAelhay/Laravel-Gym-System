@@ -26,7 +26,7 @@
                 <td>{{$gym->created_at}}</td>
                 <td>{{$gym->city->name}}</td>
                 <td>
-                    <a href="{{route('gyms.show',$gym->id)}}"><i class="fas fa-eye"></i></a> |
+                    <a href="{{route('gymss.show',$gym->id)}}"><i class="fas fa-eye"></i></a> |
                     <a href="{{route('gyms.edit',$gym->id)}}" ><i class="fas fa-pen"></i></a>  |
                     <a href="#" data-toggle="modal" data-target="#myModal"><i class="fas fa-trash-alt"></i></a>
                 </td>

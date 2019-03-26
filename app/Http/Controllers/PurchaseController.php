@@ -6,7 +6,9 @@ use App\Gym;
 use App\GymPackage;
 use App\GymPackagePurchaseHistory;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Payment\StorePurchaseRequest;
 use App\User;
+use Carbon;
 use Cartalyst\Stripe\Stripe;
 use DB;
 use Illuminate\Http\Request;
@@ -40,13 +42,10 @@ class PurchaseController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StorePurchaseRequest $request)
     {
         //
-        // $request->validated();
-        $package = DB::table('gym_packages')->get();
-        // where('name', $request->get('package_name'))->first();
-        // dd($package);
+        $package = DB::table('gym_packages')->where('name', $request->get('package_name'))->first();
         $this->acceptPayment($request, $package);
         $payment = [
             "_token" => $request->get('_token'),
@@ -57,7 +56,7 @@ class PurchaseController extends Controller
             'purchase_date' => Carbon\Carbon::now(),
         ];
         GymPackagePurchaseHistory::create($payment);
-        return redirect()->route('Package.index');
+        return view('Package.index');
     }
 
     /**

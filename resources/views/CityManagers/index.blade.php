@@ -26,12 +26,12 @@
                 
                     {{-- @foreach($users as $Mgr) --}}
                         <td>{{$cityManager->national_id}}</td>
-                        <td>{{$cityManager->user[0]['name']}}</td> 
-                        <td>{{$cityManager->user[0]['email']}}</td>
-                        <td>{{$cityManager->user[0]['password']}}</td>
-                        <td>{{$cityManager->user[0]['image']}}</td> 
-                        <td><a href="{{route('CityManagers.show',$cityManager->user[0]['id'])}} " class="btn btn-primary btn-lg col-4">show </a></td> 
-                        <td><a href="{{route('CityManagers.edit',$cityManager->user[0]['id'])}} " class="btn btn-success">Edit </a></td> 
+                        <td>{{$cityManager->user[0]->name}}</td>
+                        <td>{{$cityManager->user[0]->email}}</td>
+                        <td>{{$cityManager->user[0]->password}}</td>
+                        <td>{{$cityManager->user[0]->image}}</td>
+                        <td><a href="{{route('CityManagers.show',$cityManager->user[0]->id)}} " class="btn btn-primary btn-lg col-4">show </a></td>
+                        <td><a href="{{route('CityManagers.edit',$cityManager->user[0]->id)}} " class="btn btn-success">Edit </a></td>
                         <td><form action="{{route('CityManagers.destroy',$cityManager->user[0]['id'])}}" method="POST">
                                 @csrf
                                 @method('delete')

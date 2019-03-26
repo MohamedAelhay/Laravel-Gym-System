@@ -30,6 +30,7 @@ Route::get('/admin', function () {
 Route::group(['middleware'=>['role:super-admin|city-manager','auth','forbid-banned-user'],
     ], function(){
     Route::get('/gyms', 'GymController@index')->name('gyms.index');
+    Route::get('get-gyms-data-my-datatables', 'GymController@getData')->name('gyms.data');
     Route::get('/gyms/create', 'GymController@create')->name('gyms.create');
     Route::post('/gyms', 'GymController@store')->name('gyms.store');
     Route::get('/gyms/{gym}', 'GymController@show')->name('gyms.show');

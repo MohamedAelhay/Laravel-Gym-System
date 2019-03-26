@@ -13,13 +13,17 @@ class GymController extends Controller
 {
     public function index()
     {
-        $gyms = Gym::all();
-        $cities = City::all();
-        return view('gyms.index',[
-            'gyms'=>$gyms,
-            'cities'=>$cities
-        ]);
+//        dd(datatables()->of(Gym::with('city'))->toJson());
+        return view('gyms.index');
     }
+
+    public function getData()
+
+    {
+//        dd("here");
+        return datatables()->of(Gym::with('city'))->toJson();
+    }
+
 
 
     public function create()

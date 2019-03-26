@@ -38,7 +38,6 @@ class GymManagerController extends Controller
         $request = $this->hashPassword($request);
         $request['img'] = $this->storeImage($request,$user);
         $this->storeGymManagerData($request);
-//        $this->storeGymManagerUserData($request);
         return redirect()->route('GymManagers.index');
     }
 

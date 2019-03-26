@@ -40,6 +40,7 @@ Route::group(['middleware'=>['role:super-admin|city-manager','auth','forbid-bann
 
 
     Route::get('/GymManagers', 'GymManagerController@index')->name('GymManagers.index');
+    Route::get('get-GymManagers-data-my-datatables', 'GymManagerController@getData')->name('GymManagers.data');
     Route::get('/GymManagers/create', 'GymManagerController@create')->name('GymManagers.create');
     Route::post('/GymManagers', 'GymManagerController@store')->name('GymManagers.store');
     Route::get('/GymManagers/{gymManager}', 'GymManagerController@show')->name('GymManagers.show');

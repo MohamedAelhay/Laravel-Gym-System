@@ -95,7 +95,7 @@
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h3 class="modal-title" id="exampleModalLabel">Are you sure you want to Ban this Gym Manager</h3>
+                        <h3 class="modal-title" id="exampleModalLabel">Are you sure you want to UnBan this Gym Manager</h3>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -104,7 +104,7 @@
                         <div>
                             <div id="csrf_value"  hidden >@csrf</div>
                             {{--@method('DELETE')--}}
-                            <button type="button" row_ban="" id="ban-gym-manager"  class="btn btn-danger" data-dismiss="modal">Yes</button>
+                            <button type="button" row_unban="" id="unban-gym-manager"  class="btn btn-danger" data-dismiss="modal">Yes</button>
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">NO</button>
                         </div>
 
@@ -225,6 +225,35 @@
                         table.ajax.reload();
                     },
                     error: function (response) {
+                        alert(' error');
+                        console.log(response);
+                    }
+                });
+
+            });
+
+
+            $(document).on('click','#unban_toggle',function () {
+                var unban_id = $(this).attr('row_id');
+                $('#unban-gym-manager').attr('row_unban',unban_id);
+            });
+            $(document).on('click','#unban-gym-manager',function () {
+                var gymManagerId = $(this).attr('row_unban');
+                console.log(gymManagerId);
+                $.ajax({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    url: '/home/'+gymManagerId+'/unban',
+                    type: 'GET',
+                    success: function (data) {
+                        console.log('success');
+                        console.log(data);
+                        var table = $('#table').DataTable();
+                        table.ajax.reload();
+                    },
+                    error: function (response) {
+                        console.log(gymManagerId);
                         alert(' error');
                         console.log(response);
                     }

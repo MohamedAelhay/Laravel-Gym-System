@@ -20,14 +20,18 @@ Route::get('/', function () {
 
 Auth::routes(['verify' => true]);
 
+Route::group(['middleware'=>['auth','forbid-banned-user'],
+], function(){
 
-Route::get('/home', 'HomeController@index')->name('home');
+    Route::get('/home', 'HomeController@index')->name('home');
 
-Route::get('/admin', function () {
-    return view('admin');
+    Route::get('/admin', function () {
+        return view('admin');
+    });
+
 });
 
-Route::group(['middleware'=>['role:super-admin|city-manager','auth','forbid-banned-user'],
+Route::group(['middleware'=>['role:super-admin|city-manager','auth','forbid-banned-user','logs-out-banned-user'],
     ], function(){
 
     Route::get('/home/{userId}/ban', 'HomeController@ban')->name('user.ban');
@@ -120,6 +124,5 @@ Route::delete('/coaches/{coach}', 'CoachesController@destroy')->name('Coaches.de
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
 
 

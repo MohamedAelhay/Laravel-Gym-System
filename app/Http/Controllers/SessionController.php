@@ -129,9 +129,12 @@ class SessionController extends Controller
     public function destroy($id)
     {
         //
-        $session = new Session;      
-        $session = Session::find($id);
-        $session->delete($id);
+        if (!CustomerSessionAttendane::where('session_id', '=', $id)->exists()) {
+            Session::find($id)->delete();
+            return view('Session.index');
+        } else {
+            return view('Session.index');
+        };
     }
     public function getSession()
 

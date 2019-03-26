@@ -9,20 +9,33 @@ use App\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Tymon\JWTAuth\Facades\JWTAuth;
+use Illuminate\Support\Facades\Storage;
+
 
 class ApiController extends Controller
 {
     // public $loginAfterSignUp = true;
 
+    /**
+     * @param RegisterUserRequest $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function register(RegisterUserRequest $request)
     {
         $password = bcrypt($request->password);
+
+        $path = Storage::putFile('public/customer', $request->file('img'));
 
         $customer = Customer::create(
             $request->only(['date_of_birth', 'gender'])
         );
 
-        $customer->user()->save(User::create($request->only(['name', 'email']) + ["password" => $password]));
+        $customer->user()->save(User::create(
+            $request->only(['name', 'email']) +
+            [
+                "password" => $password,
+                "img" => $path,
+            ]));
 
         $user = User::where('email', $request->email)->first();
 
@@ -51,13 +64,6 @@ class ApiController extends Controller
             'token' => $jwt_token,
         ]);
     }
-
-//    public function edit(User $user)
-//    {
-//        return redirect()->route('user.update', [
-//            'user' => $user
-//        ]);
-//    }
 
     public function update(User $user, UpdateUserRequest $request)
     {

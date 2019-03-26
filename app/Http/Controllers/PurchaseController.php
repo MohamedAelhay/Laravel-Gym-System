@@ -146,6 +146,10 @@ class PurchaseController extends Controller
             ->editColumn('user.name', function ($purchaseFilter) {
                 //change over here
                 return Auth::User()->name;
+            })
+            ->editColumn('user.email', function ($purchaseFilter) {
+                //change over here
+                return Auth::User()->email;
             })->toJson();
     }
 }

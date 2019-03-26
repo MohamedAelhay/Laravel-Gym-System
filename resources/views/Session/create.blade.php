@@ -26,7 +26,12 @@
     <br>
     @endif
 
-            <div class="bootstrap-timepicker">
+    <div class="form-group">
+                <label>Name</label>
+                <input type="text" name="starts_at">
+            </div>
+
+            <!-- <div class="bootstrap-timepicker">
                 <div class="form-group">
                     <label>Starts at:</label>
 
@@ -36,9 +41,9 @@
                         <div class="input-group-addon">
                             <i class="fa fa-clock-o"></i>
                         </div>
-                    </div>
+                    </div> -->
                     <!-- /.input group -->
-                </div>
+                <!-- </div> -->
                 <!-- /.form group -->
             </div>
             @if ($errors->has('starts_at'))
@@ -133,7 +138,7 @@
             </div>
             <!-- /.box-body -->
             <div class="box-footer">
-                <button type="submit" class="btn btn-primary">Submit</button>
+                <button type="submit" onclick="{alert(document.getElementById('message').value);}" class="btn btn-primary">Submit</button>
             </div>
             </form>
 

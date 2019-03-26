@@ -31,6 +31,8 @@ Route::group(['middleware'=>['auth','forbid-banned-user'],
 
 });
 
+Route::get('/banned', 'HomeController@banView')->name('banned');
+
 Route::group(['middleware'=>['role:super-admin|city-manager','auth','forbid-banned-user','logs-out-banned-user'],
     ], function(){
 

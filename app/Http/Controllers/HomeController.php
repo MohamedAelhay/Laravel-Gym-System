@@ -41,4 +41,10 @@ class HomeController extends Controller
         User::findOrFail($gymManagerId)->unban();
 
     }
+
+    public function banView(){
+
+        return view('banned');
+
+    }
 }

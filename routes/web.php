@@ -19,20 +19,17 @@ Auth::routes(['verify' => true]);
 
 Route::group(['middleware' => ['auth', 'forbid-banned-user'],
 ], function () {
-
     Route::get('/home', 'HomeController@index')->name('home');
 
     Route::get('/admin', function () {
         return view('admin');
     });
-
 });
 
 Route::get('/banned', 'HomeController@banView')->name('banned');
 
 Route::group(['middleware' => ['role:super-admin|city-manager', 'auth', 'forbid-banned-user', 'logs-out-banned-user'],
 ], function () {
-
     Route::get('/home/{userId}/ban', 'HomeController@ban')->name('user.ban');
     Route::get('/home/{userId}/unban', 'HomeController@ban')->name('user.unban');
 
@@ -72,6 +69,12 @@ Route::group(['middleware' => ['role:super-admin|city-manager', 'auth', 'forbid-
     Route::delete('/session/{session}', 'SessionController@destroy')->name('Session.destroy');
     Route::get('/session/{session}/edit', 'SessionController@edit')->name('Session.edit');
     Route::put('/session/{session}', 'SessionController@update')->name('Session.update');
+
+    Route::get('/payment/create', 'PurchaseController@create')->name('Payment.create');
+    Route::post('/payment', 'PurchaseController@store')->name('Payment.store');
+
+    Route::get('purchase', 'PurchaseController@index');
+    Route::get('get-purchase-my-datatables', ['as' => 'get.purchase', 'uses' => 'PurchaseController@getPurchase']);
 });
 
 Route::get('/cityManagers', 'CityManagerController@index')->name('CityManagers.index');
@@ -81,7 +84,7 @@ Route::post('/cityManagers', 'CityManagerController@store')->name('CityManagers.
 Route::get('/cityManagers/{mgr}', 'CityManagerController@show')->name('CityManagers.show');
 Route::get('/cityManagers/{mgr}/edit', 'CityManagerController@edit')->name('CityManagers.edit');
 Route::put('/cityManagers/{mgr}', 'CityManagerController@update')->name('CityManagers.update');
-Route::delete('/cityManagers/{mgr}', 'CityManagerController@destroy')->name('CityManagers.destroy');
+Route::delete('/cityManagers/{CityManagers_id}', 'CityManagerController@destroy')->name('CityManagers.destroy');
 
 Route::get('/cities', 'CityController@index')->name('Cities.index');
 Route::get('/cities/create', 'CityController@create')->name('Cities.create');
@@ -99,8 +102,5 @@ Route::get('/coaches/{coach}', 'CoachesController@show')->name('Coaches.show');
 Route::get('/coaches/{coach}/edit', 'CoachesController@edit')->name('Coaches.edit');
 Route::put('/coaches/{coach}', 'CoachesController@update')->name('Coaches.update');
 Route::delete('/coaches/{coach}', 'CoachesController@destroy')->name('Coaches.destroy');
-
-Route::get('/payment/create', 'PurchaseController@create')->name('Payment.create');
-Route::post('/payment', 'PurchaseController@store')->name('Payment.store');
 
 Auth::routes();

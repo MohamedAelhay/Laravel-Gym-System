@@ -17,12 +17,9 @@ class Overlapping implements Rule
      */
     public function __construct($starts_at, $ends_at, $date)
     {
-        // $this->starts_at = date("H:i:s", strtotime($starts_at));
-        // $this->ends_at = date("H:i:s", strtotime($ends_at));
-        // $this->date = date("Y-m-d", strtotime($date));
-        $this->starts_at;
-        $this->ends_at;
-        $this->date;
+        $this->starts_at = date("H:i:s", strtotime($starts_at));
+        $this->ends_at = date("H:i:s", strtotime($ends_at));
+        $this->date = date("Y-m-d", strtotime($date));
 
     }
 
@@ -39,14 +36,9 @@ class Overlapping implements Rule
 
         if ($sessions) {
             foreach ($sessions as $session) {
-                // if(($this->starts_at >= $session->starts_at) && ($this->ends_at >= $session->ends_at))
-                // {
-                // return false;
-                // }
-                // var_dump($session);
-                if (($this->starts_at = $session->starts_at)) {
-                    // dd($session->starts_at, 1, $this->starts_at);
-                    // dd(Carbon::now());
+
+                if (($this->starts_at == $session->starts_at)) {
+
                     return false;
                 }
                 if ($this->ends_at = $session->ends_at) {

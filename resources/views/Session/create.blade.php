@@ -5,6 +5,10 @@
 <link rel="stylesheet" href="../../bower_components/select2/dist/css/select2.min.css">
 @endsection
 @section('content')
+@include('flash-message')
+
+
+        @yield('content')
 <br>
 <div class="box box-primary">
             <div class="box-header">

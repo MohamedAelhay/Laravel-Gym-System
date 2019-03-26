@@ -6,10 +6,13 @@ use App\Gym;
 use App\GymPackage;
 use App\GymPackagePurchaseHistory;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Payment\StorePurchaseRequest;
 use App\User;
+use Carbon;
 use Cartalyst\Stripe\Stripe;
 use DB;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class PurchaseController extends Controller
 {
@@ -21,6 +24,7 @@ class PurchaseController extends Controller
     public function index()
     {
         //
+        return view('Payment.index');
     }
 
     /**
@@ -40,13 +44,10 @@ class PurchaseController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StorePurchaseRequest $request)
     {
         //
-        // $request->validated();
-        $package = DB::table('gym_packages')->get();
-        // where('name', $request->get('package_name'))->first();
-        // dd($package);
+        $package = DB::table('gym_packages')->where('name', $request->get('package_name'))->first();
         $this->acceptPayment($request, $package);
         $payment = [
             "_token" => $request->get('_token'),
@@ -57,7 +58,7 @@ class PurchaseController extends Controller
             'purchase_date' => Carbon\Carbon::now(),
         ];
         GymPackagePurchaseHistory::create($payment);
-        return redirect()->route('Package.index');
+        return back()->with('success', 'Purchase created successfully!');
     }
 
     /**
@@ -128,5 +129,23 @@ class PurchaseController extends Controller
         } catch (\Exception $ex) {
             return $ex->getMessage();
         }
+    }
+
+    public function getPurchase()
+    {
+        $gym_id = Auth::User()->role->gym_id;
+        $purchase = GymPackagePurchaseHistory::with(['gym'])->get();
+        $purchaseFilter = $purchase->filter(function ($purchase) use ($gym_id) {
+            return $purchase->gym_id == $gym_id;
+        });
+        return datatables()->of($purchaseFilter)->with('gym')
+            ->editColumn('purchase_date', function ($purchaseFilter) {
+                //change over here
+                return date("d-M-Y", strtotime($purchaseFilter->purchase_date));
+            })
+            ->editColumn('user.name', function ($purchaseFilter) {
+                //change over here
+                return Auth::User()->name;
+            })->toJson();
     }
 }

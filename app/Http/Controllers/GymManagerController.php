@@ -85,6 +85,15 @@ class GymManagerController extends Controller
         //
     }
 
+    public function ban($gymManagerId){
+
+
+        User::findOrFail($gymManagerId)->ban([
+            'comment' => 'Enjoy your ban!'
+        ]);
+
+    }
+
     public function storeImage($request,$user){
 
         $file = $request->file('img');

@@ -47,6 +47,7 @@ Route::group(['middleware'=>['role:super-admin|city-manager','auth','forbid-bann
     Route::get('/GymManagers/{gymManager}/edit', 'GymManagerController@edit')->name('GymManagers.edit');
     Route::put('/GymManagers/{gymManager}', 'GymManagerController@update')->name('GymManagers.update');
     Route::delete('/GymManagers/{gymManager}', 'GymManagerController@destroy')->name('GymManagers.destroy');
+    Route::get('/GymManagers/{gymManager}/ban', 'GymManagerController@ban')->name('GymManagers.ban');
 
 
     Route::get('/package', 'PackageController@index')->name('Package.index');

@@ -18,6 +18,10 @@
     <body>
 
     <section class="content">
+    @include('flash-message')
+
+
+        @yield('content')
     <div class="row">
         <div class="col-xs-12">
             <div class="box box-primary">
@@ -103,7 +107,7 @@ $(function() {
                     { data: 'starts_at', name: 'starts_at' },
                     { data: 'finishes_at', name: 'finishes_at' },
                     { data: 'session_date', name: 'session_date' },
-                    
+
 
 /* Show */ {
     mRender: function (data, type, row) {
@@ -121,7 +125,7 @@ $(function() {
                         return '<center><a href="#" class="table-delete btn btn-danger" row_id="' + row.id + '" data-toggle="modal" data-target="#deletepopup" id="delete_toggle">Delete</a></center>'
                     }
                 },
-            
+
             ],
         });
 
@@ -129,7 +133,7 @@ $(function() {
             var delete_id = $(this).attr('row_id');
             $('#delete_item').attr('row_delete',delete_id);
         });
-        
+
         $(document).on('click','#delete_item',function () {
             var session_id = $(this).attr('row_delete');
             $.ajax({
@@ -151,7 +155,7 @@ $(function() {
             });
 
         });
-       
+
     });
 
         </script>

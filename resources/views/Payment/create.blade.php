@@ -1,6 +1,10 @@
 @extends('admin')
 @section('content')
  <!-- general form elements -->
+ @include('flash-message')
+
+
+        @yield('content')
  <div class="box box-primary">
     <div class="box-header with-border">
       <h3 class="box-title">Buy a package</h3>

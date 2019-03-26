@@ -23,7 +23,6 @@ class SessionController extends Controller
     {
         //
         return view('Session.index');
-
     }
 
     /**
@@ -59,7 +58,7 @@ class SessionController extends Controller
         $request['finishes_at'] = date("H:i:s", strtotime($request->finishes_at));
         $session = Session::create($request->all());
         $session->coach()->attach($request->coach_id);
-        return view('Session.index');
+        return back()->with('success', 'Session created successfully!');
     }
 
     /**
@@ -93,7 +92,7 @@ class SessionController extends Controller
                 'gym' => $session->gym,
             ]);
         } else {
-            return view('Session.index');
+            return back()->with('warning', 'Session has attendents!');
         };
     }
 
@@ -113,7 +112,7 @@ class SessionController extends Controller
             'session_date' => $request->session_date,
         ]);
 
-        return view('Session.index');
+        return back()->with('success', 'Session updates successfully!');
     }
 
     /**
@@ -129,7 +128,7 @@ class SessionController extends Controller
             Session::find($id)->delete();
             return view('Session.index');
         } else {
-            return view('Session.index');
+            return back()->with('error', 'Session has attendants!');
         };
     }
     public function getSession()

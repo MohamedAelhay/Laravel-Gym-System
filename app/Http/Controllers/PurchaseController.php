@@ -56,7 +56,7 @@ class PurchaseController extends Controller
             'purchase_date' => Carbon\Carbon::now(),
         ];
         GymPackagePurchaseHistory::create($payment);
-        return view('Package.index');
+        return back()->with('success', 'Purchase created successfully!');
     }
 
     /**

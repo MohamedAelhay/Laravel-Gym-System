@@ -93,8 +93,8 @@ class GymController extends Controller
         return redirect()->route('gyms.index');
     }
 
-    public function destroy($id)
+    public function destroy($gymId)
     {
-        //
+        Gym::findOrFail($gymId)->delete();
     }
 }

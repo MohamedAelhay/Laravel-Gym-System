@@ -23,7 +23,7 @@
             <div class="col-xs-12">
                 <div class="box box-primary">
                     <div class="box-header">
-                        <center> <a href='/package/create' style="margin-top: 10px;" class="btn btn-success">Create Package</a></center>
+                        <center> <a href='{{route('gyms.create')}}' style="margin-top: 10px;" class="btn btn-success">Create Package</a></center>
                     </div>
                     <!-- /.box-header -->
                     <div class="box-body">
@@ -49,7 +49,7 @@
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h3 class="modal-title" id="exampleModalLabel">Are you sure you want to delete this Package</h3>
+                        <h3 class="modal-title" id="exampleModalLabel">Are you sure you want to delete this Gym</h3>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -127,12 +127,12 @@
             });
 
             $(document).on('click','#delete_item',function () {
-                var package_id = $(this).attr('row_delete');
+                var gymId = $(this).attr('row_delete');
                 $.ajax({
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     },
-                    url: '/package/'+package_id,
+                    url: '/gyms/'+gymId,
                     type: 'DELETE',
                     success: function (data) {
                         console.log('success');
@@ -157,3 +157,4 @@
     </body>
 
     </html>
+@endsection

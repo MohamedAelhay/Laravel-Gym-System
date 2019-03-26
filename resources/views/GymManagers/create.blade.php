@@ -56,7 +56,6 @@
                     </ul>
                 </div>
             @endif
-            <input type="hidden" name="role_type"  class="form-control col-3" value="App\GymManager">
         </div>
         <div class="form-group row">
             <label for="img" class="col-sm-2 col-form-label" >Img</label>

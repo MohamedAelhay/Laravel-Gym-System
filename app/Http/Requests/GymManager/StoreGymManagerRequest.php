@@ -50,8 +50,6 @@ class StoreGymManagerRequest extends FormRequest
             'email.required' => 'Email is Required',
             'email.email' => 'Not valid Email Format',
             'national_id.required' => 'This field Can\'t be Empty !',
-            'national_id.max' => 'National Id must be less than 25 Character !',
-            'national_id.min' => 'National Id must be more than 6 Character !',
             'password.required' => 'This field Can\'t be Empty !',
             'password.max' => 'password must be less than 25 Character !',
             'password.min' => 'password Id must be more than 6 Character !',

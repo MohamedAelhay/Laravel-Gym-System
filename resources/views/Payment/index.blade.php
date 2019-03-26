@@ -21,9 +21,6 @@
     <div class="row">
         <div class="col-xs-12">
             <div class="box box-primary">
-                <div class="box-header">
-                   <center> <a href='/session/create' style="margin-top: 10px;" class="btn btn-success">Create Session</a></center>
-                </div>
                 <!-- /.box-header -->
                 <div class="box-body">
                     <table id="purchase_table"  class="table text-center">

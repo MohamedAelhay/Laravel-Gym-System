@@ -73,4 +73,19 @@ class CoachesController extends Controller
         $coach->delete($coachId);
         return redirect()->route('Coaches.index');
     }
+
+
+
+    public function getcoaches()
+
+    {
+        
+
+        $coach = Coach::all();
+        return datatables()->of($coach)->with('coach')->toJson();
+      
+    }
+
+
+
 }

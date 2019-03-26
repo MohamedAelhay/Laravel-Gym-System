@@ -26,12 +26,12 @@
     <br>
     @endif
 
-    <div class="form-group">
+    <!-- <div class="form-group">
                 <label>Name</label>
                 <input type="text" name="starts_at">
-            </div>
+            </div> -->
 
-            <!-- <div class="bootstrap-timepicker">
+            <div class="bootstrap-timepicker">
                 <div class="form-group">
                     <label>Starts at:</label>
 
@@ -41,9 +41,9 @@
                         <div class="input-group-addon">
                             <i class="fa fa-clock-o"></i>
                         </div>
-                    </div> -->
+                    </div>
                     <!-- /.input group -->
-                <!-- </div> -->
+                </div>
                 <!-- /.form group -->
             </div>
             @if ($errors->has('starts_at'))
@@ -142,7 +142,7 @@
             </div>
             </form>
 
-            
+
           </div>
 
     @endsection
@@ -167,7 +167,7 @@
         })
         //Timepicker
         $('.timepicker').timepicker({
-            showMeridian: false,   
+            showMeridian: false,
             showInputs: false
         })
     })

@@ -24,17 +24,17 @@ class StoreSessionRequest extends FormRequest
      */
     public function rules()
     {
-        $starts_at=$this->starts_at;
-        $ends_at=$this->finishes_at;
-        $date=$this->session_date;
-        var_dump($starts_at,$ends_at,$date,$starts_at,$ends_at,$date);
+        $starts_at = $this->starts_at;
+        $ends_at = $this->finishes_at;
+        $date = $this->session_date;
+        // var_dump($starts_at, $ends_at, $date, $starts_at, $ends_at, $date);
         return [
             //
             'name' => 'required|min:3',
             'gym_id' => 'required|exists:gyms,id',
-            'coach_id'=>'required|exists:coaches,id',
+            'coach_id' => 'required|exists:coaches,id',
             'starts_at' => 'required|',
-            'finishes_at' => ['required','different:starts_at','after:starts_at',new Overlapping($starts_at,$ends_at,$date)],
+            'finishes_at' => ['required', 'different:starts_at', 'after:starts_at', new Overlapping($starts_at, $ends_at, $date)],
             'session_date' => 'required|',
         ];
     }
@@ -42,7 +42,7 @@ class StoreSessionRequest extends FormRequest
     public function messages()
     {
         return [
-            'finishes_at.after' => 'End time must be after Start time!',        
+            'finishes_at.after' => 'End time must be after Start time!',
         ];
     }
 }

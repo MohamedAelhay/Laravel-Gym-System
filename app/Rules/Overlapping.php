@@ -4,8 +4,6 @@ namespace App\Rules;
 
 use App\Session;
 use Illuminate\Contracts\Validation\Rule;
-use Carbon\Carbon;
-
 
 class Overlapping implements Rule
 {
@@ -17,14 +15,15 @@ class Overlapping implements Rule
      *
      * @return void
      */
-    public function __construct($starts_at,$ends_at,$date)
+    public function __construct($starts_at, $ends_at, $date)
     {
+        // $this->starts_at = date("H:i:s", strtotime($starts_at));
+        // $this->ends_at = date("H:i:s", strtotime($ends_at));
+        // $this->date = date("Y-m-d", strtotime($date));
         $this->starts_at;
-        // = date("H:i:s", strtotime($starts_at));
         $this->ends_at;
-        // = date("H:i:s", strtotime($starts_at));
         $this->date;
-        //  = date("Y-m-d", strtotime($date));
+
     }
 
     /**
@@ -36,46 +35,38 @@ class Overlapping implements Rule
      */
     public function passes($attribute, $value)
     {
-        $sessions = Session::all()->where('session_date','=',$this->date);
-        
-        if($sessions)
-        {
+        $sessions = Session::all()->where('session_date', '=', $this->date);
+
+        if ($sessions) {
             foreach ($sessions as $session) {
                 // if(($this->starts_at >= $session->starts_at) && ($this->ends_at >= $session->ends_at))
-                    // {
-                        // return false;
-                    // }
-                    // var_dump($session);
-                if(($this->starts_at = $session->starts_at))
-                {
-                    dd($session->starts_at,1,$this->starts_at);
+                // {
+                // return false;
+                // }
+                // var_dump($session);
+                if (($this->starts_at = $session->starts_at)) {
+                    // dd($session->starts_at, 1, $this->starts_at);
                     // dd(Carbon::now());
                     return false;
                 }
-                if ($this->ends_at = $session->ends_at)
-                {
+                if ($this->ends_at = $session->ends_at) {
                     dd(2);
 
                     return false;
                 }
-                if($this->starts_at > $session->starts_at && $this->starts_at <$session->ends_at )
-                {
+                if ($this->starts_at > $session->starts_at && $this->starts_at < $session->ends_at) {
                     dd(3);
 
                     return false;
                 }
-                if($this->ends_at > $session->starts_at && $this->ends_at <$session->ends_at)
-                {
+                if ($this->ends_at > $session->starts_at && $this->ends_at < $session->ends_at) {
                     dd(4);
 
                     return false;
                 }
-                
             }
             return true;
-        }
-        else
-        {
+        } else {
             return true;
         }
     }

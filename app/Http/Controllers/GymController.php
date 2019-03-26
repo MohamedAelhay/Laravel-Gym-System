@@ -13,13 +13,15 @@ class GymController extends Controller
 {
     public function index()
     {
+
         return view('gyms.index');
     }
 
 
     public function getData()
     {
-        return datatables()->of(Gym::with('city'))->toJson();
+        $user = auth()->user();
+        return datatables()->of(Gym::where('city_id',$user->role->id)->with('city'))->toJson();
     }
 
 

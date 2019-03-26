@@ -22,7 +22,7 @@
         <div class="col-xs-12">
             <div class="box box-primary">
                 <div class="box-header">
-                   <center> <a href="{{route('Coaches.create')}}" style="margin-top: 10px;" class="btn btn-success">Add City Manager</a></center>
+                   <center> <a href="{{route('Coaches.create')}}" style="margin-top: 10px;" class="btn btn-success">Add Coach</a></center>
                 </div>
                 <!-- /.box-header -->
                 <div class="box-body">
@@ -38,7 +38,7 @@
                                 <th class="text-center">Edit</th>
                                 <th class="text-center">Delete</th>
 
-                             
+                                
                             </tr>
                         </thead>
                     </table>
@@ -78,7 +78,7 @@
 
 $(function() {
 
-            $('#coaches_table').DataTable({
+            $('#coaches').DataTable({
 
                 processing: true,
 
@@ -120,6 +120,8 @@ $(function() {
                 },
             
             ],
+
+
         });
 
         $(document).on('click','#delete_toggle',function () {
@@ -138,7 +140,7 @@ $(function() {
                 success: function (data) {
                     console.log('success');
                     console.log(data);
-                    var table = $('#coaches_table').DataTable();
+                    var table = $('#coaches').DataTable();
                     table.ajax.reload();
                 },
                 error: function (response) {
@@ -154,55 +156,9 @@ $(function() {
         </script>
 
         @stack('scripts')
-
+       
     </body>
 
 </html>
     @endsection
 
-{{-- @extends('admin')
-
-@section('content')
-    <table class="table">
-        <thead class="thead-dark">
-        <tr>
-            <th scope="col">Coach ID</th>
-            <th scope="col">Coach Name</th>
-            <th scope="col">Gym Id</th>
-            <th scope="col">Gym Name</th>
-            <th scope="col">Actions<th>
-        </tr>
-        </thead>
-        <tbody>
-        @foreach($coaches as $coach)
-            <tr>
-                <th scope="row">{{$coach->id}}</th>
-               
-                <td>{{$coach->name}}</td>
-                <td>{{$coach->gym_id}}</td>
-                <td>{{$coach->gym->name}}</td>
-                <td>
-
-                        <td><a href="{{route('Coaches.show',$coach->id)}} " class="btn btn-primary btn-lg col-4">show </a></td>
-                        <td><a href="{{route('Coaches.edit',$coach->id)}} " class="btn btn-success">Edit </a></td>
-
-                        <td><form action="{{route('Coaches.destroy',$coach->id)}}" method="POST">
-                                @csrf
-                                @method('delete')
-                                <button type="submit" class="btn btn-danger" onclick="return myFunction();">delete</button>
-                                <script>
-                                  function myFunction() {
-                                      if(!confirm("Are You Sure to delete this"))
-                                      event.preventDefault();
-                                    }
-                                </script>
-                            </form> 
-                        </td>
-                    </td>
-                    
-                </td>
-        @endforeach
-        </tbody>
-    </table>
-    <a class="btn btn-primary btn-lg col-4" href="{{route('Coaches.create')}}" style="margin-bottom: 20px; margin-left: 30%;">Add coach</a>
-@endsection --}}

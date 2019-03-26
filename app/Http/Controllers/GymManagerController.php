@@ -21,7 +21,13 @@ class GymManagerController extends Controller
 
     public function getData()
     {
-       return datatables()->of(GymManager::with('user'))->toJson();
+        $user = auth()->user();
+        $gyms = Gym::where('city_id',$user->role->id)->get();
+        $gymsIds = array();
+        foreach ($gyms as $gym){
+            $gymsIds[] = $gym->id;
+        }
+        return datatables()->of(GymManager::whereIn('gym_id',$gymsIds)->with('user'))->toJson();
     }
 
     public function create()

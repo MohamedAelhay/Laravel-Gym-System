@@ -27,7 +27,6 @@ class StoreSessionRequest extends FormRequest
         $starts_at = $this->starts_at;
         $ends_at = $this->finishes_at;
         $date = $this->session_date;
-        // var_dump($starts_at, $ends_at, $date, $starts_at, $ends_at, $date);
         return [
             //
             'name' => 'required|min:3',

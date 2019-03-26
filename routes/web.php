@@ -100,6 +100,7 @@ Route::delete('/cities/{city}', 'CityController@destroy')->name('Cities.destroy'
 
 
 Route::get('/coaches', 'CoachesController@index')->name('Coaches.index');
+Route::get('get-coaches-my-datatables', ['as'=>'get.coaches','uses'=>'CoachesController@getcoaches']);
 Route::get('/coaches/create', 'CoachesController@create')->name('Coaches.create');
 Route::post('/coaches', 'CoachesController@store')->name('Coaches.store');
 Route::get('/coaches/{coach}', 'CoachesController@show')->name('Coaches.show');

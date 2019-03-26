@@ -79,9 +79,11 @@ class GymManagerController extends Controller
     }
 
 
-    public function destroy($id)
+    public function destroy($gymManagerId)
     {
-        //
+        $user = User::findOrFail($gymManagerId);
+        GymManager::findOrFail($user->role->id)->delete();
+        $user->delete();
     }
 
 

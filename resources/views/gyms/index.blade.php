@@ -21,7 +21,7 @@
             <div class="col-xs-12">
                 <div class="box box-primary">
                     <div class="box-header">
-                        <center> <a href='{{route('gyms.create')}}' style="margin-top: 10px;" class="btn btn-success">Create Package</a></center>
+                        <center> <a href='{{route('gyms.create')}}' style="margin-top: 10px;" class="btn btn-success">Create Gym</a></center>
                     </div>
                     <!-- /.box-header -->
                     <div class="box-body">

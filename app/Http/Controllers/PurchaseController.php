@@ -12,6 +12,7 @@ use Carbon;
 use Cartalyst\Stripe\Stripe;
 use DB;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class PurchaseController extends Controller
 {
@@ -23,6 +24,7 @@ class PurchaseController extends Controller
     public function index()
     {
         //
+        return view('Payment.index');
     }
 
     /**
@@ -127,5 +129,23 @@ class PurchaseController extends Controller
         } catch (\Exception $ex) {
             return $ex->getMessage();
         }
+    }
+
+    public function getPurchase()
+    {
+        $gym_id = Auth::User()->role->gym_id;
+        $purchase = GymPackagePurchaseHistory::with(['gym'])->get();
+        $purchaseFilter = $purchase->filter(function ($purchase) use ($gym_id) {
+            return $purchase->gym_id == $gym_id;
+        });
+        return datatables()->of($purchaseFilter)->with('gym')
+            ->editColumn('purchase_date', function ($purchaseFilter) {
+                //change over here
+                return date("d-M-Y", strtotime($purchaseFilter->purchase_date));
+            })
+            ->editColumn('user.name', function ($purchaseFilter) {
+                //change over here
+                return Auth::User()->name;
+            })->toJson();
     }
 }

@@ -16,7 +16,13 @@ class GymPackagePurchaseHistory extends Pivot
 
     public function gym()
     {
-        return $this->belongsTo('App/Gym');
+        return $this->belongsTo('App\Gym');
     }
 
+    public function users()
+    {
+
+        return $this->belongsTo(User::class);
+
+    }
 }

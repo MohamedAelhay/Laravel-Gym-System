@@ -39,14 +39,14 @@
             <li><a href="{{route('Cities.index')}}"><i class="fa fa-link"></i> <span>Cities</span></a></li>
             <li><a href="{{route('gyms.index')}}"><i class="fa fa-link"></i> <span>Gyms</span></a></li>
             <li><a href="/package"><i class="fa fa-link"></i> <span>Training Packages</span></a></li>
-            <li><a href="/session"><i class="fa fa-link"></i> <span>Training Sessions</span></a></li>            
+            <li><a href="/session"><i class="fa fa-link"></i> <span>Training Sessions</span></a></li>
             <li><a href="{{route('Coaches.index')}}"><i class="fa fa-link"></i> <span>Coaches</span></a></li>
             <li><a href="#"><i class="fa fa-link"></i> <span>Attendance</span></a></li>
-            <li><a href="#"><i class="fa fa-link"></i> <span>Buy Packages</span></a></li>
+            <li><a href="/payment/create"><i class="fa fa-link"></i> <span>Buy Packages</span></a></li>
             <li><a href="#"><i class="fa fa-link"></i> <span>Revenue</span></a></li>
-            
 
-{{-- 
+
+{{--
             <li class="treeview">
                 <a href="#"><i class="fa fa-link"></i> <span>link</span>
                     <span class="pull-right-container">

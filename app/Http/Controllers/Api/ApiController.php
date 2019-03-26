@@ -8,6 +8,7 @@ use App\Http\Requests\Api\UpdateUserRequest;
 use App\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use Illuminate\Support\Facades\Storage;
 
@@ -65,11 +66,11 @@ class ApiController extends Controller
         ]);
     }
 
-    public function update(User $user, UpdateUserRequest $request)
+    public function update(UpdateUserRequest $request)
     {
         $password = bcrypt($request->password);
 
-        $customer = Customer::findOrFail($user->role_id);
+        $customer = Customer::findOrFail(Auth::User()->role_id);
 
         $customer->user()->update($request->only('name') + ['password' => $password]);
 

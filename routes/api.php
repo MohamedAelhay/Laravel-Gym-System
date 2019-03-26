@@ -29,7 +29,7 @@ Route::group(['middleware' => 'auth.jwt'], function () {
 //    Route::get('/user/{user}/edit', 'Api\ApiController@edit')
 //        ->name('user.edit');
 
-    Route::put('/user/{user}', 'Api\ApiController@update')
+    Route::put('/update/', 'Api\ApiController@update')
         ->name('user.update');
 
     Route::get('logout', 'Api\ApiController@logout')

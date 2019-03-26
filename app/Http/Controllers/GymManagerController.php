@@ -104,9 +104,9 @@ class GymManagerController extends Controller
     public function storeGymManagerData($request){
 
        $gymManager = GymManager::create($request->only(['national_id', 'gym_id']));
+        $request->request->add(['role_id'=>$gymManager->id,'role_type'=>get_class($gymManager)]);
         User::create($request->only([
-            'name','email','password','img'
-            ,'role_id'=>$gymManager->id,'role_type'=>get_class($gymManager)]))
+            'name','email','password','img','role_id','role_type']))
             ->assignRole('gym-manager');
 
     }

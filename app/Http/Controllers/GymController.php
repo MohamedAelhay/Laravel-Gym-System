@@ -44,7 +44,10 @@ class GymController extends Controller
 
         $user = auth()->user();
         $request['img']= $this->storeImage($request,$user);
-        Gym::create($request->all());
+        $request->request->add(['creator_name'=>$user->name]);
+        Gym::create($request->only([
+            'name','created_at','img','city_id','creator_name'
+        ]));
         return redirect()->route('gyms.index');
     }
 

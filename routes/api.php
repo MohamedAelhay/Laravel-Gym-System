@@ -21,8 +21,18 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Auth::routes(['verify' => true]);
 
 Route::post('register', 'Api\ApiController@register');
-Route::post('login', 'Api\ApiController@login');
+Route::post('login', 'Api\ApiController@login')
+    ->name('user.login');
 
 Route::group(['middleware' => 'auth.jwt'], function () {
-   Route::get('logout', 'Api\ApiController@logout');
+
+//    Route::get('/user/{user}/edit', 'Api\ApiController@edit')
+//        ->name('user.edit');
+
+    Route::put('/update/', 'Api\ApiController@update')
+        ->name('user.update');
+
+    Route::get('logout', 'Api\ApiController@logout')
+        ->name('user.logout');
+
 });

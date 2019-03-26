@@ -22,7 +22,7 @@ class User extends Authenticatable implements BannableContract, JWTSubject, Must
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password','role_id','role_type'
+        'name', 'email', 'img', 'password','role_id','role_type'
     ];
 
     /**

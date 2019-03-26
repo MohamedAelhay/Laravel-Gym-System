@@ -13,18 +13,19 @@ class GymController extends Controller
 {
     public function index()
     {
-        $gyms = Gym::all();
-        $cities = City::all();
-        return view('gyms.index',[
-            'gyms'=>$gyms,
-            'cities'=>$cities
-        ]);
+        return view('gyms.index');
+    }
+
+
+    public function getData()
+    {
+        return datatables()->of(Gym::with('city'))->toJson();
     }
 
 
     public function create()
     {
-        //
+
         $cities = City::all();
         $userName = auth()->user()->name;
         return view('gyms.create',[
@@ -40,7 +41,10 @@ class GymController extends Controller
 
         $user = auth()->user();
         $request['img']= $this->storeImage($request,$user);
-        Gym::create($request->all());
+        $request->request->add(['creator_name'=>$user->name]);
+        Gym::create($request->only([
+            'name','created_at','img','city_id','creator_name'
+        ]));
         return redirect()->route('gyms.index');
     }
 
@@ -89,8 +93,8 @@ class GymController extends Controller
         return redirect()->route('gyms.index');
     }
 
-    public function destroy($id)
+    public function destroy($gymId)
     {
-        //
+        Gym::findOrFail($gymId)->delete();
     }
 }

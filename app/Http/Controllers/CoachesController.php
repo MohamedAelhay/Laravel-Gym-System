@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 use App\Coach;
 use App\Gym;
 use Illuminate\Http\Request;
-
+use Yajra\Datatables\Datatables;
 class CoachesController extends Controller
 {
     
@@ -81,9 +81,10 @@ class CoachesController extends Controller
     {
         
 
-        $coach = Coach::all();
-        return datatables()->of($coach)->with('coach')->toJson();
-      
+        // $coach = Coach::all();
+        // return datatables()->of($coach)->with('coach')->toJson();
+        return datatables()->of(Coach::with('gym'))->toJson();
+        // dd(datatables()->of(Coach::with('user'))->toJson());
     }
 
 

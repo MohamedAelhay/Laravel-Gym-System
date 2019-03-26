@@ -30,14 +30,14 @@
                         <thead>
                             <tr>
                                 <th class="text-center">National_ID</th>
-                                {{-- <th class="text-center">name</th>
-                                <th class="text-center">email</th> --}}
+                                <th class="text-center">name</th>
+                                <th class="text-center">email</th>
                                 
                                 <th class="text-center">Show</th>
                                 <th class="text-center">Edit</th>
                                 <th class="text-center">Delete</th>
 
-                            
+                                
                             </tr>
                         </thead>
                     </table>
@@ -77,7 +77,7 @@
 
 $(function() {
 
-            $('#cityManagers_table').DataTable({
+            $('#cityManagers').DataTable({
 
                 processing: true,
 
@@ -96,8 +96,8 @@ $(function() {
                 columns: [
 
                     { data: 'national_id', name: 'national_id' },
-                    // { data: 'user.name', name: 'user.name' },
-                    // { data: 'user.email', name: 'user.email' },
+                    { data: 'user.name', name: 'user.name' },
+                    { data: 'user.email', name: 'user.email' },
                  
                     
 
@@ -137,7 +137,7 @@ $(function() {
                 success: function (data) {
                     console.log('success');
                     console.log(data);
-                    var table = $('#cityManagers_table').DataTable();
+                    var table = $('#cityManagers').DataTable();
                     table.ajax.reload();
                 },
                 error: function (response) {

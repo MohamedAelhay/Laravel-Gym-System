@@ -15,6 +15,10 @@ class CityManagerController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+
+
+
     public function index()
     {
 
@@ -126,11 +130,12 @@ class CityManagerController extends Controller
         
     }
 
-
     public function getCityManagers()
 
     {
-        $manager = CityManager::all();
-        return datatables()->of($manager)->with('user')->toJson();
+     
+        return datatables()->of(CityManager::with('user'))->toJson();
+        
     }
+   
 }

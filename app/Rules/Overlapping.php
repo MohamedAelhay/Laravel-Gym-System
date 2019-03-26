@@ -17,13 +17,12 @@ class Overlapping implements Rule
      */
     public function __construct($starts_at, $ends_at, $date)
     {
-        // $this->starts_at = date("H:i:s", strtotime($starts_at));
-        // $this->ends_at = date("H:i:s", strtotime($ends_at));
-        // $this->date = date("Y-m-d", strtotime($date));
-        $this->starts_at;
-        $this->ends_at;
-        $this->date;
-
+        $this->starts_at = date("H:i:s", strtotime($starts_at));
+        $this->ends_at = date("H:i:s", strtotime($ends_at));
+        $this->date = date("Y-m-d", strtotime($date));
+        // $this->starts_at;
+        // $this->ends_at;
+        // $this->date;
     }
 
     /**
@@ -44,7 +43,7 @@ class Overlapping implements Rule
                 // return false;
                 // }
                 // var_dump($session);
-                if (($this->starts_at = $session->starts_at)) {
+                if (($this->starts_at == $session->starts_at)) {
                     // dd($session->starts_at, 1, $this->starts_at);
                     // dd(Carbon::now());
                     return false;

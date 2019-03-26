@@ -29,6 +29,12 @@ Route::get('/admin', function () {
 
 Route::group(['middleware'=>['role:super-admin|city-manager','auth','forbid-banned-user'],
     ], function(){
+
+    Route::get('/home/{userId}/ban', 'HomeController@ban')->name('user.ban');
+    Route::get('/home/{userId}/unban', 'HomeController@ban')->name('user.unban');
+
+
+
     Route::get('/gyms', 'GymController@index')->name('gyms.index');
     Route::get('get-gyms-data-my-datatables', 'GymController@getData')->name('gyms.data');
     Route::get('/gyms/create', 'GymController@create')->name('gyms.create');
@@ -47,7 +53,8 @@ Route::group(['middleware'=>['role:super-admin|city-manager','auth','forbid-bann
     Route::get('/GymManagers/{gymManager}/edit', 'GymManagerController@edit')->name('GymManagers.edit');
     Route::put('/GymManagers/{gymManager}', 'GymManagerController@update')->name('GymManagers.update');
     Route::delete('/GymManagers/{gymManager}', 'GymManagerController@destroy')->name('GymManagers.destroy');
-    Route::get('/GymManagers/{gymManager}/ban', 'GymManagerController@ban')->name('GymManagers.ban');
+
+
 
 
     Route::get('/package', 'PackageController@index')->name('Package.index');

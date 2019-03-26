@@ -16,12 +16,14 @@ class GymManagerController extends Controller
 
     public function index()
     {
-        $gymManagers = GymManager::all();
-        return view('GymManagers.index',[
-            'gymManagers' => $gymManagers
-        ]);
+//        dd(datatables()->of(GymManager::with('user'))->toJson());
+        return view('GymManagers.index');
     }
 
+    public function getData(){
+
+       return datatables()->of(GymManager::with('user'))->toJson();
+    }
 
     public function create()
     {
@@ -38,7 +40,6 @@ class GymManagerController extends Controller
         $request = $this->hashPassword($request);
         $request['img'] = $this->storeImage($request,$user);
         $this->storeGymManagerData($request);
-//        $this->storeGymManagerUserData($request);
         return redirect()->route('GymManagers.index');
     }
 
@@ -105,9 +106,9 @@ class GymManagerController extends Controller
     public function storeGymManagerData($request){
 
        $gymManager = GymManager::create($request->only(['national_id', 'gym_id']));
+       $request->request->add(['role_id'=>$gymManager->id,'role_type'=>get_class($gymManager)]);
         User::create($request->only([
-            'name','email','password','img'
-            ,'role_id'=>$gymManager->id,'role_type'=>get_class($gymManager)]))
+            'name','email','password','img','role_id','role_type']))
             ->assignRole('gym-manager');
 
     }
@@ -115,16 +116,16 @@ class GymManagerController extends Controller
     public function isChanged ($oldValue, $newValue){
 
         if($oldValue == $newValue){
-            return true;
+            return false;
         }
-        return false;
+        return true;
 
     }
 
 
     public function updatePassword($oldPassword, $newPasswordRequest){
 
-        if ($this->isChanged($oldPassword,$newPasswordRequest['password'])
+        if (!$this->isChanged($oldPassword,$newPasswordRequest['password'])
             || $newPasswordRequest['password'] =='******')
             return $oldPassword;
 

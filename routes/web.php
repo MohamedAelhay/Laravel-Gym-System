@@ -30,6 +30,7 @@ Route::get('/admin', function () {
 Route::group(['middleware'=>['role:super-admin|city-manager','auth','forbid-banned-user'],
     ], function(){
     Route::get('/gyms', 'GymController@index')->name('gyms.index');
+    Route::get('get-gyms-data-my-datatables', 'GymController@getData')->name('gyms.data');
     Route::get('/gyms/create', 'GymController@create')->name('gyms.create');
     Route::post('/gyms', 'GymController@store')->name('gyms.store');
     Route::get('/gyms/{gym}', 'GymController@show')->name('gyms.show');
@@ -39,6 +40,7 @@ Route::group(['middleware'=>['role:super-admin|city-manager','auth','forbid-bann
 
 
     Route::get('/GymManagers', 'GymManagerController@index')->name('GymManagers.index');
+    Route::get('get-GymManagers-data-my-datatables', 'GymManagerController@getData')->name('GymManagers.data');
     Route::get('/GymManagers/create', 'GymManagerController@create')->name('GymManagers.create');
     Route::post('/GymManagers', 'GymManagerController@store')->name('GymManagers.store');
     Route::get('/GymManagers/{gymManager}', 'GymManagerController@show')->name('GymManagers.show');
@@ -77,6 +79,7 @@ Route::group(['middleware'=>['role:super-admin|city-manager','auth','forbid-bann
 
 
 Route::get('/cityManagers', 'CityManagerController@index')->name('CityManagers.index');
+Route::get('get-cityManagers-my-datatables', ['as'=>'get.cityManagers','uses'=>'CityManagerController@getCityManagers']);
 Route::get('/cityManagers/create', 'CityManagerController@create')->name('CityManagers.create');
 Route::post('/cityManagers', 'CityManagerController@store')->name('CityManagers.store');
 Route::get('/cityManagers/{mgr}', 'CityManagerController@show')->name('CityManagers.show');
@@ -97,6 +100,7 @@ Route::delete('/cities/{city}', 'CityController@destroy')->name('Cities.destroy'
 
 
 Route::get('/coaches', 'CoachesController@index')->name('Coaches.index');
+Route::get('get-coaches-my-datatables', ['as'=>'get.coaches','uses'=>'CoachesController@getcoaches']);
 Route::get('/coaches/create', 'CoachesController@create')->name('Coaches.create');
 Route::post('/coaches', 'CoachesController@store')->name('Coaches.store');
 Route::get('/coaches/{coach}', 'CoachesController@show')->name('Coaches.show');

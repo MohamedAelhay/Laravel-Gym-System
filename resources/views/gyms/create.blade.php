@@ -19,10 +19,6 @@
             @endif
         </div>
         <div class="form-group row">
-            <label for="creator_name" class="col-sm-2 col-form-label" >Creator Name</label>
-            <input type="text" name="creator_name" disabled  class="form-control col-3" value="{{$userName}}" d>
-        </div>
-        <div class="form-group row">
             <label for="img" class="col-sm-2 col-form-label" >Img</label>
             <input type="file" name="img" class="form-control col-3">
             @if ($errors->get('img'))

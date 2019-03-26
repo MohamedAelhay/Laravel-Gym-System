@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\User;
 
 class HomeController extends Controller
 {
@@ -24,5 +25,26 @@ class HomeController extends Controller
     public function index()
     {
         return view('home');
+    }
+
+    public function ban($gymManagerId)
+    {
+
+        User::findOrFail($gymManagerId)->ban([
+            'comment' => 'Enjoy your ban!'
+        ]);
+
+    }
+
+    public function unban($gymManagerId)
+    {
+        User::findOrFail($gymManagerId)->unban();
+
+    }
+
+    public function banView(){
+
+        return view('banned');
+
     }
 }

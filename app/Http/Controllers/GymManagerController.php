@@ -16,12 +16,11 @@ class GymManagerController extends Controller
 
     public function index()
     {
-//        dd(datatables()->of(GymManager::with('user'))->toJson());
         return view('GymManagers.index');
     }
 
-    public function getData(){
-
+    public function getData()
+    {
        return datatables()->of(GymManager::with('user'))->toJson();
     }
 
@@ -84,6 +83,7 @@ class GymManagerController extends Controller
     {
         //
     }
+
 
     public function storeImage($request,$user){
 

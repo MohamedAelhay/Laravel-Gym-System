@@ -17,14 +17,25 @@ Route::get('/', function () {
 
 Auth::routes(['verify' => true]);
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::group(['middleware' => ['auth', 'forbid-banned-user'],
+], function () {
 
-Route::get('/admin', function () {
-    return view('admin');
+    Route::get('/home', 'HomeController@index')->name('home');
+
+    Route::get('/admin', function () {
+        return view('admin');
+    });
+
 });
 
-Route::group(['middleware' => ['role:super-admin|city-manager', 'auth', 'forbid-banned-user'],
+Route::get('/banned', 'HomeController@banView')->name('banned');
+
+Route::group(['middleware' => ['role:super-admin|city-manager', 'auth', 'forbid-banned-user', 'logs-out-banned-user'],
 ], function () {
+
+    Route::get('/home/{userId}/ban', 'HomeController@ban')->name('user.ban');
+    Route::get('/home/{userId}/unban', 'HomeController@ban')->name('user.unban');
+
     Route::get('/gyms', 'GymController@index')->name('gyms.index');
     Route::get('get-gyms-data-my-datatables', 'GymController@getData')->name('gyms.data');
     Route::get('/gyms/create', 'GymController@create')->name('gyms.create');
@@ -93,5 +104,3 @@ Route::get('/payment/create', 'PurchaseController@create')->name('Payment.create
 Route::post('/payment', 'PurchaseController@store')->name('Payment.store');
 
 Auth::routes();
-
-Route::get('/home', 'HomeController@index')->name('home');

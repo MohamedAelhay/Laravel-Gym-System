@@ -26,6 +26,7 @@ class UpdateGymManagerRequest extends FormRequest
         return [
             'name'=>"required|Alpha|max:25|min:6",
             'email' => "required|email",
+            'password' => 'max:25|min:6',
             'gym_id'=>"exists:gyms,id",
             'img' => 'mimes:jpeg,jpg,png | max:2000',
             'national_id' => 'required|max:25|min:6',
@@ -45,6 +46,8 @@ class UpdateGymManagerRequest extends FormRequest
             'email.required' => 'Email is Required',
             'email.email' => 'Not valid Email Format',
             'national_id.required' => 'This field Can\'t be Empty !',
+            'password.max' => 'password must be less than 25 Character !',
+            'password.min' => 'password Id must be more than 6 Character !',
 
         ];
     }

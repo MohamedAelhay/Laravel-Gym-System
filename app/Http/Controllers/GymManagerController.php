@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Gym;
 use App\GymManager;
 use App\Http\Requests\GymManager\StoreGymManagerRequest;
+use App\Http\Requests\GymManager\UpdateGymManagerRequest;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -66,11 +67,12 @@ class GymManagerController extends Controller
     }
 
 
-    public function update(Request $request, $gymManagerId)
+    public function update(UpdateGymManagerRequest $request, $gymManagerId)
     {
         $user = auth()->user();
         $gymManager = User::findOrFail($gymManagerId);
-        $request['img']= $this->storeImage($request,$user);
+        $request['img'] = $this->storeImage($request,$user);
+        $request['password'] = $this->updatePassword($gymManager->password,$request);
         $gymManager->update($request->all());
         GymManager::findOrFail($gymManager->role->id)->update($request->all());
         return redirect()->route('GymManagers.index');
@@ -96,7 +98,6 @@ class GymManagerController extends Controller
     public function hashPassword($request){
 
         $request['password'] = bcrypt($request['password']);
-
         return $request;
     }
 
@@ -104,12 +105,30 @@ class GymManagerController extends Controller
     public function storeGymManagerData($request){
 
        $gymManager = GymManager::create($request->only(['national_id', 'gym_id']));
-       dd($gymManager);
         User::create($request->only([
             'name','email','password','img'
             ,'role_id'=>$gymManager->id,'role_type'=>get_class($gymManager)]))
             ->assignRole('gym-manager');
 
+    }
+
+    public function isChanged ($oldValue, $newValue){
+
+        if($oldValue == $newValue){
+            return true;
+        }
+        return false;
+
+    }
+
+
+    public function updatePassword($oldPassword, $newPasswordRequest){
+
+        if ($this->isChanged($oldPassword,$newPasswordRequest['password'])
+            || $newPasswordRequest['password'] =='******')
+            return $oldPassword;
+
+        return $this->hashPassword($newPasswordRequest)['password'];
     }
 
 }

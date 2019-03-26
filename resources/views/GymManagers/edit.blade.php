@@ -32,6 +32,18 @@
                 </div>
             @endif
         </div>
+        <div class="form-group row">
+            <label for="password" class="col-sm-2 col-form-label" >Password</label>
+            <input type="password" name="password"  class="form-control col-3" value="******">
+            @if ($errors->get('password'))
+                <div class="alert alert-danger col-sm-6" style="margin-left: 20px; margin-top: 10px;" >
+                    <ul>
+                        @foreach ($errors->get('password') as $password)
+                            <li>{{ $password }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
         </div>
         <div class="form-group row">
             <label for="national_id" class="col-sm-2 col-form-label" >National ID</label>

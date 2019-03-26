@@ -64,4 +64,13 @@ class CoachesController extends Controller
             "gym"=>$gym
             ]);
     }
+
+    public function destroy($coachId)
+    {
+        
+        // $coach = new Coach;      
+        $coach = Coach::find($coachId);
+        $coach->delete($coachId);
+        return redirect()->route('Coaches.index');
+    }
 }

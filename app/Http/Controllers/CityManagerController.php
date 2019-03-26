@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\CityManager;
 use App\User;
+use Illuminate\Support\Facades\Auth;
 
 
 class CityManagerController extends Controller
@@ -17,8 +18,19 @@ class CityManagerController extends Controller
     public function index()
     {
         $cityManagers = CityManager::all();
+        // $users=User::$cityManagers;
+        // dd($users);
+      
+        // $citymng = CityManager::all();
+        // $users=($citymng->user);
+
+
+        // $x = Auth::User();
+
+        // dd($cityManagers);
+        // dd($cityManagers);
         return view('CityManagers.index',[
-            'cityManagers'=> $cityManagers
+            'cityManagers'=> $cityManagers,
         ]);
     }
 
@@ -43,7 +55,14 @@ class CityManagerController extends Controller
      */
     public function store(Request $request)
     {
-        CityManager::create($request->all());
+        $city_manger = CityManager::create($request->all());
+        $user = User::create([
+            'name'=>$request->name,
+            'email'=>$request->email,
+            'password'=>bcrypt($request['password']),
+            'role_id'=>$city_manger->id,
+            'role_type'=>get_class($city_manger),
+        ]);
         return redirect()->route('CityManagers.index');
     }
 
@@ -101,7 +120,7 @@ class CityManagerController extends Controller
      */
     public function destroy($cityManagerId)
     {
-        $cityManager=User::findOrFail($cityManagerId);  
+        $cityManager=CityManager::findOrFail($cityManagerId);  
         $cityManager->delete();
 
         return redirect()->route('CityManagers.index');

@@ -45,17 +45,31 @@ class CityManagerController extends Controller
         ]);
     }
 
+
+    public function storeImage($request,$user){
+
+        $file = $request->file('img');
+        $fileName = $request['name'].'-'.$user->name.'.jpg';
+        if ($file){
+            Storage::disk('public')->put($fileName,File::get($file));
+        }
+        return  $fileName;
+    }
   
     public function store(StoreCityManagerRequest $request)
     {
+//        dd($request);
+        $user = auth()->user(); 
         $city_manger = CityManager::create($request->all());
-        $user = User::create([
+        $request['img'] = $this->storeImage($request,$user);
+        User::create([
             'name'=>$request->name,
             'email'=>$request->email,
             'password'=>bcrypt($request['password']),
             'role_id'=>$city_manger->id,
             'role_type'=>get_class($city_manger),
-        ])->assignRole('gym-manager');
+            'img'=> $request['img'],
+        ])->assignRole('city-manager');
         
         return redirect()->route('CityManagers.index');
     }
@@ -64,11 +78,11 @@ class CityManagerController extends Controller
 
     public function show($cityManagerId)
     {
-    
+        $authUser = auth()->user();
         $cityManager = User::findOrFail($cityManagerId);
         return view('CityManagers.show', [
             'cityManager' => $cityManager,
-           
+            'authUser' => $authUser
         ]);
     }
 

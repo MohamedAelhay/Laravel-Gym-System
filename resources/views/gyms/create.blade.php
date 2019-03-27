@@ -31,6 +31,7 @@
                 </div>
             @endif
         </div>
+        @hasrole('super-admin')
         <div class="form-group row">
             <label for="exampleFormControlSelect1" class="col-sm-2 col-form-label">City</label>
             <select class="form-control col-4"  name="city_id">
@@ -48,6 +49,7 @@
                 </div>
             @endif
         </div>
+        @endrole
         <button type="submit" class="btn btn-primary">Submit</button>
     </form>
 

@@ -25,11 +25,11 @@ class UpdateGymManagerRequest extends FormRequest
     {
         return [
             'name'=>"required|Alpha|max:25|min:6",
-            'email' => "required|email",
+            'email' => "required|email|unique:users",
             'password' => 'max:25|min:6',
             'gym_id'=>"exists:gyms,id",
             'img' => 'mimes:jpeg,jpg,png | max:2000',
-            'national_id' => 'required|max:25|min:6',
+            'national_id' => 'required|max:25|min:6|unique:gym_managers',
         ];
     }
 
@@ -45,7 +45,9 @@ class UpdateGymManagerRequest extends FormRequest
             'img.max' => 'Image Max Size is 2000kb',
             'email.required' => 'Email is Required',
             'email.email' => 'Not valid Email Format',
+            'email.unique' => 'Email must be unique',
             'national_id.required' => 'This field Can\'t be Empty !',
+            'national_id.unique' => 'National ID must be unique!',
             'password.max' => 'password must be less than 25 Character !',
             'password.min' => 'password Id must be more than 6 Character !',
 

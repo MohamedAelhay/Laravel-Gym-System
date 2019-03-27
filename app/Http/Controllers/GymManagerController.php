@@ -44,7 +44,7 @@ class GymManagerController extends Controller
         $request = $this->hashPassword($request);
         $request['img'] = $this->storeImage($request,$user);
         $this->storeGymManagerData($request);
-        return redirect()->route('GymManagers.index');
+        return redirect()->route('GymManagers.index')->with('success', 'Gym Manager created successfully!');
     }
 
 
@@ -86,7 +86,7 @@ class GymManagerController extends Controller
         $request['password'] = $this->updatePassword($gymManager->password,$request);
         $gymManager->update($request->all());
         GymManager::findOrFail($gymManager->role->id)->update($request->all());
-        return redirect()->route('GymManagers.index');
+        return redirect()->route('GymManagers.index')->with('success', 'Gym Manager edited successfully!');
     }
 
 
@@ -94,6 +94,7 @@ class GymManagerController extends Controller
     {
         $user = User::findOrFail($gymManagerId);
         GymManager::findOrFail($user->role->id)->delete();
+        $user->removeRole('gym-manager');
         $user->delete();
     }
 

@@ -3,6 +3,8 @@
     <h1>
         Gym-Managers
     </h1>
+    @include('flash-message')
+
 @endsection
 @section('content')
 <!DOCTYPE html>
@@ -173,22 +175,21 @@
             $('#delete_item').attr('row_delete',delete_id);
         });
         $(document).on('click','#delete_item',function () {
-            var gymId = $(this).attr('row_delete');
+            var gymManagerId = $(this).attr('row_delete');
+            console.log(gymManagerId);
             $.ajax({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 },
-                url: '/gyms/'+gymId,
+                url: '/GymManagers/'+gymManagerId,
                 type: 'DELETE',
-                success: function (data) {
-                    console.log('success');
-                    console.log(data);
+                success: function () {
+                    alert("Gym Manager has been deleted successfully");
                     var table = $('#table').DataTable();
                     table.ajax.reload();
                 },
-                error: function (response) {
+                error: function () {
                     alert(' error');
-                    console.log(response);
                 }
             });
         });
@@ -205,15 +206,13 @@
                 },
                 url: '/home/'+gymManagerId+'/ban',
                 type: 'GET',
-                success: function (data) {
-                    console.log('success');
-                    console.log(data);
+                success: function () {
+                    alert("Gym Manager has been banned successfully");
                     var table = $('#table').DataTable();
                     table.ajax.reload();
                 },
-                error: function (response) {
+                error: function () {
                     alert(' error');
-                    console.log(response);
                 }
             });
         });
@@ -231,16 +230,15 @@
                 },
                 url: '/home/'+gymManagerId+'/unban',
                 type: 'GET',
-                success: function (data) {
-                    console.log('success');
-                    console.log(data);
+                success: function () {
+                    alert("Gym Manager has been unbanned successfully");
                     var table = $('#table').DataTable();
                     table.ajax.reload();
                 },
-                error: function (response) {
-                    console.log(gymManagerId);
+                error: function () {
+
                     alert(' error');
-                    console.log(response);
+
                 }
             });
         });

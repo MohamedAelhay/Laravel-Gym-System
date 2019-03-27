@@ -71,10 +71,7 @@ Route::group(['middleware' => ['role:super-admin|city-manager', 'auth', 'forbid-
     Route::get('/session/{session}/edit', 'SessionController@edit')->name('Session.edit');
     Route::put('/session/{session}', 'SessionController@update')->name('Session.update');
 
-    Route::put('/session/{session}','SessionController@update')->name('Session.update');
-
-
-
+    Route::put('/session/{session}', 'SessionController@update')->name('Session.update');
 
     Route::get('/payment/create', 'PurchaseController@create')->name('Payment.create');
     Route::post('/payment', 'PurchaseController@store')->name('Payment.store');
@@ -89,7 +86,6 @@ Route::group(['middleware' => ['role:super-admin|city-manager', 'auth', 'forbid-
 });
 Route::group(['middleware' => ['role:super-admin', 'auth', 'forbid-banned-user', 'logs-out-banned-user'],
 ], function () {
-
 
     Route::get('/cityManagers', 'CityManagerController@index')->name('CityManagers.index');
     Route::get('get-cityManagers-my-datatables', ['as' => 'get.cityManagers', 'uses' => 'CityManagerController@getCityManagers']);
@@ -116,11 +112,7 @@ Route::group(['middleware' => ['role:super-admin', 'auth', 'forbid-banned-user',
     Route::get('/cities/{city}/edit', 'CityController@edit')->name('Cities.edit');
     Route::put('/cities/{city}', 'CityController@update')->name('Cities.update');
     Route::delete('/cities/{city}', 'CityController@destroy')->name('Cities.destroy');
-<<<<<<< HEAD
-=======
 
-
->>>>>>> ed45149261e0d8372023192e3f6b5c3b7d51ab75
 });
 
 Auth::routes();

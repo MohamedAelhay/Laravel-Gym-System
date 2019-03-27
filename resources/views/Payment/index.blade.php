@@ -69,8 +69,8 @@ $(function() {
                 columns: [
 
                     { data: 'id', name: 'id' },
-                    { data:'user.name',name: 'user.name' },
-                    { data:'user.email',name: 'user.email' },
+                    { data:'users.name'},
+                    { data:'user.email'},
                     { data: 'package_name', name: 'package_name' },
                     { data: 'package_price', name: 'package_price' },
                     { data: 'gym.name', name: 'gym.name' },

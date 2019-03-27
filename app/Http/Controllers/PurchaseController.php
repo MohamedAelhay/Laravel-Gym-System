@@ -134,22 +134,25 @@ class PurchaseController extends Controller
     public function getPurchase()
     {
         $gym_id = Auth::User()->role->gym_id;
-        $purchase = GymPackagePurchaseHistory::with(['gym'])->get();
+        $purchase = GymPackagePurchaseHistory::with(['users', 'gym'])->get();
         $purchaseFilter = $purchase->filter(function ($purchase) use ($gym_id) {
             return $purchase->gym_id == $gym_id;
         });
-        return datatables()->of($purchaseFilter)->with('gym')
+        return datatables()->of($purchaseFilter)->with('users', 'gym')
             ->editColumn('purchase_date', function ($purchaseFilter) {
                 //change over here
                 return date("d-M-Y", strtotime($purchaseFilter->purchase_date));
             })
-            ->editColumn('user.name', function ($purchaseFilter) {
+            ->editColumn('users.name', function ($purchaseFilter) {
                 //change over here
-                return Auth::User()->name;
+                $user = DB::table('users')->where('id', $purchaseFilter->user_id)->first();
+                return $user->name;
             })
             ->editColumn('user.email', function ($purchaseFilter) {
                 //change over here
-                return Auth::User()->email;
-            })->toJson();
+                $user = DB::table('users')->where('id', $purchaseFilter->user_id)->first();
+                return $user->email;
+            })
+            ->toJson();
     }
 }

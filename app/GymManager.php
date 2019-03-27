@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class GymManager extends Model
 {
-    protected $fillable = ['national_id', 'user_id','gym_id' , 'banned_at'];
+    protected $fillable = ['national_id','gym_id' , 'banned_at'];
 
     protected $table = 'gym_managers';
 

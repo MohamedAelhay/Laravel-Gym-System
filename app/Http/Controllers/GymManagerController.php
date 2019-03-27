@@ -14,6 +14,8 @@ use Illuminate\Support\Facades\File;
 class GymManagerController extends Controller
 {
 
+    var $cityGymsIds = array();
+
     public function index()
     {
         return view('GymManagers.index');
@@ -21,18 +23,14 @@ class GymManagerController extends Controller
 
     public function getData()
     {
-        $user = auth()->user();
-        $gyms = Gym::where('city_id',$user->role->id)->get();
-        $gymsIds = array();
-        foreach ($gyms as $gym){
-            $gymsIds[] = $gym->id;
-        }
-        return datatables()->of(GymManager::whereIn('gym_id',$gymsIds)->with('user'))->toJson();
+        $this->getValidGymsIds();
+        return datatables()->of(GymManager::whereIn('gym_id',$this->cityGymsIds)->with('user'))->toJson();
     }
 
     public function create()
     {
-        $gyms = Gym::all();
+        $user = auth()->user();
+        $gyms = Gym::where('city_id',$user->role->id)->get();
         return view('GymManagers.create',[
             'gyms' => $gyms
         ]);
@@ -62,13 +60,13 @@ class GymManagerController extends Controller
 
     public function edit($gymManagerId)
     {
-        $authUser = auth()->user();
-        $gyms = Gym::all();
+        $user = auth()->user();
+        $gyms = Gym::where('city_id',$user->role->id)->get();
         $gymManager = User::findOrFail($gymManagerId);
         return view('GymManagers.edit',[
             'gyms' => $gyms,
             'gymManager' => $gymManager,
-            'authUser' => $authUser
+            'authUser' => $user
         ]);
     }
 
@@ -138,6 +136,16 @@ class GymManagerController extends Controller
             return $oldPassword;
 
         return $this->hashPassword($newPasswordRequest)['password'];
+    }
+
+    public function getValidGymsIds(){
+
+        $user = auth()->user();
+        $gyms = Gym::where('city_id',$user->role->id)->get();
+        foreach ($gyms as $gym){
+            $this->cityGymsIds[] = $gym->id;
+        }
+
     }
 
 }

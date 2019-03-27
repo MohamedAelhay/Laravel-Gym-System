@@ -29,15 +29,25 @@
                     <table id="CityManagers"  class="table text-center">
                         <thead>
                             <tr>
-                                <th class="text-center">National_ID</th>
+                                {{-- <th class="text-center">National_ID</th>
                                 <th class="text-center">name</th>
                                 <th class="text-center">email</th>
                                 
                                 <th class="text-center">Show</th>
                                 <th class="text-center">Edit</th>
-                                <th class="text-center">Delete</th>
+                                <th class="text-center">Delete</th> --}}
 
-                                
+                                <th class="text-center">#</th>
+                                <th class="text-center">User Id</th>
+                                <th class="text-center">Name</th>
+                                <th class="text-center">National Id</th>
+                                <th class="text-center">Email</th>
+                                {{-- <th class="text-center">Banned At</th> --}}
+                                <th class="text-center">Show</th>
+                                <th class="text-center">Edit</th>
+                                <th class="text-center">Delete</th>
+                                {{-- <th class="text-center">Ban</th>
+                                <th class="text-center">UnBan</th> --}}
                             </tr>
                         </thead>
                     </table>
@@ -70,12 +80,12 @@
 
 </section>
 
-        <script src="//code.jquery.com/jquery.js"></script>
-        <script src="//cdn.datatables.net/1.10.7/js/jquery.dataTables.min.js"></script>
+<script src="//code.jquery.com/jquery.js"></script>
+<script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
 
         <script>
 
-$(function() {
+ $(function() {
 
             $('#cityManagers').DataTable({
 
@@ -94,10 +104,12 @@ $(function() {
                 ajax: '{!! route('get.cityManagers') !!}',
 
                 columns: [
-
-                    { data: 'national_id', name: 'national_id' },
+                    { data: 'id', name: 'id' },
+                    { data: 'user.id', name: 'user.id' },
                     { data: 'user.name', name: 'user.name' },
+                    { data: 'national_id', name: 'national_id' },
                     { data: 'user.email', name: 'user.email' },
+                    // { data: 'user.banned_at', name: 'banned_at' },
                  
                     
 

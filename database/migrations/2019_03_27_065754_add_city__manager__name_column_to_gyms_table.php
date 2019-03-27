@@ -14,7 +14,7 @@ class AddCityManagerNameColumnToGymsTable extends Migration
     public function up()
     {
         Schema::table('gyms', function (Blueprint $table) {
-            $table->string('city_manager_name');
+            $table->string('city_manager_name')->nullable();
         });
     }
 

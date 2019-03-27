@@ -69,7 +69,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 @yield('content')
             </section>
             <!-- /.content -->
-            <center><h1>Welcome to our gym system</h1></center>
         </div>
 
         <!-- Footer -->

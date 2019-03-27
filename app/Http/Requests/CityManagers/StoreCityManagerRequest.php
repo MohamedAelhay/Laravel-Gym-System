@@ -27,7 +27,7 @@ class StoreCityManagerRequest extends FormRequest
             'name'=>"required|Alpha|min:6|max:25",
             'email'=>'required|email',
             'password'=>"required|min:6",
-            'national_id'=>'required|numeric|min:5|unique:CityManagers,national_id,'.$this->CityManager['id'],
+            'national_id'=>'required|numeric|min:5|unique:city_managers',
             // 'img' => 'mimes:jpeg,jpg,png | max:2000'
         ];
     }
@@ -48,6 +48,7 @@ class StoreCityManagerRequest extends FormRequest
         'national_id.required' => 'you must enter your national id',
         'national_id.digits' => 'must be numbers',
         'national_id.min' =>'national id must be at least 5',
+            'national_id.unique'=> ' national id must be unique'
      
       
        

@@ -48,14 +48,15 @@ class CityManagerController extends Controller
   
     public function store(StoreCityManagerRequest $request)
     {
+//        dd($request);
         $city_manger = CityManager::create($request->all());
-        $user = User::create([
+        User::create([
             'name'=>$request->name,
             'email'=>$request->email,
             'password'=>bcrypt($request['password']),
             'role_id'=>$city_manger->id,
             'role_type'=>get_class($city_manger),
-        ])->assignRole('gym-manager');
+        ])->assignRole('city-manager');
         
         return redirect()->route('CityManagers.index');
     }

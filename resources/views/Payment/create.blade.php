@@ -125,8 +125,9 @@
     @endif
 
 
-
-        <button type="submit" class="btn btn-block btn-primary btn">Buy Package</button>
+    <div class="box-footer">
+                <button type="submit" class="btn btn-primary">Buy</button>
+            </div>
     </form>
   </div>
 @endsection

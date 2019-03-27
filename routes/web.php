@@ -78,6 +78,9 @@ Route::group(['middleware' => ['role:super-admin|city-manager', 'auth', 'forbid-
     Route::get('get-purchase-my-datatables', ['as' => 'get.purchase', 'uses' => 'PurchaseController@getPurchase']);
 
     Route::get('/revenue', 'RevenueController@index')->name('Revenue.index');
+
+    Route::get('/attendence', 'AttendenceController@index')->name('Attendence.index');
+    Route::get('get-att-my-datatables', ['as' => 'get.att', 'uses' => 'AttendenceController@getAttendence']);
 });
 
 Route::group(['middleware' => ['auth', 'forbid-banned-user', 'logs-out-banned-user'],

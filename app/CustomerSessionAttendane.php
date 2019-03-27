@@ -2,7 +2,6 @@
 
 namespace App;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\Pivot;
 
 class CustomerSessionAttendane extends Pivot
@@ -15,4 +14,13 @@ class CustomerSessionAttendane extends Pivot
 
     public $incrementing = true;
 
+    public function session()
+    {
+        return $this->belongsTo(Session::class);
+    }
+
+    public function users()
+    {
+        return $this->belongsTo('App\User');
+    }
 }

@@ -21,10 +21,6 @@
             @endif
         </div>
         <div class="form-group row">
-            <label for="creator_name" class="col-sm-2 col-form-label" >Creator Name</label>
-            <input type="text" name="creator_name" disabled class="form-control col-3" value="{{$user->name}}">
-        </div>
-        <div class="form-group row">
             <label for="img" class="col-sm-2 col-form-label" >Img</label>
             @if(Storage::disk('public')->has($gym->name.'-'.$user->name.'.jpg'))
                 <img src="{{asset('storage/'.$gym->name.'-'.$user->name.'.jpg')}}" style="width: 200px; height: 200px;" class="img-fluid" alt="Responsive image">
@@ -40,6 +36,7 @@
                 </div>
             @endif
         </div>
+        @hasrole('super-admin')
         <div class="form-group row">
             <label for="exampleFormControlSelect1" class="col-sm-2 col-form-label">City</label>
             <select class="form-control col-4"  name="city_id">
@@ -57,6 +54,7 @@
                 </ul>
             </div>
         @endif
+        @endrole
         <button type="submit" class="btn btn-primary">Submit</button>
     </form>
 

@@ -116,11 +116,9 @@ Route::group(['middleware' => ['role:super-admin', 'auth', 'forbid-banned-user',
     Route::get('/cities/{city}/edit', 'CityController@edit')->name('Cities.edit');
     Route::put('/cities/{city}', 'CityController@update')->name('Cities.update');
     Route::delete('/cities/{city}', 'CityController@destroy')->name('Cities.destroy');
-<<<<<<< HEAD
-=======
 
 
->>>>>>> ed45149261e0d8372023192e3f6b5c3b7d51ab75
+
 });
 
 Auth::routes();

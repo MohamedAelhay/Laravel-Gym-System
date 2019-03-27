@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Gym;
+use App\GymManager;
 use App\GymPackage;
 use App\GymPackagePurchaseHistory;
 use App\Http\Controllers\Controller;
@@ -24,7 +25,11 @@ class PurchaseController extends Controller
     public function index()
     {
         //
-        return view('Payment.index');
+        if (GymManager::where('id', '=', Auth::User()->id)->exists()) {
+            return redirect()->route('notallowed')->with('error', 'you are not gym manager!');
+        } else {
+            return view('Payment.index');
+        }
     }
 
     /**
@@ -35,7 +40,11 @@ class PurchaseController extends Controller
     public function create()
     {
         //
-        return view('Payment.create', ['users' => User::all(), 'packages' => GymPackage::all(), 'gyms' => Gym::all()]);
+        if (GymManager::where('id', '=', Auth::User()->id)->exists()) {
+            return redirect()->route('notallowed')->with('error', 'you are not gym manager!');
+        } else {
+            return view('Payment.create', ['users' => User::all(), 'packages' => GymPackage::all(), 'gyms' => Gym::all()]);
+        }
     }
 
     /**

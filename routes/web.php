@@ -27,6 +27,7 @@ Route::group(['middleware' => ['auth', 'forbid-banned-user'],
 });
 
 Route::get('/banned', 'HomeController@banView')->name('banned');
+Route::get('/notallowed', 'HomeController@notallowedView')->name('notallowed');
 
 Route::group(['middleware' => ['role:super-admin|city-manager', 'auth', 'forbid-banned-user', 'logs-out-banned-user'],
 ], function () {
@@ -81,8 +82,10 @@ Route::group(['middleware' => ['role:super-admin|city-manager', 'auth', 'forbid-
     Route::get('purchase', 'PurchaseController@index');
     Route::get('get-purchase-my-datatables', ['as' => 'get.purchase', 'uses' => 'PurchaseController@getPurchase']);
 
+    Route::get('/revenue', 'RevenueController@index')->name('Revenue.index');
 
-
+    Route::get('/attendence', 'AttendenceController@index')->name('Attendence.index');
+    Route::get('get-att-my-datatables', ['as' => 'get.att', 'uses' => 'AttendenceController@getAttendence']);
 });
 Route::group(['middleware' => ['role:super-admin', 'auth', 'forbid-banned-user', 'logs-out-banned-user'],
 ], function () {
@@ -113,8 +116,11 @@ Route::group(['middleware' => ['role:super-admin', 'auth', 'forbid-banned-user',
     Route::get('/cities/{city}/edit', 'CityController@edit')->name('Cities.edit');
     Route::put('/cities/{city}', 'CityController@update')->name('Cities.update');
     Route::delete('/cities/{city}', 'CityController@destroy')->name('Cities.destroy');
+<<<<<<< HEAD
+=======
 
 
+>>>>>>> ed45149261e0d8372023192e3f6b5c3b7d51ab75
 });
 
 Auth::routes();

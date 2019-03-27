@@ -142,6 +142,17 @@ class CityController extends Controller
     return redirect()->route('Cities.index');
     }
 
+    public function getcities()
+    {
+        // $user = auth()->user();
+        // return datatables()->of(City::where('country_id',$user->role->id)->with('country'))->toJson();
+        // return datatables()->of(City::with(['country,cityManager']))->toJson();
+
+        // $query=City::select('id','name','country_id','city_manager_id');
+        // return datatables($query)->make(true);
+        // return datatables()->of(DB::table('city'))->toJson();
+        return datatables()->eloquent(City::query())->toJson();
+    }
 
    
 }

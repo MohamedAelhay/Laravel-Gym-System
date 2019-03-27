@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Http\Requests\GymManager\StoreCityManagerRequest;
-use App\Http\Requests\GymManager\UpdateCityManagerRequest;
+use App\Http\Requests\CityManagers\StoreCityManagerRequest;
+use App\Http\Requests\CityManagers\UpdateCityManagerRequest;
 use App\CityManager;
 use App\City;
 use App\User;
@@ -18,7 +18,7 @@ class CityManagerController extends Controller
    public function index()
     {
 
-        // $cityManagers = CityManager::all();
+        $cityManagers = CityManager::all();
         // $users=User::$cityManagers;
         // dd($users);
 
@@ -30,7 +30,10 @@ class CityManagerController extends Controller
 
         // dd($cityManagers);
         // dd($cityManagers);
-        return view('CityManagers.index');
+        return view('CityManagers.index',[
+       
+            'cityManagers' => $cityManagers,
+        ]);
     }
 
   

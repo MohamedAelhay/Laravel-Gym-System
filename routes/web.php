@@ -85,6 +85,7 @@ Route::group(['middleware' => ['role:super-admin', 'auth', 'forbid-banned-user',
     Route::delete('/coaches/{coach}', 'CoachesController@destroy')->name('Coaches.destroy');
 
     Route::get('/cities', 'CityController@index')->name('Cities.index');
+    Route::get('get-cities-my-datatables', ['as'=> 'get.cities' ,'uses' =>'CityController@getcities']);
     Route::get('/cities/create', 'CityController@create')->name('Cities.create');
     Route::post('/cities', 'CityController@store')->name('Cities.store');
     Route::get('/cities/{city}', 'CityController@show')->name('Cities.show');

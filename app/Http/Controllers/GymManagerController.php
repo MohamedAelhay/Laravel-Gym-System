@@ -18,6 +18,7 @@ class GymManagerController extends Controller
 
     public function index()
     {
+
         return view('GymManagers.index');
     }
 
@@ -51,6 +52,9 @@ class GymManagerController extends Controller
     {
         $authUser = auth()->user();
         $gymManager = User::findOrFail($gymManagerId);
+        if(!$this->isAllowed($gymManager->role->id)){
+            return redirect()->route('notallowed')->with('error', 'you are not authorized!');
+        }
         return view('GymManagers.show',[
             'gymManager' => $gymManager,
             'authUser' => $authUser
@@ -63,6 +67,9 @@ class GymManagerController extends Controller
         $user = auth()->user();
         $gyms = Gym::where('city_id',$user->role->id)->get();
         $gymManager = User::findOrFail($gymManagerId);
+        if(!$this->isAllowed($gymManager->role->id)){
+            return redirect()->route('notallowed')->with('error', 'you are not authorized!');
+        }
         return view('GymManagers.edit',[
             'gyms' => $gyms,
             'gymManager' => $gymManager,
@@ -146,6 +153,14 @@ class GymManagerController extends Controller
             $this->cityGymsIds[] = $gym->id;
         }
 
+
+    }
+
+
+    public function isAllowed($gymManagerId){
+
+        $this->getValidGymsIds();
+        return GymManager::whereIn('gym_id',$this->cityGymsIds)->where('id',$gymManagerId)->exists();
     }
 
 }

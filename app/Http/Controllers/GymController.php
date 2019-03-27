@@ -11,6 +11,10 @@ use Illuminate\Support\Facades\File;
 
 class GymController extends Controller
 {
+
+    var $cityGymsIds = array();
+
+
     public function index()
     {
 
@@ -44,6 +48,9 @@ class GymController extends Controller
         $user = auth()->user();
         $request['img']= $this->storeImage($request,$user);
         $request->request->add(['creator_name'=>$user->name]);
+        if ($user->hasRole('city-manager')){
+            $request->request->add(['city_id'=>$user->role->id]);
+        }
         Gym::create($request->only([
             'name','created_at','img','city_id','creator_name'
         ]));
@@ -66,6 +73,9 @@ class GymController extends Controller
     {
         $user = auth()->user();
         $city = City::all();
+        if(!$this->isAllowed($gym->id)){
+            return redirect()->route('notallowed')->with('error', 'you are not authorized!');
+        }
         return view('gyms.show',[
             'gym'=>$gym,
             'city'=>$city,
@@ -78,6 +88,9 @@ class GymController extends Controller
     {
         $user = auth()->user();
         $cities = City::all();
+        if(!$this->isAllowed($gym->id)){
+            return redirect()->route('notallowed')->with('error', 'you are not authorized!');
+        }
         return view('gyms.edit',[
             'gym'=>$gym,
             'cities'=>$cities,
@@ -97,6 +110,26 @@ class GymController extends Controller
 
     public function destroy($gymId)
     {
+        if(!$this->isAllowed($gymId)){
+            return redirect()->route('notallowed')->with('error', 'you are not authorized!');
+        }
         Gym::findOrFail($gymId)->delete();
+    }
+
+    public function getValidGymsIds(){
+
+        $user = auth()->user();
+        $gyms = Gym::where('city_id',$user->role->id)->get();
+        foreach ($gyms as $gym){
+            $this->cityGymsIds[] = $gym->id;
+        }
+
+
+    }
+
+    public function isAllowed($gymId){
+
+        $this->getValidGymsIds();
+        return Gym::whereIn('id',$this->cityGymsIds)->where('id',$gymId)->exists();
     }
 }

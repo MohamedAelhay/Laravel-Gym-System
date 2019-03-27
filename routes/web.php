@@ -62,27 +62,6 @@ Route::group(['middleware' => ['role:super-admin|city-manager', 'auth', 'forbid-
     Route::get('/package/{package}/edit', 'PackageController@edit')->name('Package.edit');
     Route::put('/package/{package}', 'PackageController@update')->name('Package.update');
 
-    Route::get('session', 'SessionController@index');
-    Route::get('get-session-my-datatables', ['as' => 'get.session', 'uses' => 'SessionController@getSession']);
-    Route::get('/session/create', 'SessionController@create')->name('Session.create');
-    Route::post('/session', 'SessionController@store')->name('Session.store');
-    Route::get('/session/{session}', 'SessionController@show')->name('Session.show');
-    Route::delete('/session/{session}', 'SessionController@destroy')->name('Session.destroy');
-    Route::get('/session/{session}/edit', 'SessionController@edit')->name('Session.edit');
-    Route::put('/session/{session}', 'SessionController@update')->name('Session.update');
-
-    Route::put('/session/{session}', 'SessionController@update')->name('Session.update');
-
-    Route::get('/payment/create', 'PurchaseController@create')->name('Payment.create');
-    Route::post('/payment', 'PurchaseController@store')->name('Payment.store');
-
-    Route::get('purchase', 'PurchaseController@index');
-    Route::get('get-purchase-my-datatables', ['as' => 'get.purchase', 'uses' => 'PurchaseController@getPurchase']);
-
-    Route::get('/revenue', 'RevenueController@index')->name('Revenue.index');
-
-    Route::get('/attendence', 'AttendenceController@index')->name('Attendence.index');
-    Route::get('get-att-my-datatables', ['as' => 'get.att', 'uses' => 'AttendenceController@getAttendence']);
 });
 Route::group(['middleware' => ['role:super-admin', 'auth', 'forbid-banned-user', 'logs-out-banned-user'],
 ], function () {
@@ -113,6 +92,32 @@ Route::group(['middleware' => ['role:super-admin', 'auth', 'forbid-banned-user',
     Route::put('/cities/{city}', 'CityController@update')->name('Cities.update');
     Route::delete('/cities/{city}', 'CityController@destroy')->name('Cities.destroy');
 
+});
+
+Route::group(['middleware' => ['role:super-admin|city-manager'|'gym-manager',
+    'auth', 'forbid-banned-user', 'logs-out-banned-user'],
+], function () {
+
+    Route::get('session', 'SessionController@index');
+    Route::get('get-session-my-datatables', ['as' => 'get.session', 'uses' => 'SessionController@getSession']);
+    Route::get('/session/create', 'SessionController@create')->name('Session.create');
+    Route::post('/session', 'SessionController@store')->name('Session.store');
+    Route::get('/session/{session}', 'SessionController@show')->name('Session.show');
+    Route::delete('/session/{session}', 'SessionController@destroy')->name('Session.destroy');
+    Route::get('/session/{session}/edit', 'SessionController@edit')->name('Session.edit');
+    Route::put('/session/{session}', 'SessionController@update')->name('Session.update');
+
+
+    Route::get('/payment/create', 'PurchaseController@create')->name('Payment.create');
+    Route::post('/payment', 'PurchaseController@store')->name('Payment.store');
+
+    Route::get('purchase', 'PurchaseController@index');
+    Route::get('get-purchase-my-datatables', ['as' => 'get.purchase', 'uses' => 'PurchaseController@getPurchase']);
+
+    Route::get('/revenue', 'RevenueController@index')->name('Revenue.index');
+
+    Route::get('/attendence', 'AttendenceController@index')->name('Attendence.index');
+    Route::get('get-att-my-datatables', ['as' => 'get.att', 'uses' => 'AttendenceController@getAttendence']);
 });
 
 Auth::routes();

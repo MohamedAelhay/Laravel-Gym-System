@@ -41,10 +41,10 @@
             <li><a href="{{route('GymManagers.index')}}"><i class="fa fa-link"></i> <span>Gym Managers</span></a></li>
             <li><a href="#"><i class="fa fa-link"></i> <span>Users</span></a></li>
             <li><a href="{{route('gyms.index')}}"><i class="fa fa-link"></i> <span>Gyms</span></a></li>
-            @endhasanyrole
-            <li><a href="/package"><i class="fa fa-link"></i> <span>Training Packages</span></a></li>
-            <li><a href="/session"><i class="fa fa-link"></i> <span>Training Sessions</span></a></li>
             <li><a href="{{route('Coaches.index')}}"><i class="fa fa-link"></i> <span>Coaches</span></a></li>
+            <li><a href="/package"><i class="fa fa-link"></i> <span>Training Packages</span></a></li>
+            @endhasanyrole
+            <li><a href="/session"><i class="fa fa-link"></i> <span>Training Sessions</span></a></li>
             <li><a href="/attendence"><i class="fa fa-link"></i> <span>Attendance</span></a></li>
             <li><a href="/payment/create"><i class="fa fa-link"></i> <span>Buy Packages</span></a></li>
             <li><a href="/purchase"><i class="fa fa-link"></i> <span>Purchase History</span></a></li>

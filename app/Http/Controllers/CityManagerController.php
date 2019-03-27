@@ -49,6 +49,7 @@ class CityManagerController extends Controller
     public function store(StoreCityManagerRequest $request)
     {
 //        dd($request);
+        //here
         $city_manger = CityManager::create($request->all());
         User::create([
             'name'=>$request->name,

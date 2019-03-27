@@ -38,13 +38,11 @@ class ApiController extends Controller
                 "img" => $path,
             ]));
 
-        $user = User::where('email', $request->email)->first();
-
-        $user->sendEmailVerificationNotification();
+        $customer->user->sendEmailVerificationNotification();
 
         return response()->json([
             'success' => true,
-            'data' => $user,
+            'data' => $customer,
         ], 200);
     }
 
@@ -62,6 +60,8 @@ class ApiController extends Controller
 
         return response()->json([
             'success' => true,
+            'user' => $this->customerInfo()->user,
+            'customer' => $this->customerInfo(),
             'token' => $jwt_token,
         ]);
     }
@@ -72,7 +72,7 @@ class ApiController extends Controller
 
         $path = Storage::putFile('public/customer', $request->file('img'));
 
-        $customer = Customer::findOrFail(Auth::User()->role_id);
+        $customer = $this->customerInfo();
 
         $customer->user()->update($request->only('name') +
             [
@@ -85,6 +85,12 @@ class ApiController extends Controller
         return response()->json([
             'message' => 'User Updated'
         ], 201);
+    }
+
+    public function customerInfo()
+    {
+        $customer = Customer::findOrFail(Auth::user()->role_id);
+        return $customer;
     }
 
     public function logout()

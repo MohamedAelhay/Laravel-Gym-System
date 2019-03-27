@@ -2,15 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Gym;
 use App\GymPackage;
-use Yajra\Datatables\Datatables;
 use App\Http\Requests\Package\StorePackageRequest;
 use App\Http\Requests\Package\UpdatePackageRequest;
-
-
-
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Yajra\Datatables\Datatables;
 
 class PackageController extends Controller
 {
@@ -21,7 +19,7 @@ class PackageController extends Controller
      */
     public function index()
     {
-    	return view('Package.index');
+        return view('Package.index');
 
     }
 
@@ -34,8 +32,8 @@ class PackageController extends Controller
     {
 
         $gyms = Gym::all();
-        return view('Package.create',[
-            'gyms'=>$gyms
+        return view('Package.create', [
+            'gyms' => $gyms,
         ]);
     }
 
@@ -62,9 +60,9 @@ class PackageController extends Controller
     {
         $gym = Gym::find($package->gym_id);
         return view('Package.show', [
-            "package"=>$package,
-            'gym'=>$gym
-                    ]);
+            "package" => $package,
+            'gym' => $gym,
+        ]);
     }
 
     /**
@@ -77,9 +75,9 @@ class PackageController extends Controller
     {
         //
         $gyms = Gym::all();
-        return view('Package.edit',[
-            'package'=>$package,
-            'gyms'=>$gyms
+        return view('Package.edit', [
+            'package' => $package,
+            'gyms' => $gyms,
         ]);
     }
 
@@ -107,15 +105,19 @@ class PackageController extends Controller
     public function destroy($id)
     {
         //
-        $package = new GymPackage;      
+        $package = new GymPackage;
         $package = GymPackage::find($id);
         $package->delete($id);
     }
 
     public function getData()
-
     {
-        return datatables()->of(GymPackage::with('gym'))->toJson();
+        $gym_id = Auth::User()->role->gym_id;
+        $package = GymPackage::with(['gym'])->get();
+        $packageFilter = $package->filter(function ($package) use ($gym_id) {
+            return $package->gym_id == $gym_id;
+        });
+        return datatables()->of($packageFilter)->with('gym')->toJson();
     }
-    
+
 }

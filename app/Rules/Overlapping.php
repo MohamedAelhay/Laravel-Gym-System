@@ -8,19 +8,18 @@ use Illuminate\Contracts\Validation\Rule;
 class Overlapping implements Rule
 {
     private $starts_at;
-    private $ends_at;
+    private $finishes_at;
     private $date;
     /**
      * Create a new rule instance.
      *
      * @return void
      */
-    public function __construct($starts_at, $ends_at, $date)
+    public function __construct($starts_at, $finishes_at, $date)
     {
         $this->starts_at = date("H:i:s", strtotime($starts_at));
-        $this->ends_at = date("H:i:s", strtotime($ends_at));
+        $this->finishes_at = date("H:i:s", strtotime($finishes_at));
         $this->date = date("Y-m-d", strtotime($date));
-
     }
 
     /**
@@ -36,24 +35,16 @@ class Overlapping implements Rule
 
         if ($sessions) {
             foreach ($sessions as $session) {
-
                 if (($this->starts_at == $session->starts_at)) {
-
                     return false;
                 }
-                if ($this->ends_at = $session->ends_at) {
-                    dd(2);
-
+                if ($this->finishes_at == $session->finishes_at) {
                     return false;
                 }
-                if ($this->starts_at > $session->starts_at && $this->starts_at < $session->ends_at) {
-                    dd(3);
-
+                if ($this->starts_at > $session->starts_at && $this->starts_at < $session->finishes_at) {
                     return false;
                 }
-                if ($this->ends_at > $session->starts_at && $this->ends_at < $session->ends_at) {
-                    dd(4);
-
+                if ($this->finishes_at > $session->starts_at && $this->finishes_at < $session->finishes_at) {
                     return false;
                 }
             }

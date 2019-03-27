@@ -25,7 +25,7 @@ class StoreSessionRequest extends FormRequest
     public function rules()
     {
         $starts_at = $this->starts_at;
-        $ends_at = $this->finishes_at;
+        $finishes_at = $this->finishes_at;
         $date = $this->session_date;
         return [
             //
@@ -33,7 +33,7 @@ class StoreSessionRequest extends FormRequest
             'gym_id' => 'required|exists:gyms,id',
             'coach_id' => 'required|exists:coaches,id',
             'starts_at' => 'required|',
-            'finishes_at' => ['required', 'different:starts_at', 'after:starts_at', new Overlapping($starts_at, $ends_at, $date)],
+            'finishes_at' => ['required', 'different:starts_at', 'after:starts_at', new Overlapping($starts_at, $finishes_at, $date)],
             'session_date' => 'required|',
         ];
     }

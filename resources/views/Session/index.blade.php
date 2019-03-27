@@ -143,14 +143,13 @@ $(function() {
                 url: '/session/'+session_id,
                 type: 'DELETE',
                 success: function (data) {
-                    console.log('success');
-                    console.log(data);
                     var table = $('#session_table').DataTable();
-                    table.ajax.reload();
+                    // table.ajax.reload();
+                    window.location.reload();
                 },
                 error: function (response) {
-                    alert(' error');
-                    console.log(response);
+                    // alert(' Session has attendants');
+                    window.location.reload();
                 }
             });
 

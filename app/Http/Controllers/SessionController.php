@@ -126,7 +126,7 @@ class SessionController extends Controller
         //
         if (!CustomerSessionAttendane::where('session_id', '=', $id)->exists()) {
             Session::find($id)->delete();
-            return view('Session.index');
+            return back()->with('success', 'Session deleted successfully!');
         } else {
             return back()->with('error', 'Session has attendants!');
         };

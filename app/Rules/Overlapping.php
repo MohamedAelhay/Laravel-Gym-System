@@ -4,6 +4,7 @@ namespace App\Rules;
 
 use App\Session;
 use Illuminate\Contracts\Validation\Rule;
+use Illuminate\Support\Facades\Auth;
 
 class Overlapping implements Rule
 {
@@ -31,10 +32,14 @@ class Overlapping implements Rule
      */
     public function passes($attribute, $value)
     {
+        $gym_id = Auth::User()->role->gym_id;
         $sessions = Session::all()->where('session_date', '=', $this->date);
+        $sessionFilter = $sessions->filter(function ($sessions) use ($gym_id) {
+            return $sessions->gym_id == $gym_id;
+        });
 
-        if ($sessions) {
-            foreach ($sessions as $session) {
+        if ($sessionFilter) {
+            foreach ($sessionFilter as $session) {
                 if (($this->starts_at == $session->starts_at)) {
                     return false;
                 }

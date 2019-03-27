@@ -28,6 +28,7 @@
                             <tr>
                                 <th class="text-center">#</th>
                                 <th class="text-center">User Name</th>
+                                <th class="text-center">User Email</th>
                                 <th class="text-center">Package Name</th>
                                 <th class="text-center">Package Price</th>
                                 <th class="text-center">Gym</th>
@@ -68,7 +69,8 @@ $(function() {
                 columns: [
 
                     { data: 'id', name: 'id' },
-                    { data:'user.name',name: 'user.name' },
+                    { data:'users.name'},
+                    { data:'user.email'},
                     { data: 'package_name', name: 'package_name' },
                     { data: 'package_price', name: 'package_price' },
                     { data: 'gym.name', name: 'gym.name' },

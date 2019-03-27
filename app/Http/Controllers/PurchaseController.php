@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Gym;
+use App\GymManager;
 use App\GymPackage;
 use App\GymPackagePurchaseHistory;
 use App\Http\Controllers\Controller;
@@ -24,7 +24,11 @@ class PurchaseController extends Controller
     public function index()
     {
         //
-        return view('Payment.index');
+        if (GymManager::where('id', '=', Auth::User()->id)->exists()) {
+            return redirect()->route('notallowed')->with('error', 'you are not gym manager!');
+        } else {
+            return view('Payment.index');
+        }
     }
 
     /**
@@ -35,7 +39,13 @@ class PurchaseController extends Controller
     public function create()
     {
         //
-        return view('Payment.create', ['users' => User::all(), 'packages' => GymPackage::all(), 'gyms' => Gym::all()]);
+        if (GymManager::where('id', '=', Auth::User()->id)->exists()) {
+            return redirect()->route('notallowed')->with('error', 'you are not gym manager!');
+        } else {
+            $gym_id = Auth::User()->role->gym_id;
+            $gyms = DB::table('gyms')->where('id', $gym_id)->first();
+            return view('Payment.create', ['users' => User::all(), 'packages' => GymPackage::all(), 'gyms' => $gyms]);
+        }
     }
 
     /**
@@ -47,6 +57,7 @@ class PurchaseController extends Controller
     public function store(StorePurchaseRequest $request)
     {
         //
+        $gym_id = Auth::User()->role->gym_id;
         $package = DB::table('gym_packages')->where('name', $request->get('package_name'))->first();
         $this->acceptPayment($request, $package);
         $payment = [
@@ -54,7 +65,7 @@ class PurchaseController extends Controller
             "user_id" => $request->get('user_id'),
             'package_name' => $request->get('package_name'),
             'package_price' => $package->price,
-            'gym_id' => $request->get('gym_id'),
+            'gym_id' => $gym_id,
             'purchase_date' => Carbon\Carbon::now(),
         ];
         GymPackagePurchaseHistory::create($payment);
@@ -134,18 +145,25 @@ class PurchaseController extends Controller
     public function getPurchase()
     {
         $gym_id = Auth::User()->role->gym_id;
-        $purchase = GymPackagePurchaseHistory::with(['gym'])->get();
+        $purchase = GymPackagePurchaseHistory::with(['users', 'gym'])->get();
         $purchaseFilter = $purchase->filter(function ($purchase) use ($gym_id) {
             return $purchase->gym_id == $gym_id;
         });
-        return datatables()->of($purchaseFilter)->with('gym')
+        return datatables()->of($purchaseFilter)->with('users', 'gym')
             ->editColumn('purchase_date', function ($purchaseFilter) {
                 //change over here
                 return date("d-M-Y", strtotime($purchaseFilter->purchase_date));
             })
-            ->editColumn('user.name', function ($purchaseFilter) {
+            ->editColumn('users.name', function ($purchaseFilter) {
                 //change over here
-                return Auth::User()->name;
-            })->toJson();
+                $user = DB::table('users')->where('id', $purchaseFilter->user_id)->first();
+                return $user->name;
+            })
+            ->editColumn('user.email', function ($purchaseFilter) {
+                //change over here
+                $user = DB::table('users')->where('id', $purchaseFilter->user_id)->first();
+                return $user->email;
+            })
+            ->toJson();
     }
 }

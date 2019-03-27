@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Coach;
 use App\CustomerSessionAttendane;
 use App\Gym;
+use App\GymManager;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Session\StoreSessionRequest;
 use App\Http\Requests\Session\UpdateSessionRequest;
@@ -22,7 +23,11 @@ class SessionController extends Controller
     public function index()
     {
         //
-        return view('Session.index');
+        if (GymManager::where('id', '=', Auth::User()->id)->exists()) {
+            return redirect()->route('notallowed')->with('error', 'you are not gym manager!');
+        } else {
+            return view('Session.index');
+        }
     }
 
     /**
@@ -126,7 +131,7 @@ class SessionController extends Controller
         //
         if (!CustomerSessionAttendane::where('session_id', '=', $id)->exists()) {
             Session::find($id)->delete();
-            return view('Session.index');
+            return back()->with('success', 'Session deleted successfully!');
         } else {
             return back()->with('error', 'Session has attendants!');
         };

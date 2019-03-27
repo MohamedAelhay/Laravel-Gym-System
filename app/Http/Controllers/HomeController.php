@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\User;
 
 class HomeController extends Controller
@@ -31,7 +30,7 @@ class HomeController extends Controller
     {
 
         User::findOrFail($gymManagerId)->ban([
-            'comment' => 'Enjoy your ban!'
+            'comment' => 'Enjoy your ban!',
         ]);
 
     }
@@ -42,9 +41,17 @@ class HomeController extends Controller
 
     }
 
-    public function banView(){
+    public function banView()
+    {
 
         return view('banned');
+
+    }
+
+    public function notallowedView()
+    {
+
+        return view('notallowed');
 
     }
 }

@@ -15,6 +15,10 @@ class CityManagerController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+
+
+
     public function index()
     {
 
@@ -61,16 +65,13 @@ class CityManagerController extends Controller
             'password'=>bcrypt($request['password']),
             'role_id'=>$city_manger->id,
             'role_type'=>get_class($city_manger),
-        ]);
+        ])->assignRole('gym-manager');
+        
         return redirect()->route('CityManagers.index');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+
+
     public function show($cityManagerId)
     {
     
@@ -126,11 +127,12 @@ class CityManagerController extends Controller
         
     }
 
-
     public function getCityManagers()
 
     {
-        $manager = CityManager::all();
-        return datatables()->of($manager)->with('user')->toJson();
+     
+        return datatables()->of(CityManager::with('user'))->toJson();
+        
     }
+   
 }

@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Gym;
 use App\GymManager;
 use App\GymPackage;
 use App\GymPackagePurchaseHistory;
@@ -43,7 +42,9 @@ class PurchaseController extends Controller
         if (GymManager::where('id', '=', Auth::User()->id)->exists()) {
             return redirect()->route('notallowed')->with('error', 'you are not gym manager!');
         } else {
-            return view('Payment.create', ['users' => User::all(), 'packages' => GymPackage::all(), 'gyms' => Gym::all()]);
+            $gym_id = Auth::User()->role->gym_id;
+            $gyms = DB::table('gyms')->where('id', $gym_id)->first();
+            return view('Payment.create', ['users' => User::all(), 'packages' => GymPackage::all(), 'gyms' => $gyms]);
         }
     }
 
@@ -56,6 +57,7 @@ class PurchaseController extends Controller
     public function store(StorePurchaseRequest $request)
     {
         //
+        $gym_id = Auth::User()->role->gym_id;
         $package = DB::table('gym_packages')->where('name', $request->get('package_name'))->first();
         $this->acceptPayment($request, $package);
         $payment = [
@@ -63,7 +65,7 @@ class PurchaseController extends Controller
             "user_id" => $request->get('user_id'),
             'package_name' => $request->get('package_name'),
             'package_price' => $package->price,
-            'gym_id' => $request->get('gym_id'),
+            'gym_id' => $gym_id,
             'purchase_date' => Carbon\Carbon::now(),
         ];
         GymPackagePurchaseHistory::create($payment);

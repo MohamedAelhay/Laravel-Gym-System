@@ -44,7 +44,7 @@
             <li><a href="#"><i class="fa fa-link"></i> <span>Attendance</span></a></li>
             <li><a href="/payment/create"><i class="fa fa-link"></i> <span>Buy Packages</span></a></li>
             <li><a href="/purchase"><i class="fa fa-link"></i> <span>Purchase History</span></a></li>
-            <li><a href="#"><i class="fa fa-link"></i> <span>Revenue</span></a></li>
+            <li><a href="/revenue"><i class="fa fa-link"></i> <span>Revenue</span></a></li>
 
 
 {{--

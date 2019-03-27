@@ -73,7 +73,7 @@ Route::group(['middleware' => ['role:super-admin|city-manager', 'auth', 'forbid-
 
     Route::put('/session/{session}','SessionController@update')->name('Session.update');
 
-    
+
 
 
     Route::get('/payment/create', 'PurchaseController@create')->name('Payment.create');
@@ -85,40 +85,41 @@ Route::group(['middleware' => ['role:super-admin|city-manager', 'auth', 'forbid-
 
 
 
-
-
-    Route::get('/cityManagers', 'CityManagerController@index')->name('CityManagers.index');
-    Route::get('get-cityManagers-my-datatables', ['as'=>'get.cityManagers','uses'=>'CityManagerController@getCityManagers']);
-    Route::get('/cityManagers/create', 'CityManagerController@create')->name('CityManagers.create');
-    Route::post('/cityManagers', 'CityManagerController@store')->name('CityManagers.store');
-    Route::get('/cityManagers/{mgr}', 'CityManagerController@show')->name('CityManagers.show');
-    Route::get('/cityManagers/{mgr}/edit', 'CityManagerController@edit')->name('CityManagers.edit');
-    Route::put('/cityManagers/{mgr}', 'CityManagerController@update')->name('CityManagers.update');
-    Route::delete('/cityManagers/{mgr}', 'CityManagerController@destroy')->name('CityManagers.destroy');
-
-
-    Route::get('/coaches', 'CoachesController@index')->name('Coaches.index');
-    Route::get('get-coaches-my-datatables', ['as'=>'get.coaches','uses'=>'CoachesController@getcoaches']);
-    Route::get('/coaches/create', 'CoachesController@create')->name('Coaches.create');
-    Route::post('/coaches', 'CoachesController@store')->name('Coaches.store');
-    Route::get('/coaches/{coach}', 'CoachesController@show')->name('Coaches.show');
-    Route::get('/coaches/{coach}/edit', 'CoachesController@edit')->name('Coaches.edit');
-    Route::put('/coaches/{coach}', 'CoachesController@update')->name('Coaches.update');
-    Route::delete('/coaches/{coach}', 'CoachesController@destroy')->name('Coaches.destroy');
-
-
-    Route::get('/cities', 'CityController@index')->name('Cities.index');
-    Route::get('/cities/create', 'CityController@create')->name('Cities.create');
-    Route::post('/cities', 'CityController@store')->name('Cities.store');
-    Route::get('/cities/{city}', 'CityController@show')->name('Cities.show');
-    Route::get('/cities/{city}/edit', 'CityController@edit')->name('Cities.edit');
-    Route::put('/cities/{city}', 'CityController@update')->name('Cities.update');
-    Route::delete('/cities/{city}', 'CityController@destroy')->name('Cities.destroy');
-
 });
 
+Route::group(['middleware'=>['role:super-admin','auth','forbid-banned-user','logs-out-banned-user'],
+    ], function(){
+
+        Route::get('/cityManagers', 'CityManagerController@index')->name('CityManagers.index');
+        Route::get('get-cityManagers-my-datatables', ['as'=>'get.cityManagers','uses'=>'CityManagerController@getCityManagers']);
+        Route::get('/cityManagers/create', 'CityManagerController@create')->name('CityManagers.create');
+        Route::post('/cityManagers', 'CityManagerController@store')->name('CityManagers.store');
+        Route::get('/cityManagers/{mgr}', 'CityManagerController@show')->name('CityManagers.show');
+        Route::get('/cityManagers/{mgr}/edit', 'CityManagerController@edit')->name('CityManagers.edit');
+        Route::put('/cityManagers/{mgr}', 'CityManagerController@update')->name('CityManagers.update');
+        Route::delete('/cityManagers/{mgr}', 'CityManagerController@destroy')->name('CityManagers.destroy');
 
 
+        Route::get('/coaches', 'CoachesController@index')->name('Coaches.index');
+        Route::get('get-coaches-my-datatables', ['as'=>'get.coaches','uses'=>'CoachesController@getcoaches']);
+        Route::get('/coaches/create', 'CoachesController@create')->name('Coaches.create');
+        Route::post('/coaches', 'CoachesController@store')->name('Coaches.store');
+        Route::get('/coaches/{coach}', 'CoachesController@show')->name('Coaches.show');
+        Route::get('/coaches/{coach}/edit', 'CoachesController@edit')->name('Coaches.edit');
+        Route::put('/coaches/{coach}', 'CoachesController@update')->name('Coaches.update');
+        Route::delete('/coaches/{coach}', 'CoachesController@destroy')->name('Coaches.destroy');
+
+
+        Route::get('/cities', 'CityController@index')->name('Cities.index');
+        Route::get('/cities/create', 'CityController@create')->name('Cities.create');
+        Route::post('/cities', 'CityController@store')->name('Cities.store');
+        Route::get('/cities/{city}', 'CityController@show')->name('Cities.show');
+        Route::get('/cities/{city}/edit', 'CityController@edit')->name('Cities.edit');
+        Route::put('/cities/{city}', 'CityController@update')->name('Cities.update');
+        Route::delete('/cities/{city}', 'CityController@destroy')->name('Cities.destroy');
+
+
+    });
 
 
 Auth::routes();

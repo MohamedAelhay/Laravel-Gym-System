@@ -20,7 +20,6 @@ class PackageController extends Controller
     public function index()
     {
         return view('Package.index');
-
     }
 
     /**
@@ -30,7 +29,6 @@ class PackageController extends Controller
      */
     public function create()
     {
-
         $gyms = Gym::all();
         return view('Package.create', [
             'gyms' => $gyms,
@@ -47,7 +45,7 @@ class PackageController extends Controller
     {
         //
         GymPackage::create($request->all());
-        return view('Package.index');
+        return back()->with('success', 'Package created successfully!');
     }
 
     /**
@@ -92,8 +90,7 @@ class PackageController extends Controller
     {
         //
         GymPackage::find($package->id)->update($request->all());
-        return view('Package.index');
-
+        return back()->with('success', 'Package updates successfully!');
     }
 
     /**
@@ -108,6 +105,7 @@ class PackageController extends Controller
         $package = new GymPackage;
         $package = GymPackage::find($id);
         $package->delete($id);
+        return back()->with('success', 'Session deleted successfully!');
     }
 
     public function getData()
@@ -119,5 +117,4 @@ class PackageController extends Controller
         });
         return datatables()->of($packageFilter)->with('gym')->toJson();
     }
-
 }

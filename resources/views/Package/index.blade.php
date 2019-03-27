@@ -18,6 +18,10 @@
     <body>
 
     <section class="content">
+    @include('flash-message')
+
+
+        @yield('content')
     <div class="row">
         <div class="col-xs-12">
             <div class="box box-primary">
@@ -115,7 +119,7 @@ $(function() {
                         return '<center><a href="#" class="table-delete btn btn-danger" row_id="' + row.id + '" data-toggle="modal" data-target="#deletepopup" id="delete_toggle">Delete</a></center>'
                     }
                 },
-            
+
             ],
         });
 
@@ -123,7 +127,7 @@ $(function() {
             var delete_id = $(this).attr('row_id');
             $('#delete_item').attr('row_delete',delete_id);
         });
-        
+
         $(document).on('click','#delete_item',function () {
             var package_id = $(this).attr('row_delete');
             $.ajax({
@@ -133,19 +137,15 @@ $(function() {
                 url: '/package/'+package_id,
                 type: 'DELETE',
                 success: function (data) {
-                    console.log('success');
-                    console.log(data);
-                    var table = $('#table').DataTable();
-                    table.ajax.reload();
+                    window.location.reload();
                 },
                 error: function (response) {
-                    alert(' error');
-                    console.log(response);
+                    window.location.reload();
                 }
             });
 
         });
-       
+
     });
 
         </script>

@@ -1,5 +1,4 @@
 @extends('admin')
-
 @section('PageHeader')
     <h1>
         Gym-Managers

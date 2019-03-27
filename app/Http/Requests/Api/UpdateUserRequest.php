@@ -27,7 +27,7 @@ class UpdateUserRequest extends FormRequest
             'name' => 'required|string',
             'password' => 'confirmed|string|min:6|max:10',
             'password_confirmation' =>'',
-            'img' => 'URL',
+            'img' => 'required|mimes:jpeg,bmp,png|image',
             'date_of_birth' => 'required|date_format:Y-m-d',
             'gender' => 'required'
         ];

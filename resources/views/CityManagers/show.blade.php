@@ -16,8 +16,13 @@
           </div>
           <div class="row">
 			<div class="col-md-4 text-center">
-              <img class="img-circle avatar avatar-original" style="-webkit-user-select:none; 
-              display:block; margin:auto;" src="http://robohash.org/sitsequiquia.png?size=120x120">
+          <div class="col">
+              {{-- <img class="img-circle avatar avatar-original" style="-webkit-user-select:none; 
+              display:block; margin:auto;" src="{{asset('storage/'.$cityManager->name.'-'.$authUser->name.'.jpg')}}"> --}}
+              @if(Storage::disk('public')->has($cityManager->name.'-'.$authUser->name.'.jpg'))
+              <img src="{{asset('storage/'.$cityManager->name.'-'.$authUser->name.'.jpg')}}" style="width: 200px; height: 200px;" class="img-fluid" alt="Responsive image">
+          @endif
+          </div>
             </div>
             <div class="col-md-8">
               <div class="row">

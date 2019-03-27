@@ -94,7 +94,7 @@ Route::group(['middleware' => ['role:super-admin', 'auth', 'forbid-banned-user',
 
 });
 
-Route::group(['middleware' => ['role:super-admin|city-manager'|'gym-manager',
+Route::group(['middleware' => ['role:super-admin|city-manager|gym-manager',
     'auth', 'forbid-banned-user', 'logs-out-banned-user'],
 ], function () {
 

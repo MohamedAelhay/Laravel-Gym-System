@@ -2,6 +2,10 @@
 
 
 @section('content')
+@include('flash-message')
+
+
+        @yield('content')
 
 <form action="{{route('Package.store')}}" method="POST">
         @csrf

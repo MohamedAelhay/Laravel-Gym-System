@@ -6,6 +6,10 @@
 </h1>
 @endsection
 @section('content')
+@include('flash-message')
+
+
+        @yield('content')
 <form action="{{route('Package.update', $package->id)}}" method="POST">
         @csrf
         @method('PUT')

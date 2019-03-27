@@ -26,9 +26,6 @@ Route::post('login', 'Api\ApiController@login')
 
 Route::group(['middleware' => 'auth.jwt'], function () {
 
-//    Route::get('/user/{user}/edit', 'Api\ApiController@edit')
-//        ->name('user.edit');
-
     Route::put('/update/', 'Api\ApiController@update')
         ->name('user.update');
 

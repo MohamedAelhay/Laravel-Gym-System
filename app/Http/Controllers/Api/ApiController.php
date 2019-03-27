@@ -70,9 +70,15 @@ class ApiController extends Controller
     {
         $password = bcrypt($request->password);
 
+        $path = Storage::putFile('public/customer', $request->file('img'));
+
         $customer = Customer::findOrFail(Auth::User()->role_id);
 
-        $customer->user()->update($request->only('name') + ['password' => $password]);
+        $customer->user()->update($request->only('name') +
+            [
+                'password' => $password,
+                'img' => $path
+                ]);
 
         $customer->update($request->only('gender', 'date_of_birth'));
 

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\GymPackage;
 use DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -18,7 +19,9 @@ class RevenueController extends Controller
         //
         $gym_id = Auth::User()->role->gym_id;
         $revenue = DB::table('gym_packages_purchase_history')->where('gym_id', $gym_id)->sum('package_price');
-        return view('Revenue.index', ['revenue' => $revenue]);
+        $revenueDollar = GymPackage::getPriceInDollars($revenue);
+        return view('Revenue.index', ['revenue' => $revenueDollar]);
+
     }
 
     /**

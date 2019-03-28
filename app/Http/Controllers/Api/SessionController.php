@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Customer;
 use App\Gym;
+use App\Http\Requests\Api\UserAttendanceRequest;
 use App\Session;
 use App\CustomerSessionAttendane;
 use App\GymPackage;
@@ -33,6 +35,9 @@ class SessionController extends Controller
             $remainingSession --;
         }
 
+        $customer = Customer::where('id', $user->role_id)->first();
+        $customer->update(['remaining_sessions' => $remainingSession]);
+
         return response()->json([
             'Total Session' => $totalSession,
             'Remaining Session' => $remainingSession,
@@ -44,12 +49,12 @@ class SessionController extends Controller
         $user = Auth::user();
         $attendance= CustomerSessionAttendane::where('user_id', $user->id)->get();
 
-        $respone = [];
+        $response = [];
         foreach ($attendance as $attend)
         {
             $session = Session::where('id', $attend->session_id)->first();
             $gym = Gym::where('id', $session->gym_id)->first();
-            $respone[] = [
+            $response[] = [
                 'Session Name' => $session->name,
                 'Gym Name' => $gym->name,
                 'Attendance Date' => $attend->attendance_date,
@@ -58,7 +63,21 @@ class SessionController extends Controller
         }
 
         return response()->json([
-            'Session History' => $respone,
+            'Session History' => $response,
+        ], 200);
+    }
+
+    public function userAttendance(Session $session, UserAttendanceRequest $request)
+    {
+        $customerAttend = CustomerSessionAttendane::create([
+            'attendance_time' => $request->attendance_time,
+            'attendance_date' => $request->attendance_date,
+            'user_id' => Auth::user()->id,
+            'session_id' => $session->id
+        ]);
+
+        return response()->json([
+            'Attendance' => $customerAttend
         ], 200);
     }
 }

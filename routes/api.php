@@ -32,6 +32,6 @@ Route::group(['middleware' => 'auth.jwt'], function () {
     /* Session Route*/
     Route::get('session', 'Api\SessionController@userSessions')->name('user.sessions');
     Route::get('session/history', 'Api\SessionController@userSessionsHistory')->name('user.sessionsHistory');
-    Route::post('session/{id}/attend', 'Api\SessionController@userAttendance')->name('user.attendance');
+    Route::post('session/{session}/attend', 'Api\SessionController@userAttendance')->name('user.attendance');
 
 });

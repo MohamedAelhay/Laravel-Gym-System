@@ -4,6 +4,9 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * @property mixed id
+ */
 class Session extends Model
 {
     protected $fillable = ['name', 'starts_at', 'finishes_at', 'gym_id', 'session_date'];

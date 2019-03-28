@@ -10,6 +10,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Session\StoreSessionRequest;
 use App\Http\Requests\Session\UpdateSessionRequest;
 use App\Session;
+use DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -128,8 +129,8 @@ class SessionController extends Controller
      */
     public function destroy($id)
     {
-        //ToDo Remove sessions_coaches_history first then remove session
         if (!CustomerSessionAttendane::where('session_id', '=', $id)->exists()) {
+            DB::table('sessions_coaches_history')->delete($id);
             Session::find($id)->delete();
             return back()->with('success', 'Session deleted successfully!');
         } else {

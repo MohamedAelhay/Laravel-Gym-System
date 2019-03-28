@@ -2,41 +2,31 @@
 
 namespace App\Http\Controllers;
 
-use App\GymManager;
+use App\Gym;
 use App\GymPackage;
 use App\GymPackagePurchaseHistory;
-use App\Gym;
-use App\City;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Payment\StorePurchaseRequest;
 use App\User;
 use Carbon;
 use Cartalyst\Stripe\Stripe;
 use DB;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class PurchaseController extends Controller
 {
-
-    var $cityGymsIds = array();
+    public $cityGymsIds = array();
 
     public function index()
     {
         //
-        if (GymManager::where('id', '=', Auth::User()->id)->exists()) {
-            return redirect()->route('notallowed')->with('error', 'you are not gym manager!');
-        } else {
-            return view('Payment.index');
-        }
+        return view('Payment.index');
     }
-
 
     public function create()
     {
 
             $gyms = $this->getGymsByRole(auth()->user());
-//            dd($gyms);
             return view('Payment.create', [
                 'users' => User::all(),
                 'packages' => GymPackage::all(),
@@ -44,7 +34,6 @@ class PurchaseController extends Controller
                 'cities' => City::all()]);
 
     }
-
 
     public function store(StorePurchaseRequest $request)
     {
@@ -64,7 +53,6 @@ class PurchaseController extends Controller
         return back()->with('success', 'Purchase created successfully!');
     }
 
-
     private function acceptPayment($request, $package)
     {
         $stripe = Stripe::make(env('STRIPE_SECRET'));
@@ -82,8 +70,8 @@ class PurchaseController extends Controller
             }
             $charge = $stripe->charges()->create([
                 'card' => $token['id'],
-                'currency' => 'Cent',
-                'amount' => $package->price,
+                'currency' => 'USD',
+                'amount' => GymPackage::getPriceInDollars($package->price),
             ]);
         } catch (\Exception $ex) {
             return $ex->getMessage();
@@ -107,6 +95,10 @@ class PurchaseController extends Controller
                 $user = DB::table('users')->where('id', $purchaseFilter->user_id)->first();
                 return $user->name;
             })
+            ->editColumn('package_price', function ($purchaseFilter) {
+                //change over here
+                return GymPackage::getPriceInDollars($purchaseFilter->package_price);
+            })
             ->editColumn('user.email', function ($purchaseFilter) {
                 //change over here
                 $user = DB::table('users')->where('id', $purchaseFilter->user_id)->first();
@@ -115,38 +107,35 @@ class PurchaseController extends Controller
             ->toJson();
     }
 
-    public function getValidGymsIds(){
-
+    public function getValidGymsIds()
+    {
         $user = auth()->user();
-        $gyms = Gym::where('city_id',$user->role->id)->get();
-        foreach ($gyms as $gym){
+        $gyms = Gym::where('city_id', $user->role->id)->get();
+        foreach ($gyms as $gym) {
             $this->cityGymsIds[] = $gym->id;
         }
         return $this->cityGymsIds;
-
     }
 
-    public function isAllowed($gymId){
-
+    public function isAllowed($gymId)
+    {
         $this->getValidGymsIds();
-        return Gym::whereIn('id',$this->cityGymsIds)->where('id',$gymId)->exists();
+        return Gym::whereIn('id', $this->cityGymsIds)->where('id', $gymId)->exists();
     }
 
-    public function getGymsByRole($user){
-
-        if ($user->hasRole('gym-manager')){
+    public function getGymsByRole($user)
+    {
+        if ($user->hasRole('gym-manager')) {
             $gym_id = $user->role->gym_id;
             $gyms = Gym::where('id', $gym_id)->first();
             return $gyms;
         }
-        if ($user->hasRole('city-manager')){
-
-            return Gym::whereIn('id',$this->getValidGymsIds())->get();
+        if ($user->hasRole('city-manager')) {
+            return Gym::whereIn('id', $this->getValidGymsIds())->get();
         }
         if ($user->hasRole('super-admin')){
             return Gym::with('city')->get();
         }
 
     }
-
 }

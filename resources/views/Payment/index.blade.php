@@ -30,7 +30,7 @@
                                 <th class="text-center">User Name</th>
                                 <th class="text-center">User Email</th>
                                 <th class="text-center">Package Name</th>
-                                <th class="text-center">Package Price</th>
+                                <th class="text-center">Package Price ($)</th>
                                 <th class="text-center">Gym</th>
                                 <th class="text-center">Purchase date</th>
                             </tr>

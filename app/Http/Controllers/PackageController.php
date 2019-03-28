@@ -115,6 +115,9 @@ class PackageController extends Controller
         $packageFilter = $package->filter(function ($package) use ($gym_id) {
             return $package->gym_id == $gym_id;
         });
-        return datatables()->of($packageFilter)->with('gym')->toJson();
+        return datatables()->of($packageFilter)->with('gym')->editColumn('package_price', function ($packageFilter) {
+            //change over here
+            return GymPackage::getPriceInDollars($packageFilter->price);
+        })->toJson();
     }
 }

@@ -127,7 +127,7 @@ class CityManagerController extends Controller
         // $query2=User::select('name','email')::where('role_id',$id)->toJson();
         // return datatables($query2)->make(true);
         return datatables()->of(CityManager::with('user'))->toJson();
-
+        // dd(datatables()->of(CityManager::with('user'))->toJson());
         // $user = auth()->user();
         // return datatables()->of(CityManager::with('user'))->toJson();
 

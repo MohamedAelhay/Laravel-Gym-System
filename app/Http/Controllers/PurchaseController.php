@@ -6,6 +6,8 @@ use App\Gym;
 use App\GymPackage;
 use App\GymPackagePurchaseHistory;
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
+use App\City;
 use App\Http\Requests\Payment\StorePurchaseRequest;
 use App\User;
 use Carbon;
@@ -25,8 +27,29 @@ class PurchaseController extends Controller
 
     public function create()
     {
-        $gyms = $this->getGymsByRole(auth()->user());
-        return view('Payment.create', ['users' => User::all(), 'packages' => GymPackage::all(), 'gyms' => $gyms]);
+
+            $gyms = $this->getGymsByRole(auth()->user());
+            return view('Payment.create', [
+                'users' => User::all(),
+                'packages' => GymPackage::all(),
+                'gyms' => $gyms,
+                'cities' => City::all()]);
+
+    }
+
+    function fetch(Request $request)
+    {
+        $select = $request->get('select');
+        $value = $request->get('value');
+        $dependent = $request->get('dependent');
+        $data = Gym::where($select, $value)
+            ->get();
+        $output = '<option value="">Select '.ucfirst($dependent).'</option>';
+        foreach($data as $row)
+        {
+            $output .= '<option value="'.$row->name.'">'.$row->name.'</option>';
+        }
+        echo $output;
     }
 
     public function store(StorePurchaseRequest $request)
@@ -127,5 +150,9 @@ class PurchaseController extends Controller
         if ($user->hasRole('city-manager')) {
             return Gym::whereIn('id', $this->getValidGymsIds())->get();
         }
+        if ($user->hasRole('super-admin')){
+            return Gym::all()->groupby('city_id');
+        }
+
     }
 }

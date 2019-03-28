@@ -54,7 +54,7 @@ class GymController extends Controller
         Gym::create($request->only([
             'name','created_at','img','city_id','creator_name'
         ]));
-        return redirect()->route('gyms.index')->with('success', 'Gym has been created successfully!');;
+        return redirect()->route('gyms.index')->with('success', 'Gym has been created successfully!');
     }
 
 

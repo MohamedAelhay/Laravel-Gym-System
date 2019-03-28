@@ -128,7 +128,7 @@ class SessionController extends Controller
      */
     public function destroy($id)
     {
-        //
+        //ToDo Remove sessions_coaches_history first then remove session
         if (!CustomerSessionAttendane::where('session_id', '=', $id)->exists()) {
             Session::find($id)->delete();
             return back()->with('success', 'Session deleted successfully!');

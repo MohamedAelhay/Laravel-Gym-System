@@ -53,7 +53,7 @@ class GymManagerController extends Controller
         $authUser = auth()->user();
         $gymManager = User::findOrFail($gymManagerId);
         if(!$this->isAllowed($gymManager->role->id)){
-            return redirect()->route('notallowed')->with('error', 'you are not authorized!');
+            return redirect()->route('GymManagers.index')->with('error', 'you are not authorized!');
         }
         return view('GymManagers.show',[
             'gymManager' => $gymManager,
@@ -68,7 +68,7 @@ class GymManagerController extends Controller
         $gyms = Gym::where('city_id',$user->role->id)->get();
         $gymManager = User::findOrFail($gymManagerId);
         if(!$this->isAllowed($gymManager->role->id)){
-            return redirect()->route('notallowed')->with('error', 'you are not authorized!');
+            return redirect()->route('GymManagers.index')->with('error', 'you are not authorized!');
         }
         return view('GymManagers.edit',[
             'gyms' => $gyms,

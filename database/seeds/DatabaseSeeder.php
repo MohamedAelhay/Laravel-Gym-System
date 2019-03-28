@@ -17,13 +17,13 @@ class DatabaseSeeder extends Seeder
 
 //           $this->call(RolesAndPermissionsSeeder::class); //1
         
-//         $this->call(UsersSeeder::class);
+        // $this->call(UsersSeeder::class);
 
 //         $this->call(CitiesSeeder::class);
 
         // $this->call(GymsSeeder::class);
         // $this->call(CoachesTableSeeder::class);
-//        $this->call(FullUserSeed::class);
+       $this->call(FullUserSeed::class);
 
 
 

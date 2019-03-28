@@ -22,6 +22,12 @@ class RevenueController extends Controller
         $revenueDollar = GymPackage::getPriceInDollars($revenue);
         return view('Revenue.index', ['revenue' => $revenueDollar]);
 
+        // $city_id = Auth::User()->role->city->id;
+        // $filteredGyms = Gym::where('city_id', $city_id)->get('id');
+        // $revenue = DB::table('gym_packages_purchase_history')->where('gym_id', $filteredGyms)->sum('package_price');
+        // return view('Revenue.index', ['revenue' => $revenue]);
+        // dd($city_id)
+
     }
 
     /**

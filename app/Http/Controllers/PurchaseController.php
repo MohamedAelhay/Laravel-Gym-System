@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Gym;
-use App\GymManager;
 use App\GymPackage;
 use App\GymPackagePurchaseHistory;
 use App\Http\Controllers\Controller;
@@ -21,11 +20,7 @@ class PurchaseController extends Controller
     public function index()
     {
         //
-        if (GymManager::where('id', '=', Auth::User()->id)->exists()) {
-            return redirect()->route('notallowed')->with('error', 'you are not gym manager!');
-        } else {
-            return view('Payment.index');
-        }
+        return view('Payment.index');
     }
 
     public function create()
@@ -96,10 +91,7 @@ class PurchaseController extends Controller
             })
             ->editColumn('package_price', function ($purchaseFilter) {
                 //change over here
-                // $package = GymPackage::all();
-                // dd($package);
                 return GymPackage::getPriceInDollars($purchaseFilter->package_price);
-                return $package->price;
             })
             ->editColumn('user.email', function ($purchaseFilter) {
                 //change over here

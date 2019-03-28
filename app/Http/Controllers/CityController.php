@@ -97,10 +97,11 @@ class CityController extends Controller
         //       'cityManagerInfo'=>$cityManagerInfo,
         //       'countryInfo'=>$countryInfo
         //   ]);
-
+        $cityManagers=CityManager::all();
         $city = City::findOrFail($cityId);
         return view('Cities.edit', [
-            'city' => $city
+            'city' => $city,
+            'cityManagers' =>$cityManagers
         ]);
     }
 
@@ -135,7 +136,7 @@ class CityController extends Controller
     //     $city=City::findOrFail($cityId);  
     //     $city[0]->delete();
 
-    //     return redirect()->route('Cities.index');\
+    //     return redirect()->route('Cities.index');
     $city = new City;      
     $city = City::find($cityId);
     $city->delete($cityId);

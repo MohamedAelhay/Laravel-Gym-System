@@ -36,7 +36,12 @@ class PurchaseController extends Controller
     {
 
             $gyms = $this->getGymsByRole(auth()->user());
-            return view('Payment.create', ['users' => User::all(), 'packages' => GymPackage::all(), 'gyms' => $gyms]);
+//            dd($gyms);
+            return view('Payment.create', [
+                'users' => User::all(),
+                'packages' => GymPackage::all(),
+                'gyms' => $gyms,
+                'cities' => City::all()]);
 
     }
 
@@ -137,6 +142,9 @@ class PurchaseController extends Controller
         if ($user->hasRole('city-manager')){
 
             return Gym::whereIn('id',$this->getValidGymsIds())->get();
+        }
+        if ($user->hasRole('super-admin')){
+            return Gym::with('city')->get();
         }
 
     }

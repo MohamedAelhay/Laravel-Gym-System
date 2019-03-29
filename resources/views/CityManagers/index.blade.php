@@ -6,6 +6,7 @@
 </h1>
 @endsection
 @section('content')
+@include('flash-message')
 <!DOCTYPE html>
 
 <html lang="en">
@@ -31,18 +32,22 @@
                             <tr>
                                
                             
-                             
+                                    
                                 <th class="text-center">city manager Id</th>
                                 <th class="text-center">National Id</th>
-
+                                <th class="text-center">user Id</th>
                                 <th class="text-center">Name</th>
                                 <th class="text-center">Email</th>
+                                <th class="text-center">Banned At</th>
+                                
+                                {{-- <th class="text-center">Image</th> --}}
                                 {{-- <th class="text-center">Banned At</th> --}}
                                 <th class="text-center">Show</th>
                                 <th class="text-center">Edit</th>
                                 <th class="text-center">Delete</th>
-                                {{-- <th class="text-center">Ban</th>
-                                <th class="text-center">UnBan</th> --}}
+                                <th class="text-center">Ban</th>
+                                <th class="text-center">UnBan</th>
+                                
                             </tr>
                         </thead>
                     </table>
@@ -72,6 +77,27 @@
             </div>
         </div>
     </div>
+    <div class="modal fade" id="unbanpopup" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3 class="modal-title" id="exampleModalLabel">Are you sure you want to UnBan this City Manager</h3>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-footer">
+                        <div>
+                            <div id="csrf_value"  hidden >@csrf</div>
+                            {{--@method('DELETE')--}}
+                            <button type="button" row_ban="" id="unban-city-manager"  class="btn btn-danger" data-dismiss="modal">Yes</button>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">NO</button>
+                        </div>
+    
+                    </div>
+                </div>
+            </div>
+        </div>
 
 </section>
 
@@ -102,8 +128,11 @@
                
                 { data: 'id', name:'id' },
                 { data: 'national_id', name: 'national_id' },
+                { data: 'user[0].id' , name:'user[0].id'},
                 { data: 'user[0].name' , name:'use[0].name'},
                 { data: 'user[0].email', name: 'user[0].email' },
+                { data: 'user[0].banned_at', name: 'user[0].banned_at' },
+                // { data: 'user[0].img', name: 'user[0].img'}
 
                 // { data: 'name', name: 'name' },
                 
@@ -125,6 +154,18 @@
                 /* DELETE */ {
                     mRender: function (data, type, row) {
                         return '<center><a href="#" class="table-delete btn btn-danger" row_id="' + row.id + '" data-toggle="modal" data-target="#deletepopup" id="delete_toggle">Delete</a></center>'
+                    }
+                },
+                   /* Ban */
+                   {
+                    mRender: function (data, type, row) {
+                        return '<center><a href="#" class="table-delete btn btn-warning" row_id="' + row.user[0].id + '" data-toggle="modal" data-target="#banpopup" id="ban_toggle">Ban</a></center>'
+                    }
+                },
+                /* UnBan */
+                {
+                    mRender: function (data, type, row) {
+                        return '<center><a href="#" class="table-delete btn btn-success" row_id="' + row.user[0].id + '" data-toggle="modal" data-target="#unbanpopup" id="unban_toggle">UnBan</a></center>'
                     }
                 },
             
@@ -156,6 +197,57 @@
                 }
             });
 
+        });
+
+
+
+        $(document).on('click','#ban_toggle',function () {
+            var ban_id = $(this).attr('row_id');
+            $('#ban-gym-manager').attr('row_ban',ban_id);
+        });
+        $(document).on('click','#ban-gym-manager',function () {
+            var gymManagerId = $(this).attr('row_ban');
+            console.log(gymManagerId);
+            $.ajax({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                url: '/home/'+gymManagerId+'/ban',
+                type: 'GET',
+                success: function () {
+                    alert("Gym Manager has been banned successfully");
+                    var table = $('table').DataTable();
+                    table.ajax.reload();
+                },
+                error: function () {
+                    alert(' error');
+                }
+            });
+        });
+        $(document).on('click','#unban_toggle',function () {
+            var unban_id = $(this).attr('row_id');
+            $('#unban-gym-manager').attr('row_unban',unban_id);
+        });
+        $(document).on('click','#unban-gym-manager',function () {
+            var gymManagerId = $(this).attr('row_unban');
+            console.log(gymManagerId);
+            $.ajax({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                url: '/home/'+gymManagerId+'/unban',
+                type: 'GET',
+                success: function () {
+                    alert("City Manager has been unbanned successfully");
+                    var table = $('table').DataTable();
+                    table.ajax.reload();
+                },
+                error: function () {
+
+                    alert(' error');
+
+                }
+            });
         });
        
     });

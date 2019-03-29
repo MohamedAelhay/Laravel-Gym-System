@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 use App\Coach;
 use App\Gym;
 use Illuminate\Http\Request;
+use App\Http\Requests\Coach\StoreCoachRequest;
 use Yajra\Datatables\Datatables;
+
 class CoachesController extends Controller
 {
     
@@ -38,21 +40,18 @@ class CoachesController extends Controller
 
     public function create()
     {
-        
-        $coaches = Coach::all();
         $gyms = Gym::all();
         return view('Coaches.create',[
-            'coaches'=>$coaches,
             'gyms'=>$gyms,
         ]);
 
     }
 
 
-    public function store(Request $request)
+    public function store(StoreCoachRequest $request)
     {
-        Gym::create($request->all());
-        return view('Coaches.index');
+        Coach::create($request->all());
+        return redirect()->route('Coaches.index');
     }
 
     public function show($coachId)

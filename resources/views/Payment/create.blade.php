@@ -175,7 +175,7 @@
                 var dependent = $(this).data('dependent');
                 var _token = $('input[name="_token"]').val();
                 $.ajax({
-                    url: "{{ route('dynamicdependent.fetch') }}",
+                    url: "{{ route('dynamicdependentPurchase.fetch') }}",
                     method: "POST",
                     data: {select: select, value: value, _token: _token, dependent: dependent},
                     success: function (result) {

@@ -2,17 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use App\City;
 use App\Gym;
 use App\GymPackage;
 use App\GymPackagePurchaseHistory;
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
-use App\City;
 use App\Http\Requests\Payment\StorePurchaseRequest;
 use App\User;
 use Carbon;
 use Cartalyst\Stripe\Stripe;
 use DB;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class PurchaseController extends Controller
@@ -22,32 +22,35 @@ class PurchaseController extends Controller
     public function index()
     {
         //
-        return view('Payment.index');
+        if (Auth::User()->hasRole('gym-manager')) {
+            return view('Payment.index', ['gym' => Auth::User()->role->gym]);
+        } elseif (Auth::User()->hasRole('city-manager')) {
+            return view('Payment.index', ['city' => Auth::User()->role->city]);
+        } else {
+            return view('Payment.index', ['city' => City::all(), 'gym' => Gym::all()]);
+        }
     }
 
     public function create()
     {
-
-            $gyms = $this->getGymsByRole(auth()->user());
-            return view('Payment.create', [
-                'users' => User::all(),
-                'packages' => GymPackage::all(),
-                'gyms' => $gyms,
-                'cities' => City::all()]);
-
+        $gyms = $this->getGymsByRole(auth()->user());
+        return view('Payment.create', [
+            'users' => User::all(),
+            'packages' => GymPackage::all(),
+            'gyms' => $gyms,
+            'cities' => City::all()]);
     }
 
-    function fetch(Request $request)
+    public function fetch(Request $request)
     {
         $select = $request->get('select');
         $value = $request->get('value');
         $dependent = $request->get('dependent');
         $data = Gym::where($select, $value)
             ->get();
-        $output = '<option value="">Select '.ucfirst($dependent).'</option>';
-        foreach($data as $row)
-        {
-            $output .= '<option value="'.$row->name.'">'.$row->name.'</option>';
+        $output = '<option value="">Select ' . ucfirst($dependent) . '</option>';
+        foreach ($data as $row) {
+            $output .= '<option value="' . $row->id . '">' . $row->name . '</option>';
         }
         echo $output;
     }
@@ -55,7 +58,6 @@ class PurchaseController extends Controller
     public function store(StorePurchaseRequest $request)
     {
         //
-        $gym_id = Auth::User()->role->gym_id;
         $package = DB::table('gym_packages')->where('name', $request->get('package_name'))->first();
         $this->acceptPayment($request, $package);
         $payment = [
@@ -63,7 +65,7 @@ class PurchaseController extends Controller
             "user_id" => $request->get('user_id'),
             'package_name' => $request->get('package_name'),
             'package_price' => $package->price,
-            'gym_id' => $gym_id,
+            'gym_id' => $request->get('gym_id'),
             'purchase_date' => Carbon\Carbon::now(),
         ];
         GymPackagePurchaseHistory::create($payment);
@@ -95,13 +97,16 @@ class PurchaseController extends Controller
         }
     }
 
-    public function getPurchase()
+    public function getPurchase(Request $request)
     {
-        $gym_id = Auth::User()->role->gym_id;
-        $purchase = GymPackagePurchaseHistory::with(['users', 'gym'])->get();
-        $purchaseFilter = $purchase->filter(function ($purchase) use ($gym_id) {
-            return $purchase->gym_id == $gym_id;
-        });
+        if (Auth::User()->hasRole('gym-manager')) {
+            $purchaseFilter = $this->getGymFilteredPurchase();
+        } elseif (Auth::User()->hasRole('city-manager')) {
+            $purchaseFilter = $this->getCityFilteredPurchase();
+        } else {
+            $purchaseFilter = $this->getAdminFilteredPurchase();
+        }
+
         return datatables()->of($purchaseFilter)->with('users', 'gym')
             ->editColumn('purchase_date', function ($purchaseFilter) {
                 //change over here
@@ -111,6 +116,17 @@ class PurchaseController extends Controller
                 //change over here
                 $user = DB::table('users')->where('id', $purchaseFilter->user_id)->first();
                 return $user->name;
+            })
+            ->editColumn('city.name', function ($purchaseFilter) {
+                //change over here
+                if (Auth::User()->hasRole('city-manager')) {
+                    $user = Auth::User();
+                    return $user->role->city->name;
+                }
+                if (Auth::User()->hasRole('super-admin')) {
+                    $gyms = Gym::with('city')->where('id', $purchaseFilter->gym_id)->first();
+                    return $gyms->city->name;
+                }
             })
             ->editColumn('package_price', function ($purchaseFilter) {
                 //change over here
@@ -150,9 +166,31 @@ class PurchaseController extends Controller
         if ($user->hasRole('city-manager')) {
             return Gym::whereIn('id', $this->getValidGymsIds())->get();
         }
-        if ($user->hasRole('super-admin')){
+        if ($user->hasRole('super-admin')) {
             return Gym::all()->groupby('city_id');
         }
+    }
 
+    private function getGymFilteredPurchase()
+    {
+        $gym_id = Auth::User()->role->gym_id;
+        $purchase = GymPackagePurchaseHistory::with(['users', 'gym'])->get();
+        $purchaseFilter = $purchase->filter(function ($purchase) use ($gym_id) {
+            return $purchase->gym_id == $gym_id;
+        });
+
+        return $purchaseFilter;
+    }
+    private function getCityFilteredPurchase()
+    {
+        $city_id = Auth::User()->role->city->id;
+        $filteredGyms = Gym::where('city_id', $city_id)->get('id');
+        $purchaseFilter = GymPackagePurchaseHistory::with(['users', 'gym'])->whereIn('gym_id', $filteredGyms)->get();
+        return $purchaseFilter;
+    }
+    private function getAdminFilteredPurchase()
+    {
+        $purchaseFilter = GymPackagePurchaseHistory::with(['users', 'gym'])->get();
+        return $purchaseFilter;
     }
 }

@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\City;
 use App\Coach;
 use App\CustomerSessionAttendane;
 use App\Gym;
-use App\GymManager;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Session\StoreSessionRequest;
 use App\Http\Requests\Session\UpdateSessionRequest;
@@ -24,8 +24,10 @@ class SessionController extends Controller
     public function index()
     {
         //
-        if (GymManager::where('id', '=', Auth::User()->id)->exists()) {
-            return redirect()->route('notallowed')->with('error', 'you are not gym manager!');
+        if (Auth::User()->hasRole('gym-manager')) {
+            return view('Session.index', ['gym' => Auth::User()->role->gym]);
+        } elseif (Auth::User()->hasRole('city-manager')) {
+            return view('Session.index', ['city' => Auth::User()->role->city]);
         } else {
             return view('Session.index');
         }
@@ -139,11 +141,19 @@ class SessionController extends Controller
     }
     public function getSession()
     {
-        $gym_id = Auth::User()->role->gym_id;
-        $session = Session::with(['gym', 'coach'])->get();
-        $sessionFilter = $session->filter(function ($session) use ($gym_id) {
-            return $session->gym_id == $gym_id;
-        });
+        // $gym_id = Auth::User()->role->gym_id;
+        // $session = Session::with(['gym', 'coach'])->get();
+        // $sessionFilter = $session->filter(function ($session) use ($gym_id) {
+        //     return $session->gym_id == $gym_id;
+        // });
+        $user = Auth::user();
+        if ($user->hasRole('super-admin')) {
+            $sessionFilter = $this->getAdminFilteredSessions();
+        } elseif ($user->hasRole('city-manager')) {
+            $sessionFilter = $this->getCityFilteredSessions();
+        } else {
+            $sessionFilter = $this->getGymFilteredSessions();
+        }
         return datatables()->of($sessionFilter)->with('gym', 'coach')->editColumn('starts_at', function ($sessionFilter) {
             return date("h:i a", strtotime($sessionFilter->starts_at));
         })
@@ -152,10 +162,39 @@ class SessionController extends Controller
                 //change over here
                 return date("h:i a", strtotime($sessionFilter->finishes_at));
             })
+            ->addColumn('city.name', function ($sessionFilter) {
+                return City::findorFail($sessionFilter->gym->city_id)->name;
+            })
 
             ->editColumn('session_date', function ($sessionFilter) {
                 //change over here
                 return date("d-M-Y", strtotime($sessionFilter->session_date));
             })->toJson();
+    }
+
+    private function getGymFilteredSessions()
+    {
+        $gym_id = Auth::User()->role->gym_id;
+        $session = Session::with(['gym', 'coach'])->get();
+        $sessionFilter = $session->filter(function ($session) use ($gym_id) {
+            return $session->gym_id == $gym_id;
+        });
+
+        return $sessionFilter;
+    }
+    private function getCityFilteredSessions()
+    {
+        $city_id = Auth::User()->role->city->id;
+        $session = Session::with(['gym', 'coach'])->get();
+        $sessionFilter = $session->filter(function ($session) use ($city_id) {
+            return $session->gym->city->id == $city_id;
+        });
+        return $sessionFilter;
+    }
+    private function getAdminFilteredSessions()
+    {
+        $sessions = Session::with(['gym', 'coach'])->get();
+
+        return $sessions;
     }
 }

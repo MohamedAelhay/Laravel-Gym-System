@@ -4,8 +4,13 @@ namespace App\Http\Controllers;
 use App\City;
 use App\Country;
 use App\CityManager;
+
 use App\User;
 use Illuminate\Http\Request;
+use App\Http\Requests\City\StoreCityRequest;
+use App\Http\Requests\City\UpdateCityRequest;
+
+
 
 class CityController extends Controller
 {
@@ -40,14 +45,16 @@ class CityController extends Controller
     public function create()
     {
         $cities = City::all();
+        $countries=Country::all();
         return view('Cities.create',[
-            'cities'=>$cities
+            'cities'=>$cities,
+            'countries'=>$countries
         ]);
 
     }
 
 
-    public function store(Request $request)
+    public function store(StoreCityRequest $request)
     {
 
         City::create($request->all());
@@ -97,15 +104,20 @@ class CityController extends Controller
         //       'cityManagerInfo'=>$cityManagerInfo,
         //       'countryInfo'=>$countryInfo
         //   ]);
-
+        $countries=Country::all();
+        $cityManagers=CityManager::all();
         $city = City::findOrFail($cityId);
+        $cities=City::all();
         return view('Cities.edit', [
-            'city' => $city
+            'city' => $city,
+            'cityManagers' =>$cityManagers,
+            'countries'=>$countries,
+            'cities'=>$cities
         ]);
     }
 
    
-        public function update(Request $request,$cityId)
+        public function update(UpdateCityRequest $request,$cityId)
         {
     
             //  $city = City::findOrFail($cityId);
@@ -135,7 +147,7 @@ class CityController extends Controller
     //     $city=City::findOrFail($cityId);  
     //     $city[0]->delete();
 
-    //     return redirect()->route('Cities.index');\
+    //     return redirect()->route('Cities.index');
     $city = new City;      
     $city = City::find($cityId);
     $city->delete($cityId);

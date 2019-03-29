@@ -22,6 +22,14 @@
 
 
         @yield('content')
+        <div class="alert alert-block">
+    @hasrole('city-manager')
+    <center><h3>City: {{$city->name}}</h3><center>
+    @endhasrole
+    @hasrole('gym-manager')
+    <center><h3>Gym: {{$gym->name}}</h3><center>
+    @endhasrole
+</div>
     <div class="row">
         <div class="col-xs-12">
             <div class="box box-primary">
@@ -35,7 +43,12 @@
                             <tr>
                                 <th class="text-center">#</th>
                                 <th class="text-center">Name</th>
-                                <th class="text-center">Gym</th>
+                                @hasanyrole('super-admin|city-manager')
+                            <th class="text-center">Gym</th>
+                            @endhasanyrole
+                            @hasrole('super-admin')
+                            <th class="text-center">City</th>
+                            @endhasrole
                                 <th class="text-center">Coach</th>
                                 <th class="text-center">starts at</th>
                                 <th class="text-center">Ends at</th>
@@ -102,7 +115,12 @@ $(function() {
 
                     { data: 'id', name: 'id' },
                     { data: 'name', name: 'name' },
+                    @hasanyrole('super-admin|city-manager')
                     { data: 'gym.name', name: 'gym.name' },
+                    @endhasanyrole
+                    @hasrole('super-admin')
+                    {data: 'city.name',name: 'city.name'},
+                    @endhasrole
                     { data: 'coach[].name', name: 'coach[].name' },
                     { data: 'starts_at', name: 'starts_at' },
                     { data: 'finishes_at', name: 'finishes_at' },

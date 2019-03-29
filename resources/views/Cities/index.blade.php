@@ -29,10 +29,11 @@
                             <thead>
                             <tr>
                                 <th class="text-center">id</th>
-                                <th class="text-center">city name</th>
+                               
                                 <th class="text-center">city mgr id</th>
-                         
+                                
                                 <th class="text-center">country id</th>
+                                <th class="text-center">city name</th>
                                 <th class="text-center">Show</th>
                                 <th class="text-center">Edit</th>
                                 <th class="text-center">Delete</th>

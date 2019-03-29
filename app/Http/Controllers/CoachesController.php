@@ -51,7 +51,7 @@ class CoachesController extends Controller
     public function store(StoreCoachRequest $request)
     {
         Coach::create($request->all());
-        return redirect()->route('Coaches.index');
+        return redirect()->route('Coaches.index')->with('success',"coach added successfully");
     }
 
     public function show($coachId)
@@ -70,7 +70,7 @@ class CoachesController extends Controller
         // $coach = new Coach;      
         $coach = Coach::find($coachId);
         $coach->delete($coachId);
-        return redirect()->route('Coaches.index');
+        return redirect()->route('Coaches.index')->with('success',"coach deleted successfully");
     }
 
 

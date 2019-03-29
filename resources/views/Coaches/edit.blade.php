@@ -7,6 +7,15 @@
 
  <form action="{{route('Coaches.update',$coach->id)}}" method="POST">
     @csrf
+    @if ($errors->any())
+        <div class="alert alert-danger">
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
     @method('put')
 
     <div class="form-group">

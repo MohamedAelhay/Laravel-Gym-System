@@ -5,6 +5,8 @@ use App\Coach;
 use App\Gym;
 use Illuminate\Http\Request;
 use App\Http\Requests\Coach\StoreCoachRequest;
+use App\Http\Requests\Coach\UpdateCoachRequest;
+
 use Yajra\Datatables\Datatables;
 
 class CoachesController extends Controller
@@ -30,7 +32,7 @@ class CoachesController extends Controller
     }
 
 
-    public function update(Request $request,$coachId)
+    public function update(UpdateCoachRequest $request,$coachId)
     {
         $coachId = Coach::findOrFail($coachId);
         $coachId->update($request->all());

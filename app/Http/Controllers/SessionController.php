@@ -141,11 +141,6 @@ class SessionController extends Controller
     }
     public function getSession()
     {
-        // $gym_id = Auth::User()->role->gym_id;
-        // $session = Session::with(['gym', 'coach'])->get();
-        // $sessionFilter = $session->filter(function ($session) use ($gym_id) {
-        //     return $session->gym_id == $gym_id;
-        // });
         $user = Auth::user();
         if ($user->hasRole('super-admin')) {
             $sessionFilter = $this->getAdminFilteredSessions();

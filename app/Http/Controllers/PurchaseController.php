@@ -100,17 +100,11 @@ class PurchaseController extends Controller
     public function getPurchase(Request $request)
     {
         if (Auth::User()->hasRole('gym-manager')) {
-            $gym_id = Auth::User()->role->gym_id;
-            $purchase = GymPackagePurchaseHistory::with(['users', 'gym'])->get();
-            $purchaseFilter = $purchase->filter(function ($purchase) use ($gym_id) {
-                return $purchase->gym_id == $gym_id;
-            });
+            $purchaseFilter = $this->getGymFilteredPurchase();
         } elseif (Auth::User()->hasRole('city-manager')) {
-            $city_id = Auth::User()->role->city->id;
-            $filteredGyms = Gym::where('city_id', $city_id)->get('id');
-            $purchaseFilter = GymPackagePurchaseHistory::with(['users', 'gym'])->whereIn('gym_id', $filteredGyms)->get();
+            $purchaseFilter = $this->getCityFilteredPurchase();
         } else {
-            $purchaseFilter = GymPackagePurchaseHistory::with(['users', 'gym'])->get();
+            $purchaseFilter = $this->getAdminFilteredPurchase();
         }
 
         return datatables()->of($purchaseFilter)->with('users', 'gym')
@@ -175,5 +169,28 @@ class PurchaseController extends Controller
         if ($user->hasRole('super-admin')) {
             return Gym::all()->groupby('city_id');
         }
+    }
+
+    private function getGymFilteredPurchase()
+    {
+        $gym_id = Auth::User()->role->gym_id;
+        $purchase = GymPackagePurchaseHistory::with(['users', 'gym'])->get();
+        $purchaseFilter = $purchase->filter(function ($purchase) use ($gym_id) {
+            return $purchase->gym_id == $gym_id;
+        });
+
+        return $purchaseFilter;
+    }
+    private function getCityFilteredPurchase()
+    {
+        $city_id = Auth::User()->role->city->id;
+        $filteredGyms = Gym::where('city_id', $city_id)->get('id');
+        $purchaseFilter = GymPackagePurchaseHistory::with(['users', 'gym'])->whereIn('gym_id', $filteredGyms)->get();
+        return $purchaseFilter;
+    }
+    private function getAdminFilteredPurchase()
+    {
+        $purchaseFilter = GymPackagePurchaseHistory::with(['users', 'gym'])->get();
+        return $purchaseFilter;
     }
 }

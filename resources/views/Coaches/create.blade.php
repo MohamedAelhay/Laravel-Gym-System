@@ -11,7 +11,6 @@
 </ul>
 @endif
 
-
 <a href="{{route('Coaches.index')}}" class="btn btn-danger">Back</a>
     <form action="{{route('Coaches.store')}}" method="POST" style="margin-left: 20px">
         @csrf

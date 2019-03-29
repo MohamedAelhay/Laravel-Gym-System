@@ -1,7 +1,4 @@
-
-
 @extends('admin')
-
 
 @section('content')
 
@@ -22,29 +19,23 @@
                 <input type="text" name="name" class="form-control col-3" placeholder="city name">
             </div>
 
-            {{-- <div class="form-group row">
-                <label for="city manager id" class="col-sm-2 col-form-label" >city manager id</label>
-                <input type="text" name="city manager id" class="form-control col-3" placeholder="city manager id">
-            </div> --}}
-
             <div class="form-group">
                     <label for="exampleInputPassword1">City Manager Name</label>
+                    
                     <select class="form-control" name="city_manager_id">
                         @foreach($cities as $city)
                             <option value="{{$city->id}}">{{$city->cityManager->user[0]->name}}</option>
                         @endforeach
-                    </select><div class="form-group">
+                    </select>
+                    <div class="form-group">
                             <label for="exampleInputPassword1">Country</label>
                             <select class="form-control" name="country_id">
                                 @foreach($countries as $country)
                                     <option value="{{$country->id}}">{{$country->name}}</option>
                                 @endforeach
-                            </select>
-                        </div>
+                    </select>
+                    </div>
             </div>
-
-        
-            
         <button type="submit" class="btn btn-primary">Submit</button>
     </form>
 

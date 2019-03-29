@@ -101,13 +101,46 @@
     </div>
     <br>
     @endif
+                @hasrole('super-admin')
+                <div class="box-body">
+                    <div class="form-group">
+                        <label>City</label>
+                        <select class="form-control dynamic" name="city_id" id="city_id" data-dependent="gym">
+                            <option value="">Select City</option>
+                            @foreach ($cities as $city)
+                                <option value="{{$city->id}}">{{$city->name}}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+                <div class="box-body">
+                    <div class="form-group">
+                        <label>Gym</label>
+                        <select class="form-control dynamic" name="gym_id" id="gym" data-dependent="coaches">
+                            <option value="">Select Gym </option>
+                        </select>
+                    </div>
+                </div>
+                <div class="box-body">
+                    <div class="form-group">
+                        <label>Coach</label>
+                        <select class="form-control" name="coach_id" id="coaches">
+                            <option value="">Select Coach </option>
+                        </select>
+                    </div>
+                </div>
+                @endrole
 
-            <div class="form-group">
-            <label for="gym_id">Gym</label>
-            <select class="form-control" name="gym_id" readonly>
-                    <option value="{{$gym->id}}">{{$gym->name}}</option>
-            </select>
-        </div>
+
+
+
+
+            {{--<div class="form-group">--}}
+            {{--<label for="gym_id">Gym</label>--}}
+            {{--<select class="form-control" name="gym_id" readonly>--}}
+                    {{--<option value="{{$gym->id}}">{{$gym->name}}</option>--}}
+            {{--</select>--}}
+        {{--</div>--}}
         @if ($errors->has('gym_id'))
     <div class="alert alert-danger" style="margin: 4px;">
         <ul style="list-style: none;">
@@ -117,17 +150,17 @@
     <br>
     @endif
 
-        <div class="form-group">
-                <div class="form-group">
-                    <label>Coaches</label>
-                    <select id="coaches" class="form-control select2" name="coach_id[]" multiple="multiple"
-                        data-placeholder="Select a coach" style="width: 100%;">
-                        @foreach($coaches as $coach)
-                        <option value="{{$coach->id}}">{{$coach->name}}</option>
-                        @endforeach
-                    </select>
-                </div>
-            </div>
+        {{--<div class="form-group">--}}
+                {{--<div class="form-group">--}}
+                    {{--<label>Coaches</label>--}}
+                    {{--<select id="coaches" class="form-control select2" name="coach_id[]" multiple="multiple"--}}
+                        {{--data-placeholder="Select a coach" style="width: 100%;">--}}
+                        {{--@foreach($coaches as $coach)--}}
+                        {{--<option value="{{$coach->id}}">{{$coach->name}}</option>--}}
+                        {{--@endforeach--}}
+                    {{--</select>--}}
+                {{--</div>--}}
+            {{--</div>--}}
 
             @if ($errors->has('coach_id'))
     <div class="alert alert-danger" style="margin: 4px;">
@@ -156,24 +189,58 @@
 <script src="{{ asset('plugins/timepicker/bootstrap-timepicker.min.js')}}"></script>
 <script src="{{ asset('bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js')}}"></script>
 <script src="../../bower_components/select2/dist/js/select2.full.min.js"></script>
-@endsection
+    <script src="//code.jquery.com/jquery.js"></script>
+    @endsection
 
 @section('script')
 <script>
-    $(function () {
-        //Initialize Select2 Elements
-        $('.select2').select2()
+    // $(function () {
+    //     //Initialize Select2 Elements
+    //     $('.select2').select2()
+    //
+    //     //Date picker
+    //     $('#datepicker').datepicker({
+    //         format: "yy-mm-dd",
+    //         autoclose: true
+    //     })
+    //     //Timepicker
+    //     $('.timepicker').timepicker({
+    //         showMeridian: false,
+    //         showInputs: false
+    //     })
+    // });
+    $(document).ready(function() {
 
-        //Date picker
-        $('#datepicker').datepicker({
-            format: "yy-mm-dd",
-            autoclose: true
-        })
-        //Timepicker
-        $('.timepicker').timepicker({
-            showMeridian: false,
-            showInputs: false
-        })
-    })
+        $('.dynamic').change(function () {
+            if ($(this).val() != '') {
+                var select = $(this).attr("id");
+                var value = $(this).val();
+                var dependent = $(this).data('dependent');
+                var _token = $('input[name="_token"]').val();
+                $.ajax({
+                    url: "{{ route('dynamicdependentSession.fetch') }}",
+                    method: "POST",
+                    data: {select: select, value: value, _token: _token, dependent: dependent},
+                    success: function (result) {
+                        console.log(result);
+                        $('#' + dependent).html(result);
+                    },
+                    error: function (respose) {
+                        alert(' error');
+                        console.log(respose);
+                    }
+                })
+            }
+        });
+
+        $('#city_id').change(function(){
+            $('#gym').val('');
+            $('#coaches').val('');
+        });
+
+        $('#gym').change(function(){
+            $('#coaches').val('');
+        });
+    });
 </script>
 @endsection

@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\City;
 use App\CustomerSessionAttendane;
 use App\Gym;
-use App\GymManager;
 use App\Session;
 use DB;
 use Illuminate\Http\Request;
@@ -21,10 +21,17 @@ class AttendenceController extends Controller
      */
     public function index()
     {
-        if (GymManager::where('id', '=', Auth::User()->id)->exists()) {
-            return redirect()->route('notallowed')->with('error', 'you are not gym manager!');
+        // if (GymManager::where('id', '=', Auth::User()->id)->exists()) {
+        //     return redirect()->route('notallowed')->with('error', 'you are not gym manager!');
+        // } else {
+        //     return view('Attendence.index');
+        // }
+        if (Auth::User()->hasRole('gym-manager')) {
+            return view('Attendence.index', ['gym' => Auth::User()->role->gym]);
+        } elseif (Auth::User()->hasRole('city-manager')) {
+            return view('Attendence.index', ['city' => Auth::User()->role->city]);
         } else {
-            return view('Attendence.index');
+            return view('Attendence.index', ['city' => City::all(), 'gym' => Gym::all()]);
         }
     }
 

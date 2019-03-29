@@ -58,7 +58,7 @@ class CityController extends Controller
     {
 
         City::create($request->all());
-        return view('Cities.index');
+        return redirect()->route('Cities.index')->with('success',"city added successfully");
     }
 
 
@@ -151,7 +151,7 @@ class CityController extends Controller
     $city = new City;      
     $city = City::find($cityId);
     $city->delete($cityId);
-    return redirect()->route('Cities.index');
+    return redirect()->route('Cities.index')->with('success',"city deleted successfully");
     }
 
     public function getcities()

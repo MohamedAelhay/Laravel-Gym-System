@@ -5,8 +5,9 @@
 
 <a href="{{route('Cities.index')}}" class="btn btn-danger">Back</a>
 
- <form action="{{route('Cities.update',$city->id)}}" method="GET">
+ <form action="{{route('Cities.update',$city->id)}}" method="POST">
     @csrf
+    @method('put')
     @if ($errors->any())
     <div class="alert alert-danger">
         <ul>
@@ -16,17 +17,13 @@
         </ul>
     </div>
 @endif
-    @method('put')
+   
 
     <div class="form-group">
         <label for="name">City Name</label>
         <input name="name" value="{{$city->name}}" type="text" class="form-control" id="name" aria-describedby="emailHelp" placeholder="city name">
     </div>
-    {{-- <div class="form-group">
 
-        <label for="City Manager">City Manager Id</label>
-        <input name="City Manager" class="form-control" value="{{$city->city_manager_id}}">
-    </div> --}}
 
 
     <div class="form-group">

@@ -40,8 +40,10 @@ class CityController extends Controller
     public function create()
     {
         $cities = City::all();
+        $countries=Country::all();
         return view('Cities.create',[
-            'cities'=>$cities
+            'cities'=>$cities,
+            'countries'=>$countries
         ]);
 
     }

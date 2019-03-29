@@ -24,7 +24,7 @@ class CoachesController extends Controller
     {
         $coach = Coach::findOrFail($coachId);
         $gyms=Gym::all();
-        // dd($coach);
+ 
         return view('Coaches.edit', [
             'coach' => $coach,
             'gyms' => $gyms,
@@ -67,9 +67,7 @@ class CoachesController extends Controller
     }
 
     public function destroy($coachId)
-    {
-        
-        // $coach = new Coach;      
+    {    
         $coach = Coach::find($coachId);
         $coach->delete($coachId);
         return redirect()->route('Coaches.index')->with('success',"coach deleted successfully");
@@ -80,14 +78,6 @@ class CoachesController extends Controller
     public function getcoaches()
 
     {
-        
-
-        // $coach = Coach::all();
-        // return datatables()->of($coach)->with('coach')->toJson();
-        return datatables()->of(Coach::with('gym'))->toJson();
-        // dd(datatables()->of(Coach::with('user'))->toJson());
+         return datatables()->of(Coach::with('gym'))->toJson();
     }
-
-
-
 }

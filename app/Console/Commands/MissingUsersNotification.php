@@ -40,9 +40,9 @@ class MissingUsersNotification extends Command
      */
     public function handle()
     {
-        $data = Carbon::now()->subDay(30);
+        $date = Carbon::now()->subDay(30);
 //        dd($data);
-        $users = User::where('logged_in_at' , '<' , $data)->get();
+        $users = User::where('logged_in_at' , '<' , $date)->get();
 
         foreach ($users as $user)
         {

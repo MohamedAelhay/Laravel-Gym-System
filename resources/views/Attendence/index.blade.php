@@ -32,9 +32,14 @@
                                 <th class="text-center">User Name</th>
                                 <th class="text-center">User Email</th>
                                 <th class="text-center">Session Name</th>
+                                @hasanyrole('super-admin|city-manager')
                                 <th class="text-center">Gym Name</th>
+                                @endhasanyrole
                                 <th class="text-center">Time</th>
                                 <th class="text-center">Date</th>
+                                @hasrole('super-admin')
+                                <th class="text-center">City Name</th>
+                                @endhasrole
                             </tr>
                         </thead>
                     </table>
@@ -73,9 +78,14 @@ $(function() {
                     { data:'user.name'},
                     { data:'user.email'},
                     { data: 'session.name'},
+                    @hasanyrole('super-admin|city-manager')
                     { data:'gym.name'},
+                    @endhasanyrole
                     { data: 'attendance_time', name: 'attendance_time' },
                     { data: 'attendance_date', name: 'attendance_date' },
+                    @hasrole('super-admin')
+                    { data: 'city.name', name: 'city.name' },
+                    @endhasrole
 
             ],
         });

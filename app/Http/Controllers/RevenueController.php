@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Gym;
 use App\GymPackage;
-use DB;
+use App\GymPackagePurchaseHistory;
 use Illuminate\Support\Facades\Auth;
 
 class RevenueController extends Controller
@@ -14,38 +14,48 @@ class RevenueController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
     public function index()
     {
-        $gyms = $this->getGymsByRole(auth()->user());
-        $revenue = DB::table('gym_packages_purchase_history')->where('gym_id', $gyms->id)->sum('package_price');
+        $user = Auth::User();
+        if ($user->hasRole('admin')) {
+            $revenue = $this->calculateAdminRevene();
+        } elseif ($user->hasRole('city-manager')) {
+            $revenue = $this->calculateCityRevene();
+        } else {
+            $revenue = $this->calculateGymRevene();
+        }
+        return view('Revenue.index', $revenue);
+    }
+    public function calculateAdminRevene()
+    {
+        $revenue = GymPackagePurchaseHistory::all()->sum('package_price');
         $revenueDollar = GymPackage::getPriceInDollars($revenue);
-        return view('Revenue.index', ['revenue' => $revenueDollar]);
+        return [
+            'revenue' => $revenueDollar,
+        ];
     }
-    public function getValidGymsIds()
+    public function calculateCityRevene()
     {
-        $user = auth()->user();
-        $gyms = Gym::where('city_id', $user->role->id)->get();
-        foreach ($gyms as $gym) {
-            $this->cityGymsIds[] = $gym->id;
-        }
-        return $this->cityGymsIds;
-    }
+        $city_id = Auth::User()->role->city->id;
+        $filteredGyms = Gym::where('city_id', $city_id)->get('id');
+        $revenue = GymPackagePurchaseHistory::whereIn('gym_id', $filteredGyms)->sum('package_price');
+        $revenueDollar = GymPackage::getPriceInDollars($revenue);
 
-    public function isAllowed($gymId)
-    {
-        $this->getValidGymsIds();
-        return Gym::whereIn('id', $this->cityGymsIds)->where('id', $gymId)->exists();
+        return [
+            'revenue' => $revenueDollar,
+            'city' => Auth::User()->role->city,
+        ];
     }
-
-    public function getGymsByRole($user)
+    public function calculateGymRevene()
     {
-        if ($user->hasRole('gym-manager')) {
-            $gym_id = $user->role->gym_id;
-            $gyms = Gym::where('id', $gym_id)->first();
-            return $gyms;
-        }
-        if ($user->hasRole('city-manager')) {
-            return Gym::whereIn('id', $this->getValidGymsIds())->get();
-        }
+        $gym_id = Auth::User()->role->gym_id;
+        $revenue = GymPackagePurchaseHistory::where('gym_id', $gym_id)->sum('package_price');
+        $revenueDollar = GymPackage::getPriceInDollars($revenue);
+
+        return [
+            'revenue' => $revenueDollar,
+            'gym' => Auth::User()->role->gym,
+        ];
     }
 }

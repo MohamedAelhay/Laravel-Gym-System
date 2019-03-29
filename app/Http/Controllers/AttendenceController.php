@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Auth;
 
 class AttendenceController extends Controller
 {
-    var $cityGymsIds = array();
+    public $cityGymsIds = array();
 
     /**
      * Display a listing of the resource.
@@ -21,16 +21,6 @@ class AttendenceController extends Controller
      */
     public function index()
     {
-        //
-//        $attendence =CustomerSessionAttendane::with(['user', 'session'])->get();
-//        dd(datatables()->of(CustomerSessionAttendane::with('user', 'session'))->toJson());
-//        datatables()->of(CustomerSessionAttendane::with('user', 'session'))->toJson()
-//        dd($attendence[0]->session->gym_id);
-//        foreach ($attendence as $att){
-//        dd(datatables()->of(Gym::with('city')->where('id',$attendence->session->gym_id)->first())->toJson());
-//            $data= Gym::where('id',$att['session']['gym_id'])->with('city')->get();
-//        }
-//        dd($data);
         if (GymManager::where('id', '=', Auth::User()->id)->exists()) {
             return redirect()->route('notallowed')->with('error', 'you are not gym manager!');
         } else {
@@ -150,9 +140,9 @@ class AttendenceController extends Controller
             })
             ->editColumn('city.name', function ($attFilter) {
                 //change over here
-                    $session = Session::where('id', $attFilter->session->id)->first();
-                    $gyms = Gym::with('city')->where('id', $session->gym_id)->first();
-                    return $gyms->city->name;
+                $session = Session::where('id', $attFilter->session->id)->first();
+                $gyms = Gym::with('city')->where('id', $session->gym_id)->first();
+                return $gyms->city->name;
             })
 
             ->toJson();

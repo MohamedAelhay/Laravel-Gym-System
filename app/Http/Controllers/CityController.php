@@ -4,8 +4,13 @@ namespace App\Http\Controllers;
 use App\City;
 use App\Country;
 use App\CityManager;
+
 use App\User;
 use Illuminate\Http\Request;
+use App\Http\Requests\City\StoreCityRequest;
+use App\Http\Requests\City\UpdateCityRequest;
+
+
 
 class CityController extends Controller
 {
@@ -49,7 +54,7 @@ class CityController extends Controller
     }
 
 
-    public function store(Request $request)
+    public function store(StoreCityRequest $request)
     {
 
         City::create($request->all());
@@ -99,16 +104,20 @@ class CityController extends Controller
         //       'cityManagerInfo'=>$cityManagerInfo,
         //       'countryInfo'=>$countryInfo
         //   ]);
+        $countries=Country::all();
         $cityManagers=CityManager::all();
         $city = City::findOrFail($cityId);
+        $cities=City::all();
         return view('Cities.edit', [
             'city' => $city,
-            'cityManagers' =>$cityManagers
+            'cityManagers' =>$cityManagers,
+            'countries'=>$countries,
+            'cities'=>$cities
         ]);
     }
 
    
-        public function update(Request $request,$cityId)
+        public function update(UpdateCityRequest $request,$cityId)
         {
     
             //  $city = City::findOrFail($cityId);

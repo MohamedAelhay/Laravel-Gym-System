@@ -13,7 +13,7 @@ class UpdateCityRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,19 @@ class UpdateCityRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+           
+                'name' => 'required|min:3',
+                // 'city_manager_id' => 'required|exists:city_managers,id',
+                'country_id' => 'required|exists:countries,id'
+          
+        ];
+    }
+    public function messages(){
+        return [
+            'name.required' => 'city name is required',
+            'name.min' => 'name must be more than 3 characters',
+            // 'city_manager_id.required' => 'city manager id is required',
+            // 'country_id.required' => 'country id is required'
         ];
     }
 }

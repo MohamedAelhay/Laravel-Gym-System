@@ -60,17 +60,17 @@ class CityManagerController extends Controller
   
     public function store(StoreCityManagerRequest $request)
     {
-//        dd($request);
+    //    dd($request->file('img'));
         $user = auth()->user(); 
         $city_manger = CityManager::create($request->all());
-        $request['img'] = $this->storeImage($request,$user);
+        $path = Storage::putFile('public/managers', $request->file('img'));
         User::create([
             'name'=>$request->name,
             'email'=>$request->email,
             'password'=>bcrypt($request['password']),
             'role_id'=>$city_manger->id,
             'role_type'=>get_class($city_manger),
-            'img'=> $request['img'],
+            'img'=> $path,
         ])->assignRole('city-manager');
         
         return redirect()->route('CityManagers.index');
@@ -81,7 +81,8 @@ class CityManagerController extends Controller
     public function show($cityManagerId)
     {
         $authUser = auth()->user();
-        $cityManager = User::findOrFail($cityManagerId);
+        $cityManager = User::findOrFail($cityManagerId)->first();
+        dd($cityManager->img);
         return view('CityManagers.show', [
             'cityManager' => $cityManager,
             'authUser' => $authUser

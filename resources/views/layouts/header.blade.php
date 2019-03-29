@@ -15,22 +15,22 @@
                 <ul class="nav navbar-nav navbar-right">
                     <li class="dropdown user user-menu">
                         <!-- Menu Toggle Button -->
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                        {{-- <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false"> --}}
                             <!-- The user image in the navbar-->
-                            <img src="dist/img/user2-160x160.jpg" class="user-image" alt="User Image">
+                            {{-- <img src="dist/img/user2-160x160.jpg" class="user-image" alt="User Image"> --}}
                             <!-- hidden-xs hides the username on small devices so only the image appears. -->
                             {{-- <span class="hidden-xs">Alexander Pierce</span> --}}
                             <!-- use //Auth::User()->name -->
-                        </a>
-                        <ul class="dropdown-menu">
+                        {{-- </a> --}}
+                        {{-- <ul class="dropdown-menu"> --}}
                             <!-- The user image in the menu -->
-                            <li class="user-header">
-                                <img src="dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
+                            {{-- <li class="user-header"> --}}
+                                {{-- <img src="dist/img/user2-160x160.jpg" class="img-circle" alt="User Image"> --}}
                                 {{-- <p>
                                     Alexander Pierce - Web Developer
                                 </p> --}}
                                 <!-- //Auth::User()->name -->
-                            </li>
+                            {{-- </li> --}}
                             <!-- Menu Body -->
 
                             <!-- Menu Footer-->
@@ -42,11 +42,11 @@
                                     </a>
 
                                     <form id="logout-form" action="{{ route('logout') }}" method="POST"
-                                        style="display: none;">
+                                        style="display: none font-size:20px; ">
                                         @csrf
                                 </div>
                             </li>
-                        </ul>
+                        {{-- </ul> --}}
                     </li>
                 </ul>
             </div>

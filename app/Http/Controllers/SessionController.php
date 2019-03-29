@@ -16,6 +16,8 @@ use Illuminate\Support\Facades\Auth;
 
 class SessionController extends Controller
 {
+    public $cityGymsIds = array();
+
     /**
      * Display a listing of the resource.
      *
@@ -41,17 +43,37 @@ class SessionController extends Controller
     public function create()
     {
         //
-        $gym = Gym::find(Auth::User()->role->gym_id);
-        $gym_id = Auth::User()->role->gym_id;
-        $coaches = Coach::all();
-        $coachFilter = $coaches->filter(function ($coach) use ($gym_id) {
-            return $coach->gym_id == $gym_id;
-        });
+        $gyms = $this->getGymsByRole(auth()->user());
+//        $gym = Gym::find(Auth::User()->role->gym_id);
+//        $gym_id = Auth::User()->role->gym_id;
+//        $coaches = Coach::all();
+//        $coachFilter = $coaches->filter(function ($coach) use ($gym_id) {
+//            return $coach->gym_id == $gym_id;
+//        });
         return view('Session.create', [
-            'gym' => $gym,
-            'coaches' => $coachFilter->all(),
+            'gyms' => $gyms,
+            'cities' => City::all()
 
         ]);
+    }
+
+    public function fetch(Request $request)
+    {
+        $select = $request->get('select');
+        $value = $request->get('value');
+        $dependent = $request->get('dependent');
+        if ($select == 'city_id'){
+            $data = Gym::where($select, $value)
+                ->get();
+        }else{
+            $data = Coach::where('gym_id', $value)
+                ->get();
+        }
+        $output = '<option value="">Select ' . ucfirst($dependent) . '</option>';
+        foreach ($data as $row) {
+            $output .= '<option value="' . $row->id . '">' . $row->name . '</option>';
+        }
+        echo $output;
     }
 
     /**
@@ -141,11 +163,7 @@ class SessionController extends Controller
     }
     public function getSession()
     {
-        // $gym_id = Auth::User()->role->gym_id;
-        // $session = Session::with(['gym', 'coach'])->get();
-        // $sessionFilter = $session->filter(function ($session) use ($gym_id) {
-        //     return $session->gym_id == $gym_id;
-        // });
+
         $user = Auth::user();
         if ($user->hasRole('super-admin')) {
             $sessionFilter = $this->getAdminFilteredSessions();
@@ -197,4 +215,36 @@ class SessionController extends Controller
 
         return $sessions;
     }
+
+    public function getValidGymsIds()
+    {
+        $user = auth()->user();
+        $gyms = Gym::where('city_id', $user->role->id)->get();
+        foreach ($gyms as $gym) {
+            $this->cityGymsIds[] = $gym->id;
+        }
+        return $this->cityGymsIds;
+    }
+
+    public function isAllowed($gymId)
+    {
+        $this->getValidGymsIds();
+        return Gym::whereIn('id', $this->cityGymsIds)->where('id', $gymId)->exists();
+    }
+
+    public function getGymsByRole($user)
+    {
+        if ($user->hasRole('gym-manager')) {
+            $gym_id = $user->role->gym_id;
+            $gyms = Gym::where('id', $gym_id)->first();
+            return $gyms;
+        }
+        if ($user->hasRole('city-manager')) {
+            return Gym::whereIn('id', $this->getValidGymsIds())->get();
+        }
+        if ($user->hasRole('super-admin')) {
+            return Gym::all()->groupby('city_id');
+        }
+    }
+
 }

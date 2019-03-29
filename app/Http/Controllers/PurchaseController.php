@@ -171,8 +171,6 @@ class PurchaseController extends Controller
         }
     }
 
-
-
     private function getGymFilteredPurchase()
     {
         $gym_id = Auth::User()->role->gym_id;

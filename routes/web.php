@@ -121,5 +121,5 @@ Route::group(['middleware' => ['role:super-admin|city-manager|gym-manager',
     Route::get('get-att-my-datatables', ['as' => 'get.att', 'uses' => 'AttendenceController@getAttendence']);
 });
 Route::post('dynamic_dependent/fetch', 'PurchaseController@fetch')->name('dynamicdependent.fetch');
-
+Route::post('dynamic_dependent/fetch', 'SessionController@fetch')->name('dynamicdependentSession.fetch');
 Auth::routes();

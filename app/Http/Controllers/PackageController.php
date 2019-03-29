@@ -43,6 +43,7 @@ class PackageController extends Controller
     public function store(StorePackageRequest $request)
     {
         //
+        $request['price'] = $request->price * 100;
         GymPackage::create($request->all());
         return back()->with('success', 'Package created successfully!');
     }

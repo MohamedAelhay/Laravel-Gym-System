@@ -19,13 +19,13 @@
 
     <div class="alert alert-success alert-block">
     @hasrole('city-manager')
-    <center><h3>Total {{$city->name}} City revenue : {{$revenue}}</h3><center>
+    <center><h3>Total {{$city->name}} City revenue : {{$revenue}} $</h3><center>
     @endhasrole
     @hasrole('gym-manager')
-    <center><h3>Total {{$gym->name}} Gym revenue : {{$revenue}}</h3><center>
+    <center><h3>Total {{$gym->name}} Gym revenue : {{$revenue}} $</h3><center>
     @endhasrole
     @hasrole('super-admin')
-    <center><h3>Total revenue : {{$revenue}}</h3><center>
+    <center><h3>Total revenue : {{$revenue}} $</h3><center>
     @endhasrole
 </div>
 

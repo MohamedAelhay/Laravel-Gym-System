@@ -17,9 +17,7 @@
           <div class="row">
 			<div class="col-md-4 text-center">
           <div class="col">
-              @if(Storage::disk('public')->has($cityManager->name.'-'.$authUser->name.'.jpg'))
-              <img src="{{asset('storage/'.$cityManager->name.'-'.$authUser->name.'.jpg')}}" style="width: 200px; height: 200px;" class="img-fluid" alt="Responsive image">
-          @endif
+              {{-- <img src="{{Storage::url($cityManager->img)}}" style="width: 200px; height: 200px;" class="img-fluid" alt="Responsive image"> --}}
           </div>
             </div>
             <div class="col-md-8">
@@ -30,10 +28,12 @@
               </div>
               <div class="row">
                 <div class="col-md-6">
+                  <img src="{{Storage::url($cityManager->img)}}" style="width: 200px; height: 200px;" class="img-fluid" alt="Responsive image">
                   <span class="text-muted">National Id: {{$cityManager->role->national_id}}</span><br>
                   <span class="text-muted">Name:</span> {{$cityManager->name}}<br>
                   <span class="text-muted">Email:</span> {{$cityManager->email}}<br><br>
-                  <small class="text-muted">Created: 01.01.2015</small>
+                  {{-- <span class="text-muted">Email:</span> {{Storage::url($cityManager->img)}}<br><br> --}}
+                 
                 </div>
                
               </div>

@@ -17,19 +17,7 @@ class CityManagerController extends Controller
 
    public function index()
     {
-
         $cityManagers = CityManager::all();
-        // $users=User::$cityManagers;
-        // dd($users);
-
-        // $citymng = CityManager::all();
-        // $users=($citymng->user);
-
-
-        // $x = Auth::User();
-
-        // dd($cityManagers);
-        // dd($cityManagers);
         return view('CityManagers.index',[
        
             'cityManagers' => $cityManagers,
@@ -60,17 +48,16 @@ class CityManagerController extends Controller
   
     public function store(StoreCityManagerRequest $request)
     {
-//        dd($request);
         $user = auth()->user(); 
         $city_manger = CityManager::create($request->all());
-        $request['img'] = $this->storeImage($request,$user);
+        $path = Storage::putFile('public/managers', $request->file('img'));
         User::create([
             'name'=>$request->name,
             'email'=>$request->email,
             'password'=>bcrypt($request['password']),
             'role_id'=>$city_manger->id,
             'role_type'=>get_class($city_manger),
-            'img'=> $request['img'],
+            'img'=> $path,
         ])->assignRole('city-manager');
         
         return redirect()->route('CityManagers.index');
@@ -81,7 +68,8 @@ class CityManagerController extends Controller
     public function show($cityManagerId)
     {
         $authUser = auth()->user();
-        $cityManager = User::findOrFail($cityManagerId);
+        $cityManager = User::findOrFail($cityManagerId)->first();
+        dd($cityManager->img);
         return view('CityManagers.show', [
             'cityManager' => $cityManager,
             'authUser' => $authUser
@@ -118,23 +106,7 @@ class CityManagerController extends Controller
     public function getCityManagers()
 
     {
-     
-        // return datatables()->of(CityManager::with('user'))->toJson();
-        // return datatables()->of(DB::table('CityManager'))->toJson();
-
-
-        // $user = auth()->user();
-        // $query=CityManager::select('id','national_id');
-        // $id=$query->id;
-        // $query2=User::select('name','email')::where('role_id',$id)->toJson();
-        // return datatables($query2)->make(true);
         return datatables()->of(CityManager::with('user'))->toJson();
-        // dd(datatables()->of(CityManager::with('user'))->toJson());
-        // $user = auth()->user();
-        // return datatables()->of(CityManager::with('user'))->toJson();
-
-
-       
     }
    
 }

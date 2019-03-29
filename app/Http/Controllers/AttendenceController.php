@@ -102,7 +102,6 @@ class AttendenceController extends Controller
     }
     public function getAttendence()
     {
-
         if (Auth::User()->hasRole('gym-manager')) {
             $attFilter = $this->getGymFilteredPurchase();
         } elseif (Auth::User()->hasRole('city-manager')) {
@@ -147,9 +146,15 @@ class AttendenceController extends Controller
             })
             ->editColumn('city.name', function ($attFilter) {
                 //change over here
-                $session = Session::where('id', $attFilter->session->id)->first();
-                $gyms = Gym::with('city')->where('id', $session->gym_id)->first();
-                return $gyms->city->name;
+                if (Auth::User()->hasRole('city-manager')) {
+                    $user = Auth::User();
+                    return $user->role->city->name;
+                }
+                if (Auth::User()->hasRole('super-admin')) {
+                    $session = Session::where('id', $attFilter->session->id)->first();
+                    $gyms = Gym::with('city')->where('id', $session->gym_id)->first();
+                    return $gyms->city->name;
+                }
             })
 
             ->toJson();
@@ -166,8 +171,10 @@ class AttendenceController extends Controller
     }
     private function getCityFilteredPurchase()
     {
-
-        $attFilter = CustomerSessionAttendane::with(['user', 'session'])->get();
+        $city_id = Auth::User()->role->city->id;
+        $filteredGyms = Gym::where('city_id', $city_id)->get('id');
+        $session = Session::with(['gym'])->whereIn('gym_id', $filteredGyms)->get('id');
+        $attFilter = CustomerSessionAttendane::with(['user', 'session'])->whereIn('session_id', $session)->get();
         return $attFilter;
     }
     private function getAdminFilteredPurchase()

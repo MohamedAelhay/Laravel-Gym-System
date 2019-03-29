@@ -124,8 +124,8 @@ class PurchaseController extends Controller
                     return $user->role->city->name;
                 }
                 if (Auth::User()->hasRole('super-admin')) {
-                    // return $city;
-                    // $gym = Gym::all()->groupby('city_id');
+                    $gyms = Gym::with('city')->where('id', $purchaseFilter->gym_id)->first();
+                    return $gyms->city->name;
                 }
             })
             ->editColumn('package_price', function ($purchaseFilter) {

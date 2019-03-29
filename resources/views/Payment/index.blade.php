@@ -18,7 +18,7 @@
     <body>
 
     <section class="content">
-    <div class="alert alert-alert-block">
+    <div class="page-header">
     @hasrole('city-manager')
     <center><h3>City: {{$city->name}}</h3><center>
     @endhasrole

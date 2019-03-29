@@ -25,7 +25,7 @@ class SessionController extends Controller
         foreach ($purchases as $purchase)
         {
             $package = GymPackage::where('id', $purchase->package_id)->first();
-
+//dd($package->number_of_sessions);
             $totalSession += $package->number_of_sessions;
         }
 

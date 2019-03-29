@@ -242,6 +242,78 @@
                 }
             });
         });
+        $(document).on('click','#delete_toggle',function () {
+            var delete_id = $(this).attr('row_id');
+            $('#delete_item').attr('row_delete',delete_id);
+        });
+        $(document).on('click','#delete_item',function () {
+            var gymManagerId = $(this).attr('row_delete');
+            console.log(gymManagerId);
+            $.ajax({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                url: '/GymManagers/'+gymManagerId,
+                type: 'DELETE',
+                success: function () {
+                    alert("Gym Manager has been deleted successfully");
+                    var table = $('#table').DataTable();
+                    table.ajax.reload();
+                },
+                error: function () {
+                    alert(' error');
+                }
+            });
+        });
+        $(document).on('click','#ban_toggle',function () {
+            var ban_id = $(this).attr('row_id');
+            $('#ban-gym-manager').attr('row_ban',ban_id);
+        });
+        $(document).on('click','#ban-gym-manager',function () {
+            var gymManagerId = $(this).attr('row_ban');
+            console.log(gymManagerId);
+            $.ajax({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                url: '/home/'+gymManagerId+'/ban',
+                type: 'GET',
+                success: function () {
+                    alert("Gym Manager has been banned successfully");
+                    var table = $('#table').DataTable();
+                    table.ajax.reload();
+                },
+                error: function () {
+                    alert(' error');
+                }
+            });
+        });
+
+        $(document).on('click','#unban_toggle',function () {
+            var unban_id = $(this).attr('row_id');
+            $('#unban-gym-manager').attr('row_unban',unban_id);
+        });
+        $(document).on('click','#unban-gym-manager',function () {
+            var gymManagerId = $(this).attr('row_unban');
+            console.log(gymManagerId);
+            $.ajax({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                url: '/home/'+gymManagerId+'/unban',
+                type: 'GET',
+                success: function () {
+                    alert("Gym Manager has been unbanned successfully");
+                    var table = $('#table').DataTable();
+                    table.ajax.reload();
+                },
+                error: function () {
+
+                    alert(' error');
+
+                }
+            });
+        });
 
     });
 </script>

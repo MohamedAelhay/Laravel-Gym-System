@@ -3,13 +3,17 @@
 namespace App\Http\Controllers;
 
 use App\CustomerSessionAttendane;
+use App\Gym;
 use App\GymManager;
+use App\Session;
 use DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class AttendenceController extends Controller
 {
+    var $cityGymsIds = array();
+
     /**
      * Display a listing of the resource.
      *
@@ -18,6 +22,15 @@ class AttendenceController extends Controller
     public function index()
     {
         //
+//        $attendence =CustomerSessionAttendane::with(['user', 'session'])->get();
+//        dd(datatables()->of(CustomerSessionAttendane::with('user', 'session'))->toJson());
+//        datatables()->of(CustomerSessionAttendane::with('user', 'session'))->toJson()
+//        dd($attendence[0]->session->gym_id);
+//        foreach ($attendence as $att){
+//        dd(datatables()->of(Gym::with('city')->where('id',$attendence->session->gym_id)->first())->toJson());
+//            $data= Gym::where('id',$att['session']['gym_id'])->with('city')->get();
+//        }
+//        dd($data);
         if (GymManager::where('id', '=', Auth::User()->id)->exists()) {
             return redirect()->route('notallowed')->with('error', 'you are not gym manager!');
         } else {
@@ -92,11 +105,14 @@ class AttendenceController extends Controller
     }
     public function getAttendence()
     {
-        $gym_id = Auth::User()->role->gym_id;
-        $att = CustomerSessionAttendane::with(['users', 'session'])->get();
-        $attFilter = $att->filter(function ($att) use ($gym_id) {
-            return $att->session->gym_id == $gym_id;
-        });
+
+        if (Auth::User()->hasRole('gym-manager')) {
+            $attFilter = $this->getGymFilteredPurchase();
+        } elseif (Auth::User()->hasRole('city-manager')) {
+            $attFilter = $this->getCityFilteredPurchase();
+        } else {
+            $attFilter = $this->getAdminFilteredPurchase();
+        }
         return datatables()->of($attFilter)->with('users', 'session')
             ->editColumn('session.name', function ($attFilter) {
 
@@ -132,6 +148,34 @@ class AttendenceController extends Controller
                 //change over here
                 return date("d-M-Y", strtotime($attFilter->attendance_date));
             })
+            ->editColumn('city.name', function ($attFilter) {
+                //change over here
+                    $session = Session::where('id', $attFilter->session->id)->first();
+                    $gyms = Gym::with('city')->where('id', $session->gym_id)->first();
+                    return $gyms->city->name;
+            })
+
             ->toJson();
+    }
+
+    private function getGymFilteredPurchase()
+    {
+        $gym_id = Auth::User()->role->gym_id;
+        $att = CustomerSessionAttendane::with(['user', 'session'])->get();
+        $attFilter = $att->filter(function ($att) use ($gym_id) {
+            return $att->session->gym_id == $gym_id;
+        });
+        return $attFilter;
+    }
+    private function getCityFilteredPurchase()
+    {
+
+        $attFilter = CustomerSessionAttendane::with(['user', 'session'])->get();
+        return $attFilter;
+    }
+    private function getAdminFilteredPurchase()
+    {
+        $attFilter = CustomerSessionAttendane::with(['user', 'session'])->get();
+        return $attFilter;
     }
 }

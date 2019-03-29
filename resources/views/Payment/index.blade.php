@@ -31,8 +31,11 @@
                                 <th class="text-center">User Email</th>
                                 <th class="text-center">Package Name</th>
                                 <th class="text-center">Package Price ($)</th>
-                                <th class="text-center">Gym</th>
                                 <th class="text-center">Purchase date</th>
+                                <th class="text-center">Gym</th>
+                                @hasrole('city-manager')
+                                <th class="text-center">City</th>
+                                @endhasrole
                             </tr>
                         </thead>
                     </table>
@@ -73,8 +76,12 @@ $(function() {
                     { data:'user.email'},
                     { data: 'package_name', name: 'package_name' },
                     { data: 'package_price', name: 'package_price' },
-                    { data: 'gym.name', name: 'gym.name' },
                     { data: 'purchase_date', name: 'purchase_date' },
+                    { data: 'gym.name', name: 'gym.name' },
+                    @hasrole('city-manager')
+                    { data: 'city.name', name: 'city.name' },
+                    @endhasrole
+
 
             ],
 

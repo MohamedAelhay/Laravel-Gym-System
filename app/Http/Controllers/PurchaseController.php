@@ -121,6 +121,13 @@ class PurchaseController extends Controller
                 $user = DB::table('users')->where('id', $purchaseFilter->user_id)->first();
                 return $user->name;
             })
+            ->editColumn('city.name', function () {
+                //change over here
+                $user = Auth::User();
+                if (Auth::User()->hasRole('city-manager')) {
+                    return $user->role->city->name;
+                }
+            })
             ->editColumn('package_price', function ($purchaseFilter) {
                 //change over here
                 return GymPackage::getPriceInDollars($purchaseFilter->package_price);

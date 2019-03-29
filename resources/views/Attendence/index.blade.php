@@ -18,6 +18,14 @@
     <body>
 
     <section class="content">
+    <div class="page-header">
+    @hasrole('city-manager')
+    <center><h3>City managaer of: {{$city->name}}</h3><center>
+    @endhasrole
+    @hasrole('gym-manager')
+    <center><h3>Gym manager of: {{$gym->name}}</h3><center>
+    @endhasrole
+</div>
     <div class="row">
         <div class="col-xs-12">
             <div class="box box-primary">

@@ -74,7 +74,7 @@
         <div class="box-body">
             <div class="form-group">
                 <label>Gym</label>
-                <select class="form-control " >
+                <select class="form-control "  name="gym_id">
                     @foreach ($gyms as $gym)
                         <option value="{{$gym->id}}">{{$gym->name}}</option>
                     @endforeach

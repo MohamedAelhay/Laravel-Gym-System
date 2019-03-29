@@ -18,7 +18,14 @@
     <body>
 
     <div class="alert alert-success alert-block">
-    <center><h3>Total gym revenue : {{$revenue}}</h3><center></div>
+    @hasrole('city-manager')
+    <center><h3>Total {{$city->name}} City revenue : {{$revenue}}</h3><center>
+    @endhasrole
+    @hasrole('gym-manager')
+    <center><h3>Total {{$gym->name}} Gym revenue : {{$revenue}}</h3><center>
+    @endhasrole
+</div>
+
 
 </section>
 

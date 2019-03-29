@@ -34,7 +34,7 @@
     <br>
     @endif
         <div class="form-group">
-            <label for="price">Price in cent </label>
+            <label for="price">Price $ </label>
             <input type="number" name="price" id="price"></input>
         </div>
         @if ($errors->has('price'))

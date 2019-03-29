@@ -18,12 +18,12 @@ class RevenueController extends Controller
     public function index()
     {
         $user = Auth::User();
-        if ($user->hasRole('admin')) {
-            $revenue = $this->calculateAdminRevene();
+        if ($user->hasRole('gym-manager')) {
+            $revenue = $this->calculateGymRevene();
         } elseif ($user->hasRole('city-manager')) {
             $revenue = $this->calculateCityRevene();
         } else {
-            $revenue = $this->calculateGymRevene();
+            $revenue = $this->calculateAdminRevene();
         }
         return view('Revenue.index', $revenue);
     }

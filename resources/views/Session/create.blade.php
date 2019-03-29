@@ -2,6 +2,7 @@
 @section('style')
 <link rel="stylesheet" href="{{ asset('plugins/timepicker/bootstrap-timepicker.min.css')}}">
 <link rel="stylesheet" href="{{ asset('bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css')}}">
+<link rel="stylesheet" href="{{ asset('bower_components/select2/dist/css/select2.min.css')}}">
 @endsection
 @section('content')
 @include('flash-message')
@@ -28,12 +29,6 @@
     </div>
     <br>
     @endif
-
-    <!-- <div class="form-group">
-                <label>Name</label>
-                <input type="text" name="starts_at">
-            </div> -->
-
             <div class="bootstrap-timepicker">
                 <div class="form-group">
                     <label>Starts at:</label>
@@ -105,7 +100,7 @@
                     <div class="form-group">
                         <label>City</label>
                         <select class="form-control dynamic" name="city_id" id="city_id" data-dependent="gym">
-                            <option value="">Select City</option>
+                            <option value="" disabled selected hidden>Select a City</option>
                             @foreach ($cities as $city)
                                 <option value="{{$city->id}}">{{$city->name}}</option>
                             @endforeach
@@ -116,15 +111,15 @@
                     <div class="form-group">
                         <label>Gym</label>
                         <select class="form-control dynamic" name="gym_id" id="gym" data-dependent="coaches">
-                            <option value="">Select Gym </option>
+                            <option value=""disabled selected hidden>Select a Gym </option>
                         </select>
                     </div>
                 </div>
                 <div class="box-body">
                     <div class="form-group">
                         <label>Coach</label>
-                        <select class="form-control" name="coach_id" id="coaches" multiple="multiple">
-                            <option value="">Select Coach </option>
+                        <select class="form-control select2" name="coach_id[]" id="coaches" multiple  data-placeholder="Select a coach">
+                            <option value=""></option>
                         </select>
                     </div>
                 </div>
@@ -134,7 +129,7 @@
                 <div class="box-body">
                 <div class="form-group">
                     <label>City</label>
-                    <select class="form-control " name="city_id" id="city_id">
+                    <select class="form-control " name="city_id" id="city_id" readonly>
                         <option value="">Select City</option>
                             <option selected value="{{$cities->id}}">{{$cities->name}}</option>
                     </select>
@@ -144,6 +139,7 @@
         <div class="form-group">
             <label>Gym</label>
             <select class="form-control dynamic" name="gym_id" id="gym" data-dependent="coaches">
+            <option value=""disabled selected hidden>Select a Gym</option>
                 @foreach ($gyms as $gym)
                     <option value="{{$gym->id}}">{{$gym->name}}</option>
                 @endforeach
@@ -153,8 +149,8 @@
     <div class="box-body">
         <div class="form-group">
             <label>Coach</label>
-            <select class="form-control" name="coach_id" id="coaches" >
-                <option value="">Select Coach </option>
+            <select class="form-control select2" name="coach_id[]" id="coaches" multiple data-placeholder="Select a coach" >
+                <option value=""></option>
             </select>
         </div>
     </div>
@@ -182,7 +178,7 @@
         <div class="form-group">
                 <div class="form-group">
                     <label>Coaches</label>
-                    <select id="coaches" class="form-control select2" name="coach_id[]" multiple="multiple"
+                    <select id="coaches" class="form-control select2" name="coach_id[]" multiple
                         data-placeholder="Select a coach" style="width: 100%;">
                         @foreach($coaches as $coach)
                         <option value="{{$coach->id}}">{{$coach->name}}</option>
@@ -214,6 +210,7 @@
         <script src="{{ asset('plugins/timepicker/bootstrap-timepicker.min.js')}}"></script>
         <!-- bootstrap datepicker -->
         <script src="{{ asset('bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js')}}"></script>
+        <script src="{{ asset('bower_components/select2/dist/js/select2.full.min.js')}}"></script>
     @endsection
 
 @section('script')
@@ -222,6 +219,7 @@
     $(document).ready(function() {
         $(function () {
             //Date picker
+            $('.select2').select2()
             $('#datepicker').datepicker({
                 format: "yy-mm-dd",
                 autoclose: true

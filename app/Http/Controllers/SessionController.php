@@ -43,7 +43,7 @@ class SessionController extends Controller
     public function create()
     {
         //
-        $gyms = $this->getGymsByRole(auth()->user());
+//        $gyms = $this->getGymsByRole(auth()->user());
 //        $gym = Gym::find(Auth::User()->role->gym_id);
 //        $gym_id = Auth::User()->role->gym_id;
 //        $coaches = Coach::all();
@@ -51,9 +51,9 @@ class SessionController extends Controller
 //            return $coach->gym_id == $gym_id;
 //        });
         return view('Session.create', [
-            'gyms' => $gyms,
-            'cities' => City::all()
-
+            'gyms' => $this->getGymsByRole(Auth::user()),
+            'cities' => $this->getCitiesByRole(Auth::user()),
+            'coaches' => $this->getCoachesByRole(Auth::user())
         ]);
     }
 
@@ -235,9 +235,8 @@ class SessionController extends Controller
     public function getGymsByRole($user)
     {
         if ($user->hasRole('gym-manager')) {
-            $gym_id = $user->role->gym_id;
-            $gyms = Gym::where('id', $gym_id)->first();
-            return $gyms;
+
+            return Auth::User()->role->gym;
         }
         if ($user->hasRole('city-manager')) {
             return Gym::whereIn('id', $this->getValidGymsIds())->get();
@@ -246,5 +245,36 @@ class SessionController extends Controller
             return Gym::all()->groupby('city_id');
         }
     }
+
+    public function getCitiesByRole($user)
+    {
+        if ($user->hasRole('city-manager')) {
+
+            return Auth::user()->role->city;
+        }
+        if ($user->hasRole('super-admin')) {
+            return City::all();
+        }
+        if ($user->hasRole('gym-manager')) {
+            return null ;
+        }
+    }
+
+    public function getCoachesByRole($user)
+    {
+        if ($user->hasRole('city-manager') || $user->hasRole('super-admin')) {
+
+            return null ;
+        }
+
+        if ($user->hasRole('gym-manager')) {
+            $gym_id = Auth::User()->role->gym_id;
+            $filteredCoaches = Coach::all()->filter(function ($coach) use ($gym_id) {
+                return $coach->at_gym_id == $gym_id;
+            });
+            return $filteredCoaches;
+        }
+    }
+
 
 }

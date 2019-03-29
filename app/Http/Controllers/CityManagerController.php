@@ -17,19 +17,7 @@ class CityManagerController extends Controller
 
    public function index()
     {
-
         $cityManagers = CityManager::all();
-        // $users=User::$cityManagers;
-        // dd($users);
-
-        // $citymng = CityManager::all();
-        // $users=($citymng->user);
-
-
-        // $x = Auth::User();
-
-        // dd($cityManagers);
-        // dd($cityManagers);
         return view('CityManagers.index',[
        
             'cityManagers' => $cityManagers,
@@ -39,9 +27,11 @@ class CityManagerController extends Controller
   
     public function create()
     {
+        $cities=City::all();
         $cityManagers = User::all();
         return view('CityManagers.create',[
-            'cityManager' => $cityManagers
+            'cityManager' => $cityManagers,
+            'cities' => $cities
         ]);
     }
 
@@ -58,17 +48,16 @@ class CityManagerController extends Controller
   
     public function store(StoreCityManagerRequest $request)
     {
-//        dd($request);
         $user = auth()->user(); 
         $city_manger = CityManager::create($request->all());
-        $request['img'] = $this->storeImage($request,$user);
+        $path = Storage::putFile('public/managers', $request->file('img'));
         User::create([
             'name'=>$request->name,
             'email'=>$request->email,
             'password'=>bcrypt($request['password']),
             'role_id'=>$city_manger->id,
             'role_type'=>get_class($city_manger),
-            'img'=> $request['img'],
+            'img'=> $path,
         ])->assignRole('city-manager');
         
         return redirect()->route('CityManagers.index');
@@ -79,7 +68,8 @@ class CityManagerController extends Controller
     public function show($cityManagerId)
     {
         $authUser = auth()->user();
-        $cityManager = User::findOrFail($cityManagerId);
+        $cityManager = User::findOrFail($cityManagerId)->first();
+        // dd($cityManager->img);
         return view('CityManagers.show', [
             'cityManager' => $cityManager,
             'authUser' => $authUser
@@ -106,19 +96,17 @@ class CityManagerController extends Controller
    
     public function destroy($cityManagerId)
     {
-        $cityManager=CityManager::findOrFail($cityManagerId);  
-        $cityManager->delete();
-
-        return redirect()->route('CityManagers.index');
+        $user = User::findOrFail($cityManagerId);
+        CityManager::findOrFail($user->role->id)->delete();
+        $user->removeRole('city-manager');
+        $user->delete();
         
     }
 
     public function getCityManagers()
 
     {
-     
         return datatables()->of(CityManager::with('user'))->toJson();
-        
     }
    
 }

@@ -17,11 +17,11 @@
                         </thead>
 
                         <tbody>
-                            <tr>  
+                            <tr>
                                 <td>{{$package->name}}</td>
                                 <td>{{$gym->name}}</td>
                                 <td>{{$package->number_of_sessions}}</td>
-                                <td>{{$package->price}}</td>
+                                <td>{{$price}}</td>
                             </tr>
                         </tbody>
                     </table>

@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use DB;
-use Illuminate\Http\Request;
+use App\Gym;
+use App\GymPackage;
+use App\GymPackagePurchaseHistory;
 use Illuminate\Support\Facades\Auth;
 
 class RevenueController extends Controller
@@ -13,77 +14,48 @@ class RevenueController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
     public function index()
     {
-        //
+        $user = Auth::User();
+        if ($user->hasRole('gym-manager')) {
+            $revenue = $this->calculateGymRevene();
+        } elseif ($user->hasRole('city-manager')) {
+            $revenue = $this->calculateCityRevene();
+        } else {
+            $revenue = $this->calculateAdminRevene();
+        }
+        return view('Revenue.index', $revenue);
+    }
+    public function calculateAdminRevene()
+    {
+        $revenue = GymPackagePurchaseHistory::all()->sum('package_price');
+        $revenueDollar = GymPackage::getPriceInDollars($revenue);
+        return [
+            'revenue' => $revenueDollar,
+        ];
+    }
+    public function calculateCityRevene()
+    {
+        $city_id = Auth::User()->role->city->id;
+        $filteredGyms = Gym::where('city_id', $city_id)->get('id');
+        $revenue = GymPackagePurchaseHistory::whereIn('gym_id', $filteredGyms)->sum('package_price');
+        $revenueDollar = GymPackage::getPriceInDollars($revenue);
+
+        return [
+            'revenue' => $revenueDollar,
+            'city' => Auth::User()->role->city,
+        ];
+    }
+    public function calculateGymRevene()
+    {
         $gym_id = Auth::User()->role->gym_id;
-        $revenue = DB::table('gym_packages_purchase_history')->where('gym_id', $gym_id)->sum('package_price');
-        return view('Revenue.index', ['revenue' => $revenue]);
-    }
+        $revenue = GymPackagePurchaseHistory::where('gym_id', $gym_id)->sum('package_price');
+        $revenueDollar = GymPackage::getPriceInDollars($revenue);
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
+        return [
+            'revenue' => $revenueDollar,
+            'gym' => Auth::User()->role->gym,
+        ];
     }
 }

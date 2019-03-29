@@ -2,9 +2,9 @@
 
 namespace App;
 
-use Illuminate\Database\Eloquent\Relations\Pivot;
+use Illuminate\Database\Eloquent\Model;
 
-class CustomerSessionAttendane extends Pivot
+class CustomerSessionAttendane extends Model
 {
     protected $fillable = ['attendance_time', 'attendance_date', 'user_id', 'session_id'];
 
@@ -19,8 +19,8 @@ class CustomerSessionAttendane extends Pivot
         return $this->belongsTo(Session::class);
     }
 
-    public function users()
+    public function user()
     {
-        return $this->belongsTo('App\User');
+        return $this->belongsTo(User::class);
     }
 }

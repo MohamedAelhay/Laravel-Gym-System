@@ -4,7 +4,11 @@ namespace App\Http\Controllers;
 use App\Coach;
 use App\Gym;
 use Illuminate\Http\Request;
+use App\Http\Requests\Coach\StoreCoachRequest;
+use App\Http\Requests\Coach\UpdateCoachRequest;
+
 use Yajra\Datatables\Datatables;
+
 class CoachesController extends Controller
 {
     
@@ -20,7 +24,7 @@ class CoachesController extends Controller
     {
         $coach = Coach::findOrFail($coachId);
         $gyms=Gym::all();
-        // dd($coach);
+ 
         return view('Coaches.edit', [
             'coach' => $coach,
             'gyms' => $gyms,
@@ -28,7 +32,7 @@ class CoachesController extends Controller
     }
 
 
-    public function update(Request $request,$coachId)
+    public function update(UpdateCoachRequest $request,$coachId)
     {
         $coachId = Coach::findOrFail($coachId);
         $coachId->update($request->all());
@@ -38,21 +42,18 @@ class CoachesController extends Controller
 
     public function create()
     {
-        
-        $coaches = Coach::all();
         $gyms = Gym::all();
         return view('Coaches.create',[
-            'coaches'=>$coaches,
             'gyms'=>$gyms,
         ]);
 
     }
 
 
-    public function store(Request $request)
+    public function store(StoreCoachRequest $request)
     {
-        Gym::create($request->all());
-        return view('Coaches.index');
+        Coach::create($request->all());
+        return redirect()->route('Coaches.index')->with('success',"coach added successfully");
     }
 
     public function show($coachId)
@@ -66,12 +67,10 @@ class CoachesController extends Controller
     }
 
     public function destroy($coachId)
-    {
-        
-        // $coach = new Coach;      
+    {    
         $coach = Coach::find($coachId);
         $coach->delete($coachId);
-        return redirect()->route('Coaches.index');
+        return redirect()->route('Coaches.index')->with('success',"coach deleted successfully");
     }
 
 
@@ -79,14 +78,6 @@ class CoachesController extends Controller
     public function getcoaches()
 
     {
-        
-
-        // $coach = Coach::all();
-        // return datatables()->of($coach)->with('coach')->toJson();
-        return datatables()->of(Coach::with('gym'))->toJson();
-        // dd(datatables()->of(Coach::with('user'))->toJson());
+         return datatables()->of(Coach::with('gym'))->toJson();
     }
-
-
-
 }

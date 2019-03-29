@@ -7,7 +7,6 @@ use App\GymPackage;
 use App\Http\Requests\Package\StorePackageRequest;
 use App\Http\Requests\Package\UpdatePackageRequest;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Yajra\Datatables\Datatables;
 
 class PackageController extends Controller
@@ -44,6 +43,7 @@ class PackageController extends Controller
     public function store(StorePackageRequest $request)
     {
         //
+        $request['price'] = $request->price * 100;
         GymPackage::create($request->all());
         return back()->with('success', 'Package created successfully!');
     }
@@ -60,6 +60,7 @@ class PackageController extends Controller
         return view('Package.show', [
             "package" => $package,
             'gym' => $gym,
+            'price' => GymPackage::getPriceInDollars($package->price),
         ]);
     }
 
@@ -110,11 +111,9 @@ class PackageController extends Controller
 
     public function getData()
     {
-        $gym_id = Auth::User()->role->gym_id;
         $package = GymPackage::with(['gym'])->get();
-        $packageFilter = $package->filter(function ($package) use ($gym_id) {
-            return $package->gym_id == $gym_id;
-        });
-        return datatables()->of($packageFilter)->with('gym')->toJson();
+        return datatables()->of($package)->editColumn('price', function ($package) {
+            return GymPackage::getPriceInDollars($package->price);
+        })->toJson();
     }
 }

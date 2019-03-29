@@ -2,7 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\GymManager;
+use App\City;
+use App\Gym;
 use App\GymPackage;
 use App\GymPackagePurchaseHistory;
 use App\Http\Controllers\Controller;
@@ -16,48 +17,47 @@ use Illuminate\Support\Facades\Auth;
 
 class PurchaseController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    public $cityGymsIds = array();
+
     public function index()
     {
         //
-        if (GymManager::where('id', '=', Auth::User()->id)->exists()) {
-            return redirect()->route('notallowed')->with('error', 'you are not gym manager!');
+        if (Auth::User()->hasRole('gym-manager')) {
+            return view('Payment.index', ['gym' => Auth::User()->role->gym]);
+        } elseif (Auth::User()->hasRole('city-manager')) {
+            return view('Payment.index', ['city' => Auth::User()->role->city]);
         } else {
-            return view('Payment.index');
+            return view('Payment.index', ['city' => City::all(), 'gym' => Gym::all()]);
         }
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
-        //
-        if (GymManager::where('id', '=', Auth::User()->id)->exists()) {
-            return redirect()->route('notallowed')->with('error', 'you are not gym manager!');
-        } else {
-            $gym_id = Auth::User()->role->gym_id;
-            $gyms = DB::table('gyms')->where('id', $gym_id)->first();
-            return view('Payment.create', ['users' => User::all(), 'packages' => GymPackage::all(), 'gyms' => $gyms]);
-        }
+        $gyms = $this->getGymsByRole(auth()->user());
+        return view('Payment.create', [
+            'users' => User::all(),
+            'packages' => GymPackage::all(),
+            'gyms' => $gyms,
+            'cities' => City::all()]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
+    public function fetch(Request $request)
+    {
+        $select = $request->get('select');
+        $value = $request->get('value');
+        $dependent = $request->get('dependent');
+        $data = Gym::where($select, $value)
+            ->get();
+        $output = '<option value="">Select ' . ucfirst($dependent) . '</option>';
+        foreach ($data as $row) {
+            $output .= '<option value="' . $row->id . '">' . $row->name . '</option>';
+        }
+        echo $output;
+    }
+
     public function store(StorePurchaseRequest $request)
     {
         //
-        $gym_id = Auth::User()->role->gym_id;
         $package = DB::table('gym_packages')->where('name', $request->get('package_name'))->first();
         $this->acceptPayment($request, $package);
         $payment = [
@@ -65,56 +65,11 @@ class PurchaseController extends Controller
             "user_id" => $request->get('user_id'),
             'package_name' => $request->get('package_name'),
             'package_price' => $package->price,
-            'gym_id' => $gym_id,
+            'gym_id' => $request->get('gym_id'),
             'purchase_date' => Carbon\Carbon::now(),
         ];
         GymPackagePurchaseHistory::create($payment);
         return back()->with('success', 'Purchase created successfully!');
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
     }
 
     private function acceptPayment($request, $package)
@@ -134,21 +89,24 @@ class PurchaseController extends Controller
             }
             $charge = $stripe->charges()->create([
                 'card' => $token['id'],
-                'currency' => 'Cent',
-                'amount' => $package->price,
+                'currency' => 'USD',
+                'amount' => GymPackage::getPriceInDollars($package->price),
             ]);
         } catch (\Exception $ex) {
             return $ex->getMessage();
         }
     }
 
-    public function getPurchase()
+    public function getPurchase(Request $request)
     {
-        $gym_id = Auth::User()->role->gym_id;
-        $purchase = GymPackagePurchaseHistory::with(['users', 'gym'])->get();
-        $purchaseFilter = $purchase->filter(function ($purchase) use ($gym_id) {
-            return $purchase->gym_id == $gym_id;
-        });
+        if (Auth::User()->hasRole('gym-manager')) {
+            $purchaseFilter = $this->getGymFilteredPurchase();
+        } elseif (Auth::User()->hasRole('city-manager')) {
+            $purchaseFilter = $this->getCityFilteredPurchase();
+        } else {
+            $purchaseFilter = $this->getAdminFilteredPurchase();
+        }
+
         return datatables()->of($purchaseFilter)->with('users', 'gym')
             ->editColumn('purchase_date', function ($purchaseFilter) {
                 //change over here
@@ -159,11 +117,80 @@ class PurchaseController extends Controller
                 $user = DB::table('users')->where('id', $purchaseFilter->user_id)->first();
                 return $user->name;
             })
+            ->editColumn('city.name', function ($purchaseFilter) {
+                //change over here
+                if (Auth::User()->hasRole('city-manager')) {
+                    $user = Auth::User();
+                    return $user->role->city->name;
+                }
+                if (Auth::User()->hasRole('super-admin')) {
+                    $gyms = Gym::with('city')->where('id', $purchaseFilter->gym_id)->first();
+                    return $gyms->city->name;
+                }
+            })
+            ->editColumn('package_price', function ($purchaseFilter) {
+                //change over here
+                return GymPackage::getPriceInDollars($purchaseFilter->package_price);
+            })
             ->editColumn('user.email', function ($purchaseFilter) {
                 //change over here
                 $user = DB::table('users')->where('id', $purchaseFilter->user_id)->first();
                 return $user->email;
             })
             ->toJson();
+    }
+
+    public function getValidGymsIds()
+    {
+        $user = auth()->user();
+        $gyms = Gym::where('city_id', $user->role->id)->get();
+        foreach ($gyms as $gym) {
+            $this->cityGymsIds[] = $gym->id;
+        }
+        return $this->cityGymsIds;
+    }
+
+    public function isAllowed($gymId)
+    {
+        $this->getValidGymsIds();
+        return Gym::whereIn('id', $this->cityGymsIds)->where('id', $gymId)->exists();
+    }
+
+    public function getGymsByRole($user)
+    {
+        if ($user->hasRole('gym-manager')) {
+            $gym_id = $user->role->gym_id;
+            $gyms = Gym::where('id', $gym_id)->first();
+            return $gyms;
+        }
+        if ($user->hasRole('city-manager')) {
+            return Gym::whereIn('id', $this->getValidGymsIds())->get();
+        }
+        if ($user->hasRole('super-admin')) {
+            return Gym::all()->groupby('city_id');
+        }
+    }
+
+    private function getGymFilteredPurchase()
+    {
+        $gym_id = Auth::User()->role->gym_id;
+        $purchase = GymPackagePurchaseHistory::with(['users', 'gym'])->get();
+        $purchaseFilter = $purchase->filter(function ($purchase) use ($gym_id) {
+            return $purchase->gym_id == $gym_id;
+        });
+
+        return $purchaseFilter;
+    }
+    private function getCityFilteredPurchase()
+    {
+        $city_id = Auth::User()->role->city->id;
+        $filteredGyms = Gym::where('city_id', $city_id)->get('id');
+        $purchaseFilter = GymPackagePurchaseHistory::with(['users', 'gym'])->whereIn('gym_id', $filteredGyms)->get();
+        return $purchaseFilter;
+    }
+    private function getAdminFilteredPurchase()
+    {
+        $purchaseFilter = GymPackagePurchaseHistory::with(['users', 'gym'])->get();
+        return $purchaseFilter;
     }
 }

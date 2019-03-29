@@ -12,21 +12,29 @@ class GymPackage extends Model
 
     public $timestamps = false;
 
-    public function gym(){
+    public function gym()
+    {
 
         return $this->belongsTo(Gym::class);
 
     }
 
-    public function users(){
+    public function users()
+    {
 
         return $this->belongsToMany(User::class)
             ->using(GymPackagePurchaseHistory::class)
             ->withPivot([
-                'package_name', 'package_price','purchase_date'
-                ,'user_id', 'gym_id'
+                'package_name', 'package_price', 'purchase_date'
+                , 'user_id', 'gym_id',
             ]);
 
+    }
+
+    public static function getPriceInDollars($cents)
+    {
+        $dollars = $cents / 100;
+        return $dollars;
     }
 
 }

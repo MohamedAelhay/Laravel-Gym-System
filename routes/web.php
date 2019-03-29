@@ -32,7 +32,7 @@ Route::get('/notallowed', 'HomeController@notallowedView')->name('notallowed');
 Route::group(['middleware' => ['role:super-admin|city-manager', 'auth', 'forbid-banned-user', 'logs-out-banned-user'],
 ], function () {
     Route::get('/home/{userId}/ban', 'HomeController@ban')->name('user.ban');
-    Route::get('/home/{userId}/unban', 'HomeController@ban')->name('user.unban');
+    Route::get('/home/{userId}/unban', 'HomeController@unban')->name('user.unban');
 
     Route::get('/gyms', 'GymController@index')->name('gyms.index');
     Route::get('get-gyms-data-my-datatables', 'GymController@getData')->name('gyms.data');
@@ -85,6 +85,7 @@ Route::group(['middleware' => ['role:super-admin', 'auth', 'forbid-banned-user',
     Route::delete('/coaches/{coach}', 'CoachesController@destroy')->name('Coaches.destroy');
 
     Route::get('/cities', 'CityController@index')->name('Cities.index');
+    Route::get('get-cities-my-datatables', ['as'=> 'get.cities' ,'uses' =>'CityController@getcities']);
     Route::get('/cities/create', 'CityController@create')->name('Cities.create');
     Route::post('/cities', 'CityController@store')->name('Cities.store');
     Route::get('/cities/{city}', 'CityController@show')->name('Cities.show');
@@ -119,5 +120,6 @@ Route::group(['middleware' => ['role:super-admin|city-manager|gym-manager',
     Route::get('/attendence', 'AttendenceController@index')->name('Attendence.index');
     Route::get('get-att-my-datatables', ['as' => 'get.att', 'uses' => 'AttendenceController@getAttendence']);
 });
-
+Route::post('dynamic_dependentPurchase/fetch', 'PurchaseController@fetch')->name('dynamicdependentPurchase.fetch');
+Route::post('dynamic_dependentSession/fetch', 'SessionController@fetch')->name('dynamicdependentSession.fetch');
 Auth::routes();

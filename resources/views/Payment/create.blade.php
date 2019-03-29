@@ -49,16 +49,49 @@
     </div>
     <br>
     @endif
-
-
+        @hasrole('super-admin')
         <div class="box-body">
             <div class="form-group">
-              <label>Choose a Gym</label>
-              <select class="form-control" name="gym_id" readonly>
-                    <option value="{{$gyms->id}}">{{$gyms->name}}</option>
-              </select>
+                <label>City</label>
+                <select class="form-control dynamic" name="city_id" id="city_id" data-dependent="gym">
+                    <option value="">Select City</option>
+                    @foreach ($cities as $city)
+                        <option value="{{$city->id}}">{{$city->name}}</option>
+                    @endforeach
+                </select>
             </div>
         </div>
+        <div class="box-body">
+            <div class="form-group">
+                <label>Gym</label>
+                <select class="form-control" name="gym_id" id="gym">
+                   <option value="">Select Gym </option>
+                </select>
+            </div>
+        </div>
+        @endrole
+        @hasrole('city-manager')
+        <div class="box-body">
+            <div class="form-group">
+                <label>Gym</label>
+                <select class="form-control" name="gym_id">
+                    @foreach ($gyms as $gym)
+                        <option value="{{$gym->id}}">{{$gym->name}}</option>
+                    @endforeach
+                </select>
+            </div>
+        </div>
+        @endrole
+        @hasrole('gym-manager')
+        <div class="box-body">
+            <div class="form-group">
+                <label>Gym</label>
+                <select class="form-control" name="gym_id"  readonly>
+                    <option value="{{$gyms->id}}" >{{$gyms->name}}</option>
+                </select>
+            </div>
+        </div>
+        @endrole
 
       <!-- select -->
       <div class="box-body">
@@ -130,8 +163,38 @@
             </div>
     </form>
   </div>
-@endsection
 
-@section('scripts')
+ <script src="//code.jquery.com/jquery.js"></script>
+<script>
+    $(document).ready(function() {
+
+        $('.dynamic').change(function () {
+            if ($(this).val() != '') {
+                var select = $(this).attr("id");
+                var value = $(this).val();
+                var dependent = $(this).data('dependent');
+                var _token = $('input[name="_token"]').val();
+                $.ajax({
+                    url: "{{ route('dynamicdependentPurchase.fetch') }}",
+                    method: "POST",
+                    data: {select: select, value: value, _token: _token, dependent: dependent},
+                    success: function (result) {
+                        console.log(result);
+                        $('#' + dependent).html(result);
+                    },
+                    error: function (respose) {
+                        alert(' error');
+                        console.log(respose);
+                    }
+                })
+            }
+        });
+
+        $('#city_id').change(function(){
+            $('#gym').val('');
+        });
+    });
+</script>
+@stack('scripts')
 
 @endsection

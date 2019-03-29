@@ -24,8 +24,8 @@ class GymManagerController extends Controller
 
     public function getData()
     {
-        $this->getValidGymsIds();
-        return datatables()->of(GymManager::whereIn('gym_id',$this->cityGymsIds)->with('user'))->toJson();
+         $this->getValidGymsIds();
+         return datatables()->of(GymManager::whereIn('gym_id',$this->cityGymsIds)->with('user'))->toJson();
     }
 
     public function create()
@@ -44,7 +44,7 @@ class GymManagerController extends Controller
         $request = $this->hashPassword($request);
         $request['img'] = $this->storeImage($request,$user);
         $this->storeGymManagerData($request);
-        return redirect()->route('GymManagers.index');
+        return redirect()->route('GymManagers.index')->with('success', 'Gym Manager created successfully!');
     }
 
 
@@ -53,7 +53,7 @@ class GymManagerController extends Controller
         $authUser = auth()->user();
         $gymManager = User::findOrFail($gymManagerId);
         if(!$this->isAllowed($gymManager->role->id)){
-            return redirect()->route('notallowed')->with('error', 'you are not authorized!');
+            return redirect()->route('GymManagers.index')->with('error', 'you are not authorized!');
         }
         return view('GymManagers.show',[
             'gymManager' => $gymManager,
@@ -68,7 +68,7 @@ class GymManagerController extends Controller
         $gyms = Gym::where('city_id',$user->role->id)->get();
         $gymManager = User::findOrFail($gymManagerId);
         if(!$this->isAllowed($gymManager->role->id)){
-            return redirect()->route('notallowed')->with('error', 'you are not authorized!');
+            return redirect()->route('GymManagers.index')->with('error', 'you are not authorized!');
         }
         return view('GymManagers.edit',[
             'gyms' => $gyms,
@@ -86,7 +86,7 @@ class GymManagerController extends Controller
         $request['password'] = $this->updatePassword($gymManager->password,$request);
         $gymManager->update($request->all());
         GymManager::findOrFail($gymManager->role->id)->update($request->all());
-        return redirect()->route('GymManagers.index');
+        return redirect()->route('GymManagers.index')->with('success', 'Gym Manager edited successfully!');
     }
 
 
@@ -94,6 +94,7 @@ class GymManagerController extends Controller
     {
         $user = User::findOrFail($gymManagerId);
         GymManager::findOrFail($user->role->id)->delete();
+        $user->removeRole('gym-manager');
         $user->delete();
     }
 
@@ -148,11 +149,18 @@ class GymManagerController extends Controller
     public function getValidGymsIds(){
 
         $user = auth()->user();
-        $gyms = Gym::where('city_id',$user->role->id)->get();
-        foreach ($gyms as $gym){
-            $this->cityGymsIds[] = $gym->id;
+        if ($user->hasRole('city-manager')) {
+            $gyms = Gym::where('city_id',$user->role->id)->get();
+            foreach ($gyms as $gym){
+                $this->cityGymsIds[] = $gym->id;
+            }
         }
-
+        if ($user->hasRole('super-admin')) {
+            $gyms = Gym::all();
+            foreach ($gyms as $gym){
+                $this->cityGymsIds[] = $gym->id;
+            }
+        }
 
     }
 

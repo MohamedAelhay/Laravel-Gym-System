@@ -25,7 +25,13 @@ class GymController extends Controller
     public function getData()
     {
         $user = auth()->user();
-        return datatables()->of(Gym::where('city_id',$user->role->id)->with('city'))->toJson();
+        if ($user->hasRole('city-manager')) {
+            return datatables()->of(Gym::where('city_id',$user->role->id)->with('city'))->toJson();
+        }
+        if ($user->hasRole('super-admin')) {
+            return datatables()->of(Gym::with('city'))->toJson();
+        }
+
     }
 
 
@@ -54,7 +60,7 @@ class GymController extends Controller
         Gym::create($request->only([
             'name','created_at','img','city_id','creator_name'
         ]));
-        return redirect()->route('gyms.index');
+        return redirect()->route('gyms.index')->with('success', 'Gym has been created successfully!');
     }
 
 
@@ -105,7 +111,7 @@ class GymController extends Controller
         $gym = Gym::findOrFail($gymId);
         $request['img']= $this->storeImage($request,$user);
         $gym->update($request->all());
-        return redirect()->route('gyms.index');
+        return redirect()->route('gyms.index')->with('success', 'Gym has been updated successfully!');;
     }
 
     public function destroy($gymId)

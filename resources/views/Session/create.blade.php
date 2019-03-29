@@ -2,7 +2,6 @@
 @section('style')
 <link rel="stylesheet" href="{{ asset('plugins/timepicker/bootstrap-timepicker.min.css')}}">
 <link rel="stylesheet" href="{{ asset('bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css')}}">
-<link rel="stylesheet" href="../../bower_components/select2/dist/css/select2.min.css">
 @endsection
 @section('content')
 @include('flash-message')
@@ -101,22 +100,85 @@
     </div>
     <br>
     @endif
+                @hasrole('super-admin')
+                <div class="box-body">
+                    <div class="form-group">
+                        <label>City</label>
+                        <select class="form-control dynamic" name="city_id" id="city_id" data-dependent="gym">
+                            <option value="">Select City</option>
+                            @foreach ($cities as $city)
+                                <option value="{{$city->id}}">{{$city->name}}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+                <div class="box-body">
+                    <div class="form-group">
+                        <label>Gym</label>
+                        <select class="form-control dynamic" name="gym_id" id="gym" data-dependent="coaches">
+                            <option value="">Select Gym </option>
+                        </select>
+                    </div>
+                </div>
+                <div class="box-body">
+                    <div class="form-group">
+                        <label>Coach</label>
+                        <select class="form-control" name="coach_id" id="coaches" multiple="multiple">
+                            <option value="">Select Coach </option>
+                        </select>
+                    </div>
+                </div>
+                @endrole
 
-            <div class="form-group">
-            <label for="gym_id">Gym</label>
-            <select class="form-control" name="gym_id" readonly>
+                @hasrole('city-manager')
+                <div class="box-body">
+                <div class="form-group">
+                    <label>City</label>
+                    <select class="form-control " name="city_id" id="city_id">
+                        <option value="">Select City</option>
+                            <option selected value="{{$cities->id}}">{{$cities->name}}</option>
+                    </select>
+                </div>
+            </div>
+    <div class="box-body">
+        <div class="form-group">
+            <label>Gym</label>
+            <select class="form-control dynamic" name="gym_id" id="gym" data-dependent="coaches">
+                @foreach ($gyms as $gym)
                     <option value="{{$gym->id}}">{{$gym->name}}</option>
+                @endforeach
             </select>
         </div>
-        @if ($errors->has('gym_id'))
-    <div class="alert alert-danger" style="margin: 4px;">
-        <ul style="list-style: none;">
-                <li>{{ $errors->first('gym_id')}}</li>
-        </ul>
     </div>
-    <br>
-    @endif
+    <div class="box-body">
+        <div class="form-group">
+            <label>Coach</label>
+            <select class="form-control" name="coach_id" id="coaches" >
+                <option value="">Select Coach </option>
+            </select>
+        </div>
+    </div>
 
+                @endhasrole
+
+
+
+
+                @hasrole('gym-manager')
+                <div class="form-group">
+                    <label for="gym_id">Gym</label>
+                    <select class="form-control" name="gym_id" readonly>
+                        <option value="{{$gyms->id}}">{{$gyms->name}}</option>
+                    </select>
+                </div>
+                @if ($errors->has('gym_id'))
+                    <div class="alert alert-danger" style="margin: 4px;">
+                        <ul style="list-style: none;">
+                            <li>{{ $errors->first('gym_id')}}</li>
+                        </ul>
+                    </div>
+                    <br>
+                @endif
         <div class="form-group">
                 <div class="form-group">
                     <label>Coaches</label>
@@ -128,16 +190,7 @@
                     </select>
                 </div>
             </div>
-
-            @if ($errors->has('coach_id'))
-    <div class="alert alert-danger" style="margin: 4px;">
-        <ul style="list-style: none;">
-                <li>{{ $errors->first('coach_id')}}</li>
-        </ul>
-    </div>
-    <br>
-    @endif
-
+                @endrole
 
             </div>
             <!-- /.box-body -->
@@ -152,28 +205,64 @@
     @endsection
 
     @section('plugins')
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-<script src="{{ asset('plugins/timepicker/bootstrap-timepicker.min.js')}}"></script>
-<script src="{{ asset('bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js')}}"></script>
-<script src="../../bower_components/select2/dist/js/select2.full.min.js"></script>
-@endsection
+        <!-- jQuery 3 -->
+        <script src="{{ asset('bower_components/jquery/dist/jquery.min.js')}}"></script>
+        <script src="//code.jquery.com/jquery.js"></script>
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+
+        <!-- bootstrap time picker -->
+        <script src="{{ asset('plugins/timepicker/bootstrap-timepicker.min.js')}}"></script>
+        <!-- bootstrap datepicker -->
+        <script src="{{ asset('bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js')}}"></script>
+    @endsection
 
 @section('script')
 <script>
-    $(function () {
-        //Initialize Select2 Elements
-        $('.select2').select2()
 
-        //Date picker
-        $('#datepicker').datepicker({
-            format: "yy-mm-dd",
-            autoclose: true
-        })
-        //Timepicker
-        $('.timepicker').timepicker({
-            showMeridian: false,
-            showInputs: false
-        })
-    })
+    $(document).ready(function() {
+        $(function () {
+            //Date picker
+            $('#datepicker').datepicker({
+                format: "yy-mm-dd",
+                autoclose: true
+            })
+            //Timepicker
+            $('.timepicker').timepicker({
+                showMeridian: false,
+                showInputs: false
+            })
+        });
+
+        $('.dynamic').change(function () {
+            if ($(this).val() != '') {
+                var select = $(this).attr("id");
+                var value = $(this).val();
+                var dependent = $(this).data('dependent');
+                var _token = $('input[name="_token"]').val();
+                $.ajax({
+                    url: "{{ route('dynamicdependentSession.fetch') }}",
+                    method: "POST",
+                    data: {select: select, value: value, _token: _token, dependent: dependent},
+                    success: function (result) {
+                        console.log(result);
+                        $('#' + dependent).html(result);
+                    },
+                    error: function (respose) {
+                        alert(' error');
+                        console.log(respose);
+                    }
+                })
+            }
+        });
+
+        $('#city_id').change(function(){
+            $('#gym').val('');
+            $('#coaches').val('');
+        });
+
+        $('#gym').change(function(){
+            $('#coaches').val('');
+        });
+    });
 </script>
 @endsection

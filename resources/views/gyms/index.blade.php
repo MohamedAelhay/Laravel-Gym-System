@@ -4,6 +4,8 @@
         Gyms
         <small>Optional description</small>
     </h1>
+    @include('flash-message')
+
 @endsection
 @section('content')
     <!DOCTYPE html>
@@ -133,9 +135,8 @@
                     },
                     url: '/gyms/'+gymId,
                     type: 'DELETE',
-                    success: function (data) {
-                        console.log('success');
-                        console.log(data);
+                    success: function () {
+                        alert("Gym has been deleted successfully");
                         var table = $('#table').DataTable();
                         table.ajax.reload();
                     },

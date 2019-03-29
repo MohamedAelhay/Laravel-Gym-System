@@ -6,6 +6,7 @@
 </h1>
 @endsection
 @section('content')
+@include('flash-message')
 <!DOCTYPE html>
 
 <html lang="en">
@@ -138,14 +139,10 @@ $(function() {
                 url: '/coaches/'+coaches_id,
                 type: 'DELETE',
                 success: function (data) {
-                    console.log('success');
-                    console.log(data);
-                    var table = $('#coaches').DataTable();
-                    table.ajax.reload();
+                    window.location.reload();
                 },
                 error: function (response) {
-                    alert(' error');
-                    console.log(response);
+                    window.location.reload();
                 }
             });
 

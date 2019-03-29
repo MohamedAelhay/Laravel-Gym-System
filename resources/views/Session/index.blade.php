@@ -22,6 +22,14 @@
 
 
         @yield('content')
+        <div class="alert alert-block">
+    @hasrole('city-manager')
+    <center><h3>City: {{$city->name}}</h3><center>
+    @endhasrole
+    @hasrole('gym-manager')
+    <center><h3>Gym: {{$gym->name}}</h3><center>
+    @endhasrole
+</div>
     <div class="row">
         <div class="col-xs-12">
             <div class="box box-primary">

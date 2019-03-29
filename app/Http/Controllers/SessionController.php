@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Coach;
 use App\CustomerSessionAttendane;
 use App\Gym;
-use App\GymManager;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Session\StoreSessionRequest;
 use App\Http\Requests\Session\UpdateSessionRequest;
@@ -24,8 +23,10 @@ class SessionController extends Controller
     public function index()
     {
         //
-        if (GymManager::where('id', '=', Auth::User()->id)->exists()) {
-            return redirect()->route('notallowed')->with('error', 'you are not gym manager!');
+        if (Auth::User()->hasRole('gym-manager')) {
+            return view('Session.index', ['gym' => Auth::User()->role->gym]);
+        } elseif (Auth::User()->hasRole('city-manager')) {
+            return view('Session.index', ['city' => Auth::User()->role->city]);
         } else {
             return view('Session.index');
         }

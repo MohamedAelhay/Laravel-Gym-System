@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\CustomerSessionAttendane;
+use App\Gym;
 use App\GymManager;
 use DB;
 use Illuminate\Http\Request;
@@ -17,7 +18,7 @@ class AttendenceController extends Controller
      */
     public function index()
     {
-        //
+
         if (GymManager::where('id', '=', Auth::User()->id)->exists()) {
             return redirect()->route('notallowed')->with('error', 'you are not gym manager!');
         } else {

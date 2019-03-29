@@ -32,7 +32,7 @@ Route::get('/notallowed', 'HomeController@notallowedView')->name('notallowed');
 Route::group(['middleware' => ['role:super-admin|city-manager', 'auth', 'forbid-banned-user', 'logs-out-banned-user'],
 ], function () {
     Route::get('/home/{userId}/ban', 'HomeController@ban')->name('user.ban');
-    Route::get('/home/{userId}/unban', 'HomeController@ban')->name('user.unban');
+    Route::get('/home/{userId}/unban', 'HomeController@unban')->name('user.unban');
 
     Route::get('/gyms', 'GymController@index')->name('gyms.index');
     Route::get('get-gyms-data-my-datatables', 'GymController@getData')->name('gyms.data');

@@ -28,7 +28,9 @@
               </div>
               <div class="row">
                 <div class="col-md-6">
-                  <img src="{{Storage::url($cityManager->img)}}" style="width: 200px; height: 200px;" class="img-fluid" alt="Responsive image">
+                    @if(Storage::disk('public')->has($cityManager->name.'-'.$authUser->name.'.jpg'))
+                    <img src="{{asset('storage/'.$cityManager->name.'-'.$authUser->name.'.jpg')}}" style="width: 200px; height: 200px;" class="img-fluid" alt="Responsive image">
+                @endif
                   <span class="text-muted">National Id: {{$cityManager->role->national_id}}</span><br>
                   <span class="text-muted">Name:</span> {{$cityManager->name}}<br>
                   <span class="text-muted">Email:</span> {{$cityManager->email}}<br><br>

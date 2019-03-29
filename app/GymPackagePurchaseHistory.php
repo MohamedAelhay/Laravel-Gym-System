@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Relations\Pivot;
 
 class GymPackagePurchaseHistory extends Pivot
 {
-    protected $fillable = ['package_name', 'package_price', 'purchase_date', 'user_id', 'gym_id'];
+    protected $fillable = ['package_name', 'package_price', 'purchase_date', 'user_id', 'gym_id', 'package_id'];
 
     protected $table = 'gym_packages_purchase_history';
 

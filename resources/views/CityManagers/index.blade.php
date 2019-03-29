@@ -158,18 +158,18 @@
                  
                 /* Show */ {
                     mRender: function (data, type, row) {
-                        return '<center><a href="/cityManagers/'+row.id+'" class="table-delete btn btn-info" data-id="' + row.id + '">Show</a></center>'
+                        return '<center><a href="/cityManagers/'+row.user[0].id+'" class="table-delete btn btn-info" data-id="' + row.id + '">Show</a></center>'
                     }
                 },
                 /* EDIT */ {
                     mRender: function (data, type, row) {
-                        return '<center><a href="/cityManagers/'+row.id+'/edit" class="table-edit btn btn-warning" data-id="' + row.id + '">Edit</a></center>'
+                        return '<center><a href="/cityManagers/'+row.user[0].id+'/edit" class="table-edit btn btn-warning" data-id="' + row.id + '">Edit</a></center>'
                     }
                 },
 
                 /* DELETE */ {
                     mRender: function (data, type, row) {
-                        return '<center><a href="#" class="table-delete btn btn-danger" row_id="' + row.id + '" data-toggle="modal" data-target="#deletepopup" id="delete_toggle">Delete</a></center>'
+                        return '<center><a href="#" class="table-delete btn btn-danger" row_id="' + row.user[0].id + '" data-toggle="modal" data-target="#deletepopup" id="delete_toggle">Delete</a></center>'
                     }
                 },
                    /* Ban */

@@ -58,6 +58,9 @@ class ApiController extends Controller
             ], 401);
         }
 
+        $user = User::where('email', $request->email);
+        $user->update(['logged_in_at' => date('Y-m-d H:i:s')]);
+
         return response()->json([
             'success' => true,
             'user' => $this->customerInfo()->user,

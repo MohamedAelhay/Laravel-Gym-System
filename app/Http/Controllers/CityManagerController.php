@@ -69,7 +69,7 @@ class CityManagerController extends Controller
     {
         $authUser = auth()->user();
         $cityManager = User::findOrFail($cityManagerId)->first();
-        dd($cityManager->img);
+        // dd($cityManager->img);
         return view('CityManagers.show', [
             'cityManager' => $cityManager,
             'authUser' => $authUser
@@ -96,10 +96,10 @@ class CityManagerController extends Controller
    
     public function destroy($cityManagerId)
     {
-        $cityManager=CityManager::findOrFail($cityManagerId);  
-        $cityManager->delete();
-
-        return redirect()->route('CityManagers.index');
+        $user = User::findOrFail($cityManagerId);
+        CityManager::findOrFail($user->role->id)->delete();
+        $user->removeRole('city-manager');
+        $user->delete();
         
     }
 

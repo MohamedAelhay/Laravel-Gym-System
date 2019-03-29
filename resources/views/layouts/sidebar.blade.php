@@ -32,17 +32,16 @@
         <!-- Sidebar Menu -->
         <ul class="sidebar-menu" data-widget="tree">
             <li class="header">HEADER</li>
-            
+
             <!-- Optionally, you can add icons to the links -->
             @hasrole('super-admin')
             <li><a href="{{route('CityManagers.index')}}"><i class="fa fa-link"></i> <span>City Managers</span></a></li>
             <li><a href="{{route('Cities.index')}}"><i class="fa fa-link"></i> <span>Cities</span></a></li>
+            <li><a href="{{route('Coaches.index')}}"><i class="fa fa-link"></i> <span>Coaches</span></a></li>
             @endrole
             @hasanyrole('super-admin|city-manager')
             <li><a href="{{route('GymManagers.index')}}"><i class="fa fa-link"></i> <span>Gym Managers</span></a></li>
-            <li><a href="#"><i class="fa fa-link"></i> <span>Users</span></a></li>
             <li><a href="{{route('gyms.index')}}"><i class="fa fa-link"></i> <span>Gyms</span></a></li>
-            <li><a href="{{route('Coaches.index')}}"><i class="fa fa-link"></i> <span>Coaches</span></a></li>
             <li><a href="/package"><i class="fa fa-link"></i> <span>Training Packages</span></a></li>
             @endhasanyrole
             <li><a href="/session"><i class="fa fa-link"></i> <span>Training Sessions</span></a></li>

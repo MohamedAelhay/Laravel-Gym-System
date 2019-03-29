@@ -35,7 +35,6 @@
                             <tr>
                                 <th class="text-center">#</th>
                                 <th class="text-center">Name</th>
-                                <th class="text-center">Gym</th>
                                 <th class="text-center">No of Sessions</th>
                                 <th class="text-center">Price ($)</th>
                                 <th class="text-center">Show</th>
@@ -100,7 +99,6 @@ $(function() {
 
                     { data: 'id', name: 'id' },
                     { data: 'name', name: 'name' },
-                    { data: 'gym.name', name: 'gym.name' },
                     { data: 'number_of_sessions', name: 'number_of_sessions' },
                     { data: 'price', name: 'price' },
 /* Show */ {

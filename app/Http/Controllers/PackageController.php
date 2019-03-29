@@ -110,7 +110,7 @@ class PackageController extends Controller
     public function getData()
     {
         $package = GymPackage::with(['gym'])->get();
-        return datatables()->of($package)->with('gym')->editColumn('package_price', function ($package) {
+        return datatables()->of($package)->editColumn('price', function ($package) {
             return GymPackage::getPriceInDollars($package->price);
         })->toJson();
     }

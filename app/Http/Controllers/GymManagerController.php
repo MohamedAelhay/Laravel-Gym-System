@@ -149,11 +149,18 @@ class GymManagerController extends Controller
     public function getValidGymsIds(){
 
         $user = auth()->user();
-        $gyms = Gym::where('city_id',$user->role->id)->get();
-        foreach ($gyms as $gym){
-            $this->cityGymsIds[] = $gym->id;
+        if ($user->hasRole('city-manager')) {
+            $gyms = Gym::where('city_id',$user->role->id)->get();
+            foreach ($gyms as $gym){
+                $this->cityGymsIds[] = $gym->id;
+            }
         }
-
+        if ($user->hasRole('super-admin')) {
+            $gyms = Gym::all();
+            foreach ($gyms as $gym){
+                $this->cityGymsIds[] = $gym->id;
+            }
+        }
 
     }
 

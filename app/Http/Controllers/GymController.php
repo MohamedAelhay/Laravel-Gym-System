@@ -25,7 +25,13 @@ class GymController extends Controller
     public function getData()
     {
         $user = auth()->user();
-        return datatables()->of(Gym::where('city_id',$user->role->id)->with('city'))->toJson();
+        if ($user->hasRole('city-manager')) {
+            return datatables()->of(Gym::where('city_id',$user->role->id)->with('city'))->toJson();
+        }
+        if ($user->hasRole('super-admin')) {
+            return datatables()->of(Gym::with('city'))->toJson();
+        }
+
     }
 
 

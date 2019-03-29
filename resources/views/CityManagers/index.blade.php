@@ -154,16 +154,10 @@
                 { data: 'user[0].name' , name:'use[0].name'},
                 { data: 'user[0].email', name: 'user[0].email' },
                 { data: 'user[0].banned_at', name: 'user[0].banned_at' },
-                // { data: 'user[0].img', name: 'user[0].img'}
-
-                // { data: 'name', name: 'name' },
-                
-                    // { data: 'user.banned_at', name: 'banned_at' },
+           
                  
-                    
-
-/* Show */ {
-    mRender: function (data, type, row) {
+                /* Show */ {
+                    mRender: function (data, type, row) {
                         return '<center><a href="/cityManagers/'+row.id+'" class="table-delete btn btn-info" data-id="' + row.id + '">Show</a></center>'
                     }
                 },

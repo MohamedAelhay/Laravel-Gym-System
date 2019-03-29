@@ -17,8 +17,6 @@
           <div class="row">
 			<div class="col-md-4 text-center">
           <div class="col">
-              {{-- <img class="img-circle avatar avatar-original" style="-webkit-user-select:none; 
-              display:block; margin:auto;" src="{{asset('storage/'.$cityManager->name.'-'.$authUser->name.'.jpg')}}"> --}}
               @if(Storage::disk('public')->has($cityManager->name.'-'.$authUser->name.'.jpg'))
               <img src="{{asset('storage/'.$cityManager->name.'-'.$authUser->name.'.jpg')}}" style="width: 200px; height: 200px;" class="img-fluid" alt="Responsive image">
           @endif

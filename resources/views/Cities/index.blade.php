@@ -141,14 +141,10 @@
                     url: '/cities/'+cityId,
                     type: 'DELETE',
                     success: function (data) {
-                        // console.log('success');
-                        // console.log(data);
                         var table = $('table').DataTable();
                         window.location.reload();
                     },
                     error: function (response) {
-                        // alert(' error');
-                        // console.log(response);
                         window.location.reload();
 
                     }

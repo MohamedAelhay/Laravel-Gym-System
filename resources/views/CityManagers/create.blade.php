@@ -1,6 +1,4 @@
 @extends('admin')
-
-
 @section('content')
 <a href="{{route('CityManagers.index')}}" class="btn btn-danger">Back</a>
     <form action="{{route('CityManagers.store')}}" method="POST" style="margin-left: 20px">
@@ -39,19 +37,6 @@
                 <input type="file" name="img" class="form-control col-3">
             </div>
 
-            {{-- <div class="form-group row">
-                <label for="img" class="col-sm-2 col-form-label" >Img</label>
-                <input type="file" name="img" class="form-control col-3">
-                @if ($errors->get('img'))
-                    <div class="alert alert-danger col-sm-6" style="margin-left: 20px; margin-top: 10px;" >
-                        <ul>
-                            @foreach ($errors->get('img') as $img)
-                                <li>{{ $img }}</li>
-                            @endforeach
-                        </ul>
-                    </div>
-                @endif
-            </div> --}}
         <div class="form-group row">
             <label for="exampleFormControlSelect1" class="col-sm-2 col-form-label">Asign to city</label>
             <select class="form-control col-4" name="name">

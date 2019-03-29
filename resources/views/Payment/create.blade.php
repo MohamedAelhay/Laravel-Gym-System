@@ -54,7 +54,7 @@
             <div class="form-group">
                 <label>City</label>
                 <select class="form-control dynamic" name="city_id" id="city_id" data-dependent="gym">
-                    <option value="">Select City</option>
+                    <option value=""disabled selected hidden>Select City</option>
                     @foreach ($cities as $city)
                         <option value="{{$city->id}}">{{$city->name}}</option>
                     @endforeach
@@ -65,7 +65,7 @@
             <div class="form-group">
                 <label>Gym</label>
                 <select class="form-control" name="gym_id" id="gym">
-                   <option value="">Select Gym </option>
+                   <option value=""disabled selected hidden>Select Gym </option>
                 </select>
             </div>
         </div>

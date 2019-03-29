@@ -7,7 +7,6 @@ use App\GymPackage;
 use App\Http\Requests\Package\StorePackageRequest;
 use App\Http\Requests\Package\UpdatePackageRequest;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Yajra\Datatables\Datatables;
 
 class PackageController extends Controller
@@ -110,14 +109,9 @@ class PackageController extends Controller
 
     public function getData()
     {
-        $gym_id = Auth::User()->role->gym_id;
         $package = GymPackage::with(['gym'])->get();
-        $packageFilter = $package->filter(function ($package) use ($gym_id) {
-            return $package->gym_id == $gym_id;
-        });
-        return datatables()->of($packageFilter)->with('gym')->editColumn('package_price', function ($packageFilter) {
-            //change over here
-            return GymPackage::getPriceInDollars($packageFilter->price);
+        return datatables()->of($package)->with('gym')->editColumn('package_price', function ($package) {
+            return GymPackage::getPriceInDollars($package->price);
         })->toJson();
     }
 }

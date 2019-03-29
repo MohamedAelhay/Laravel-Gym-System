@@ -22,7 +22,13 @@ class PurchaseController extends Controller
     public function index()
     {
         //
-        return view('Payment.index', ['city' => Auth::User()->role->city, 'gym' => Auth::User()->role->gym]);
+        if (Auth::User()->hasRole('gym-manager')) {
+            return view('Payment.index', ['gym' => Auth::User()->role->gym]);
+        } elseif (Auth::User()->hasRole('city-manager')) {
+            return view('Payment.index', ['city' => Auth::User()->role->city]);
+        } else {
+            return view('Payment.index', ['city' => City::all(), 'gym' => Gym::all()]);
+        }
     }
 
     public function create()
@@ -94,15 +100,11 @@ class PurchaseController extends Controller
     public function getPurchase(Request $request)
     {
         if (Auth::User()->hasRole('gym-manager')) {
-            $gym_id = Auth::User()->role->gym_id;
-            $purchase = GymPackagePurchaseHistory::with(['users', 'gym'])->get();
-            $purchaseFilter = $purchase->filter(function ($purchase) use ($gym_id) {
-                return $purchase->gym_id == $gym_id;
-            });
+            $purchaseFilter = $this->getGymFilteredPurchase();
         } elseif (Auth::User()->hasRole('city-manager')) {
-            $city_id = Auth::User()->role->city->id;
-            $filteredGyms = Gym::where('city_id', $city_id)->get('id');
-            $purchaseFilter = GymPackagePurchaseHistory::with(['users', 'gym'])->whereIn('gym_id', $filteredGyms)->get();
+            $purchaseFilter = $this->getCityFilteredPurchase();
+        } else {
+            $purchaseFilter = $this->getAdminFilteredPurchase();
         }
 
         return datatables()->of($purchaseFilter)->with('users', 'gym')
@@ -115,11 +117,15 @@ class PurchaseController extends Controller
                 $user = DB::table('users')->where('id', $purchaseFilter->user_id)->first();
                 return $user->name;
             })
-            ->editColumn('city.name', function () {
+            ->editColumn('city.name', function ($purchaseFilter) {
                 //change over here
-                $user = Auth::User();
                 if (Auth::User()->hasRole('city-manager')) {
+                    $user = Auth::User();
                     return $user->role->city->name;
+                }
+                if (Auth::User()->hasRole('super-admin')) {
+                    $gyms = Gym::with('city')->where('id', $purchaseFilter->gym_id)->first();
+                    return $gyms->city->name;
                 }
             })
             ->editColumn('package_price', function ($purchaseFilter) {
@@ -163,5 +169,28 @@ class PurchaseController extends Controller
         if ($user->hasRole('super-admin')) {
             return Gym::all()->groupby('city_id');
         }
+    }
+
+    private function getGymFilteredPurchase()
+    {
+        $gym_id = Auth::User()->role->gym_id;
+        $purchase = GymPackagePurchaseHistory::with(['users', 'gym'])->get();
+        $purchaseFilter = $purchase->filter(function ($purchase) use ($gym_id) {
+            return $purchase->gym_id == $gym_id;
+        });
+
+        return $purchaseFilter;
+    }
+    private function getCityFilteredPurchase()
+    {
+        $city_id = Auth::User()->role->city->id;
+        $filteredGyms = Gym::where('city_id', $city_id)->get('id');
+        $purchaseFilter = GymPackagePurchaseHistory::with(['users', 'gym'])->whereIn('gym_id', $filteredGyms)->get();
+        return $purchaseFilter;
+    }
+    private function getAdminFilteredPurchase()
+    {
+        $purchaseFilter = GymPackagePurchaseHistory::with(['users', 'gym'])->get();
+        return $purchaseFilter;
     }
 }

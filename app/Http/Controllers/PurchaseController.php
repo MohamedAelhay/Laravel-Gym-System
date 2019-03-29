@@ -44,7 +44,7 @@ class PurchaseController extends Controller
             ->get();
         $output = '<option value="">Select ' . ucfirst($dependent) . '</option>';
         foreach ($data as $row) {
-            $output .= '<option value="' . $row->name . '">' . $row->name . '</option>';
+            $output .= '<option value="' . $row->id . '">' . $row->name . '</option>';
         }
         echo $output;
     }
@@ -93,11 +93,6 @@ class PurchaseController extends Controller
 
     public function getPurchase(Request $request)
     {
-        // $gyms = $this->getGymsByRole(auth()->user());
-        // $purchase = GymPackagePurchaseHistory::with(['users', 'gym'])->get();
-        // $purchaseFilter = $purchase->filter(function ($purchase) use ($gyms) {
-        //     return $purchase->gym_id == $gyms->id;
-        // });
         if (Auth::User()->hasRole('gym-manager')) {
             $gym_id = Auth::User()->role->gym_id;
             $purchase = GymPackagePurchaseHistory::with(['users', 'gym'])->get();
@@ -108,7 +103,6 @@ class PurchaseController extends Controller
             $city_id = Auth::User()->role->city->id;
             $filteredGyms = Gym::where('city_id', $city_id)->get('id');
             $purchaseFilter = GymPackagePurchaseHistory::with(['users', 'gym'])->whereIn('gym_id', $filteredGyms)->get();
-            // dd($purchaseFilter);
         }
 
         return datatables()->of($purchaseFilter)->with('users', 'gym')

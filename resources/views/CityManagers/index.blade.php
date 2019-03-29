@@ -77,11 +77,11 @@
             </div>
         </div>
     </div>
-    <div class="modal fade" id="unbanpopup" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="banpopup" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h3 class="modal-title" id="exampleModalLabel">Are you sure you want to UnBan this City Manager</h3>
+                        <h3 class="modal-title" id="exampleModalLabel">Are you sure you want to Ban this Gym Manager</h3>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -90,7 +90,29 @@
                         <div>
                             <div id="csrf_value"  hidden >@csrf</div>
                             {{--@method('DELETE')--}}
-                            <button type="button" row_ban="" id="unban-city-manager"  class="btn btn-danger" data-dismiss="modal">Yes</button>
+                            <button type="button" row_ban="" id="ban-gym-manager"  class="btn btn-danger" data-dismiss="modal">Yes</button>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">NO</button>
+                        </div>
+    
+                    </div>
+                </div>
+            </div>
+        </div>
+    
+        <div class="modal fade" id="unbanpopup" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3 class="modal-title" id="exampleModalLabel">Are you sure you want to UnBan this city Manager</h3>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-footer">
+                        <div>
+                            <div id="csrf_value"  hidden >@csrf</div>
+                            {{--@method('DELETE')--}}
+                            <button type="button" row_ban="" id="unban-gym-manager"  class="btn btn-danger" data-dismiss="modal">Yes</button>
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">NO</button>
                         </div>
     

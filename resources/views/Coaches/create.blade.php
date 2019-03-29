@@ -10,6 +10,8 @@
     @endforeach
 </ul>
 @endif
+
+
 <a href="{{route('Coaches.index')}}" class="btn btn-danger">Back</a>
     <form action="{{route('Coaches.store')}}" method="POST" style="margin-left: 20px">
         @csrf
@@ -19,13 +21,6 @@
                 <label for="name" class="col-sm-2 col-form-label" >coach name</label>
                 <input type="text" name="name" class="form-control col-3" placeholder="coach name">
             </div>
-
-            {{-- <div class="form-group row">
-                <label for="gym name" class="col-sm-2 col-form-label" >gym name</label>
-                <input type="text" name="gym name" class="form-control col-3" placeholder="gym name">
-            </div> --}}
-
-            
 
             <div class="form-group">
                 <label for="exampleInputPassword1">Gym Name</label>

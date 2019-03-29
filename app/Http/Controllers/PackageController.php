@@ -59,6 +59,7 @@ class PackageController extends Controller
         return view('Package.show', [
             "package" => $package,
             'gym' => $gym,
+            'price' => GymPackage::getPriceInDollars($package->price),
         ]);
     }
 

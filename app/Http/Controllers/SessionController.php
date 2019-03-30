@@ -43,17 +43,17 @@ class SessionController extends Controller
     public function create()
     {
         //
-//        $gyms = $this->getGymsByRole(auth()->user());
-//        $gym = Gym::find(Auth::User()->role->gym_id);
-//        $gym_id = Auth::User()->role->gym_id;
-//        $coaches = Coach::all();
-//        $coachFilter = $coaches->filter(function ($coach) use ($gym_id) {
-//            return $coach->gym_id == $gym_id;
-//        });
+        //        $gyms = $this->getGymsByRole(auth()->user());
+        //        $gym = Gym::find(Auth::User()->role->gym_id);
+        //        $gym_id = Auth::User()->role->gym_id;
+        //        $coaches = Coach::all();
+        //        $coachFilter = $coaches->filter(function ($coach) use ($gym_id) {
+        //            return $coach->gym_id == $gym_id;
+        //        });
         return view('Session.create', [
             'gyms' => $this->getGymsByRole(Auth::user()),
             'cities' => $this->getCitiesByRole(Auth::user()),
-            'coaches' => $this->getCoachesByRole(Auth::user())
+            'coaches' => $this->getCoachesByRole(Auth::user()),
         ]);
     }
 
@@ -62,10 +62,10 @@ class SessionController extends Controller
         $select = $request->get('select');
         $value = $request->get('value');
         $dependent = $request->get('dependent');
-        if ($select == 'city_id'){
+        if ($select == 'city_id') {
             $data = Gym::where($select, $value)
                 ->get();
-        }else{
+        } else {
             $data = Coach::where('gym_id', $value)
                 ->get();
         }
@@ -163,7 +163,6 @@ class SessionController extends Controller
     }
     public function getSession()
     {
-
         $user = Auth::user();
         if ($user->hasRole('super-admin')) {
             $sessionFilter = $this->getAdminFilteredSessions();
@@ -235,7 +234,6 @@ class SessionController extends Controller
     public function getGymsByRole($user)
     {
         if ($user->hasRole('gym-manager')) {
-
             return Auth::User()->role->gym;
         }
         if ($user->hasRole('city-manager')) {
@@ -249,32 +247,31 @@ class SessionController extends Controller
     public function getCitiesByRole($user)
     {
         if ($user->hasRole('city-manager')) {
-
             return Auth::user()->role->city;
         }
         if ($user->hasRole('super-admin')) {
             return City::all();
         }
         if ($user->hasRole('gym-manager')) {
-            return null ;
+            return null;
         }
     }
 
     public function getCoachesByRole($user)
     {
         if ($user->hasRole('city-manager') || $user->hasRole('super-admin')) {
-
-            return null ;
+            return null;
         }
 
         if ($user->hasRole('gym-manager')) {
+            $gyms = $this->getGymsByRole(auth()->user());
+            $gym = Gym::find(Auth::User()->role->gym_id);
             $gym_id = Auth::User()->role->gym_id;
-            $filteredCoaches = Coach::all()->filter(function ($coach) use ($gym_id) {
-                return $coach->at_gym_id == $gym_id;
+            $coaches = Coach::all();
+            $coachFilter = $coaches->filter(function ($coach) use ($gym_id) {
+                return $coach->gym_id == $gym_id;
             });
-            return $filteredCoaches;
+            return $coachFilter;
         }
     }
-
-
 }

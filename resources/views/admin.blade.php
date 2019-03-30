@@ -66,7 +66,21 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 <!--------------------------
         | Your Page Content Here |
         -------------------------->
+
                 @yield('content')
+                <div class="page-header">
+                <center>
+                @hasrole('gym-manager')
+                <h1>Gym manager of: <font color="red">{{Auth::user()->role->gym->name}}</font> </h1>
+                @endhasrole
+                @hasrole('city-manager')
+                <h1>City manager of: <font color="red">{{Auth::user()->role->city->name}} </font></h1>
+                @endhasrole
+                @hasrole('super-admin')
+                <h1><font color="red">Admin</font></h1>
+                @endhasrole
+                </center>
+                </div>
             </section>
             <!-- /.content -->
         </div>

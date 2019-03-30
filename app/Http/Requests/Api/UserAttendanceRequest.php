@@ -2,7 +2,6 @@
 
 namespace App\Http\Requests\Api;
 
-use App\Session;
 use Illuminate\Foundation\Http\FormRequest;
 
 class UserAttendanceRequest extends FormRequest
@@ -26,8 +25,17 @@ class UserAttendanceRequest extends FormRequest
     {
         return [
             'attendance_time' => 'required|date_format:H:i',
-            'attendance_date'=> 'required|date_format:Y-m-d|before_or_equal:'.$this->session_date,
-            'session_id' => 'required|exists:sessions,id'
+            'attendance_date' => 'required|date_format:Y-m-d|after:yesterday|before:tomorrow',
+            // . $this->session_date,
+            'session_id' => 'required|exists:sessions,id',
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'attendance_date.after' => "You should attend session in the same day only",
+            'attendance_date.before' => 'You should attend session in the same day only',
         ];
     }
 }

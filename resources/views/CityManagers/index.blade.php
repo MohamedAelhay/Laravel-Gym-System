@@ -30,16 +30,16 @@
                     <table id="CityManagers"  class="table text-center">
                         <thead>
                             <tr>
-                               
-                            
-                                    
+
+
+
                                 <th class="text-center">city manager Id</th>
                                 <th class="text-center">National Id</th>
                                 <th class="text-center">user Id</th>
                                 <th class="text-center">Name</th>
                                 <th class="text-center">Email</th>
                                 <th class="text-center">Banned At</th>
-                                
+
                                 {{-- <th class="text-center">Image</th> --}}
                                 {{-- <th class="text-center">Banned At</th> --}}
                                 <th class="text-center">Show</th>
@@ -47,7 +47,7 @@
                                 <th class="text-center">Delete</th>
                                 <th class="text-center">Ban</th>
                                 <th class="text-center">UnBan</th>
-                                
+
                             </tr>
                         </thead>
                     </table>
@@ -93,12 +93,12 @@
                             <button type="button" row_ban="" id="ban-gym-manager"  class="btn btn-danger" data-dismiss="modal">Yes</button>
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">NO</button>
                         </div>
-    
+
                     </div>
                 </div>
             </div>
         </div>
-    
+
         <div class="modal fade" id="unbanpopup" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
@@ -115,7 +115,7 @@
                             <button type="button" row_ban="" id="unban-gym-manager"  class="btn btn-danger" data-dismiss="modal">Yes</button>
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">NO</button>
                         </div>
-    
+
                     </div>
                 </div>
             </div>
@@ -147,15 +147,15 @@
                 ajax: '{!! route('get.cityManagers') !!}',
 
                 columns: [
-               
+
                 { data: 'id', name:'id' },
                 { data: 'national_id', name: 'national_id' },
                 { data: 'user[0].id' , name:'user[0].id'},
                 { data: 'user[0].name' , name:'use[0].name'},
                 { data: 'user[0].email', name: 'user[0].email' },
                 { data: 'user[0].banned_at', name: 'user[0].banned_at' },
-           
-                 
+
+
                 /* Show */ {
                     mRender: function (data, type, row) {
                         return '<center><a href="/cityManagers/'+row.user[0].id+'" class="table-delete btn btn-info" data-id="' + row.id + '">Show</a></center>'
@@ -184,7 +184,7 @@
                         return '<center><a href="#" class="table-delete btn btn-success" row_id="' + row.user[0].id + '" data-toggle="modal" data-target="#unbanpopup" id="unban_toggle">UnBan</a></center>'
                     }
                 },
-            
+
             ],
         });
 
@@ -192,7 +192,7 @@
             var delete_id = $(this).attr('row_id');
             $('#delete_item').attr('row_delete',delete_id);
         });
-        
+
         $(document).on('click','#delete_item',function () {
             var cityManagers_id = $(this).attr('row_delete');
             $.ajax({
@@ -265,7 +265,7 @@
                 }
             });
         });
-       
+
     });
 
         </script>
@@ -276,27 +276,3 @@
 
 </html>
     @endsection
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

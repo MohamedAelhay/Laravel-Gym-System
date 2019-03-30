@@ -35,6 +35,10 @@
                             <th class="text-center">Name</th>
                             <th class="text-center">National Id</th>
                             <th class="text-center">Email</th>
+                            <th class="text-center">Gym</th>
+                            @hasrole('super-admin')
+                            <th class="text-center">City</th>
+                            @endhasrole
                             <th class="text-center">Banned At</th>
                             <th class="text-center">Show</th>
                             <th class="text-center">Edit</th>
@@ -140,6 +144,10 @@
                 { data: 'user.name', name: 'user.name' },
                 { data: 'national_id', name: 'national_id' },
                 { data: 'user.email', name: 'user.email' },
+                { data: 'gym.name', name: 'gym.name' },
+                @hasrole('super-admin')
+                { data: 'city.name', name: 'city.name' },
+                @endhasrole
                 { data: 'user.banned_at', name: 'banned_at' },
                 /* Show */ {
                     mRender: function (data, type, row) {

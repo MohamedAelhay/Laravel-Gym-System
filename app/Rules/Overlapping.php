@@ -11,16 +11,18 @@ class Overlapping implements Rule
     private $starts_at;
     private $finishes_at;
     private $date;
+    private $gym_id;
     /**
      * Create a new rule instance.
      *
      * @return void
      */
-    public function __construct($starts_at, $finishes_at, $date)
+    public function __construct($starts_at, $finishes_at, $gym_id, $date)
     {
         $this->starts_at = date("H:i:s", strtotime($starts_at));
         $this->finishes_at = date("H:i:s", strtotime($finishes_at));
         $this->date = date("Y-m-d", strtotime($date));
+        $this->gym_id = $gym_id;
     }
 
     /**
@@ -32,11 +34,27 @@ class Overlapping implements Rule
      */
     public function passes($attribute, $value)
     {
-        $gym_id = Auth::User()->role->gym_id;
-        $sessions = Session::all()->where('session_date', '=', $this->date);
-        $sessionFilter = $sessions->filter(function ($sessions) use ($gym_id) {
-            return $sessions->gym_id == $gym_id;
-        });
+        //TODO Check Role
+        if (Auth::User()->hasRole('city-manager')) {
+            $gym_id = $this->gym_id;
+            $sessions = Session::all()->where('session_date', '=', $this->date);
+            $sessionFilter = $sessions->filter(function ($sessions) use ($gym_id) {
+                return $sessions->gym_id == $gym_id;
+            });
+        } elseif (Auth::User()->hasRole('super-admin')) {
+            $gym_id = $this->gym_id;
+            $sessions = Session::all()->where('session_date', '=', $this->date);
+            $sessionFilter = $sessions->filter(function ($sessions) use ($gym_id) {
+                return $sessions->gym_id == $gym_id;
+            });
+        // dd($gym_id);
+        } else {
+            $gym_id = Auth::User()->role->gym_id;
+            $sessions = Session::all()->where('session_date', '=', $this->date);
+            $sessionFilter = $sessions->filter(function ($sessions) use ($gym_id) {
+                return $sessions->gym_id == $gym_id;
+            });
+        }
 
         if ($sessionFilter) {
             foreach ($sessionFilter as $session) {

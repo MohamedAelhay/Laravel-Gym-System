@@ -27,13 +27,14 @@ class StoreSessionRequest extends FormRequest
         $starts_at = $this->starts_at;
         $finishes_at = $this->finishes_at;
         $date = $this->session_date;
+        $gym_id = $this->input('gym_id');
         return [
             //
             'name' => 'required|min:3',
             'gym_id' => 'required|exists:gyms,id',
             'coach_id' => 'required|exists:coaches,id',
             'starts_at' => 'required|',
-            'finishes_at' => ['required', 'different:starts_at', 'after:starts_at', new Overlapping($starts_at, $finishes_at, $date)],
+            'finishes_at' => ['required', 'different:starts_at', 'after:starts_at', new Overlapping($starts_at, $finishes_at, $gym_id, $date)],
             'session_date' => 'required|',
         ];
     }

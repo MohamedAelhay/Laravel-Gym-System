@@ -32,14 +32,14 @@
                             <tr>
                                 <th class="text-center">Coach ID</th>
                                 <th class="text-center">Coach Name</th>
-                                <th class="text-center">Gym Id</th> 
-                                <th class="text-center">Gym Name</th> 
-                                
+                                <th class="text-center">Gym Id</th>
+                                <th class="text-center">Gym Name</th>
+                                <th class="text-center">City Name</th>
                                 <th class="text-center">Show</th>
                                 <th class="text-center">Edit</th>
                                 <th class="text-center">Delete</th>
 
-                                
+
                             </tr>
                         </thead>
                     </table>
@@ -101,7 +101,8 @@ $(function() {
                     { data: 'name', name: 'name' },
                     { data: 'gym_id', name: 'gym_id' },
                     { data: 'gym.name', name: 'gym.name' },
-            
+                    { data: 'city.name', name: 'city.name' },
+
 
 /* Show */ {
     mRender: function (data, type, row) {
@@ -119,7 +120,7 @@ $(function() {
                         return '<center><a href="#" class="table-delete btn btn-danger" row_id="' + row.id + '" data-toggle="modal" data-target="#deletepopup" id="delete_toggle">Delete</a></center>'
                     }
                 },
-            
+
             ],
 
 
@@ -129,7 +130,7 @@ $(function() {
             var delete_id = $(this).attr('row_id');
             $('#delete_item').attr('row_delete',delete_id);
         });
-        
+
         $(document).on('click','#delete_item',function () {
             var coaches_id = $(this).attr('row_delete');
             $.ajax({
@@ -147,15 +148,14 @@ $(function() {
             });
 
         });
-       
+
     });
 
         </script>
 
         @stack('scripts')
-       
+
     </body>
 
 </html>
     @endsection
-

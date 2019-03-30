@@ -21,10 +21,10 @@
 
             <div class="form-group">
                     <label for="exampleInputPassword1">City Manager Name</label>
-                    
+
                     <select class="form-control" name="city_manager_id">
-                        @foreach($cities as $city)
-                            <option value="{{$city->id}}">{{$city->cityManager->user[0]->name}}</option>
+                        @foreach($cityManagers as $mgr)
+                            <option value="{{$mgr->id}}">{{$mgr->user[0]->name}}</option>
                         @endforeach
                     </select>
                     <div class="form-group">

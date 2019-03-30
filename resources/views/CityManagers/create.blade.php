@@ -31,20 +31,20 @@
                 <label for="password" class="col-sm-2 col-form-label" >password</label>
                 <input type="text" name="password" class="form-control col-3" placeholder="password" value="{{old('passsword')}}">
             </div>
-           
+
             <div class="form-group row">
                 <label for="image" class="col-sm-2 col-form-label" >image</label>
                 <input type="file" name="img" class="form-control col-3">
             </div>
 
-        <div class="form-group row">
+        <!-- <div class="form-group row">
             <label for="exampleFormControlSelect1" class="col-sm-2 col-form-label">Asign to city</label>
             <select class="form-control col-4" name="name">
                 @foreach($cities as $city)
                     <option value="{{$city->id}}" >{{$city->name}}</option>
-                @endforeach
-            </select>
-        </div>
+                @endforeach -->
+            <!-- </select> -->
+        <!-- </div> -->
         <button type="submit" class="btn btn-primary">Submit</button>
     </form>
 
